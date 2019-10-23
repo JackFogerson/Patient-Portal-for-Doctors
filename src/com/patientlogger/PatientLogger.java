@@ -1,12 +1,11 @@
 package com.patientlogger;
 
-import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 public class PatientLogger 
 {
@@ -24,19 +23,22 @@ public class PatientLogger
 	
 	private void buildFrames()
 	{
+		
 		mainFrame = new JFrame("Patient Logger");
-		mainFrame.setLayout(new BorderLayout());
+		mainFrame.setLayout(new CardLayout());
 		
-		JLabel topButtons = new JLabel();
-		topButtons.setLayout(new FlowLayout());
+		JTabbedPane informationPane = new JTabbedPane();
 		
-		JButton initialButton = new JButton("Initial Appointment");
-		JButton	followUpButton = new JButton("Follow Up Appointment");
+		JPanel newPatientPanel = new JPanel();
+		JPanel returningPatientPanel = new JPanel();
 		
-		topButtons.add(initialButton);
-		topButtons.add(followUpButton);
+		informationPane.addTab("New Patient", null, newPatientPanel, "Information Pane for New Patients");
+		informationPane.addTab("Returning Patient", null, returningPatientPanel, "Information Pane for Returning Patients");
 		
-		mainFrame.add(topButtons);
+		newPatientPanel.setBackground(Color.RED);
+		returningPatientPanel.setBackground(Color.GREEN);
+		
+		mainFrame.add(informationPane);
 		
 		mainFrame.setMinimumSize(new Dimension(600, 550));
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
