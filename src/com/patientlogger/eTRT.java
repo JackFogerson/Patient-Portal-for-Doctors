@@ -40,12 +40,10 @@ public class eTRT
 		
 		PatientsPanel patientsPanel = new PatientsPanel();
 		VisitsPanel visitsPanel = new VisitsPanel();
-		AnalyticsPanel analyticsPanel = new AnalyticsPanel();
 		OtherPanel otherPanel = new OtherPanel();
 		
 		mainPane.addTab("Patients", null, patientsPanel, "Information for Patients");
 		mainPane.addTab("Visits", null, visitsPanel, "Information for Visits");
-		mainPane.addTab("Analytics", null, analyticsPanel, "Information for Analytics");
 		mainPane.addTab("Other", null, otherPanel, "Other");
 		
 		mainFrame.add(mainPane);
