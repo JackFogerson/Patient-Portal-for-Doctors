@@ -38,10 +38,12 @@ public class eTRT
 		
 		JTabbedPane mainPane = new JTabbedPane();
 		
+		HomePanel homePanel = new HomePanel();
 		PatientsPanel patientsPanel = new PatientsPanel();
 		VisitsPanel visitsPanel = new VisitsPanel();
 		OtherPanel otherPanel = new OtherPanel();
 		
+		mainPane.addTab("Home", null, homePanel, "Spash Screen");
 		mainPane.addTab("Patients", null, patientsPanel, "Information for Patients");
 		mainPane.addTab("Visits", null, visitsPanel, "Information for Visits");
 		mainPane.addTab("Other", null, otherPanel, "Other");
