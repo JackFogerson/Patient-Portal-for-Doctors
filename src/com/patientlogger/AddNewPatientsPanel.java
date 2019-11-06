@@ -2,13 +2,19 @@ package com.patientlogger;
 
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class AddNewPatientsPanel extends JPanel
 {
@@ -45,7 +51,7 @@ public class AddNewPatientsPanel extends JPanel
 		JTextField insuranceField = new JTextField();
 		
 		photoField.setBorderPainted(false);
-		photoField.addActionListener(event -> changePicture());
+		photoField.addActionListener(event -> changePicture(photoField));
 		
 		JLabel THCNumberLabel = new JLabel("THC Number");
 		JLabel currentDateLabel = new JLabel("Current Date");
@@ -114,8 +120,34 @@ public class AddNewPatientsPanel extends JPanel
 		add(cancelButton);		
 	}
 	
-	private void changePicture()
+	private void changePicture(JButton photoField)
 	{
-		System.out.println("Clicked");
+		File inputPicture = null;
+		
+		JFileChooser jfc = new JFileChooser();
+		jfc.setFileFilter(new FileNameExtensionFilter("JPG and PNG", "jpg", "png"));
+		int returnVal = jfc.showOpenDialog(null);
+		if(returnVal == JFileChooser.APPROVE_OPTION)
+		{
+			inputPicture = jfc.getSelectedFile();
+		}
+		
+		if(inputPicture != null)
+		{
+			try 
+			{
+				Files.copy(inputPicture.toPath(), new File("src/images/inputPicture.png").toPath(), StandardCopyOption.REPLACE_EXISTING);
+				
+				ImageIcon ogInPic = new ImageIcon("src/images/inputPicture.png");
+				ImageIcon inPic = new ImageIcon(ogInPic.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+				
+				photoField.setIcon(inPic);
+				photoField.repaint();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 }
