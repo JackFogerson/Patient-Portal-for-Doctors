@@ -2,7 +2,6 @@ package com.patientlogger;
 
 import java.awt.GridLayout;
 import java.awt.Image;
-
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,7 +23,7 @@ public class AddNewPatientsPanel extends JPanel
 	
 	private void buildPanel()
 	{
-		ImageIcon ogUnknownPicture = new ImageIcon("src/unknownPicture.png");
+		ImageIcon ogUnknownPicture = new ImageIcon("src/images/unknownPicture.png");
 		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		
 		JTextField THCNumberField = new JTextField();
@@ -41,9 +40,12 @@ public class AddNewPatientsPanel extends JPanel
 		JComboBox<JLabel> stateField = new JComboBox<JLabel>();
 		JTextField zipField = new JTextField();
 		JComboBox<JLabel> countryField = new JComboBox<JLabel>();
-		JLabel photoField = new JLabel(unknownPicture);
+		JButton photoField = new JButton(unknownPicture);
 		JTextField ssnField = new JTextField();
 		JTextField insuranceField = new JTextField();
+		
+		photoField.setBorderPainted(false);
+		photoField.addActionListener(event -> changePicture());
 		
 		JLabel THCNumberLabel = new JLabel("THC Number");
 		JLabel currentDateLabel = new JLabel("Current Date");
@@ -109,8 +111,11 @@ public class AddNewPatientsPanel extends JPanel
 		add(saveButton);
 		add(addDemoButton);
 		add(newVisitButton);
-		add(cancelButton);
-				
-				
+		add(cancelButton);		
+	}
+	
+	private void changePicture()
+	{
+		System.out.println("Clicked");
 	}
 }

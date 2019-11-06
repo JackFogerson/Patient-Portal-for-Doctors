@@ -29,7 +29,7 @@ public class eTRT
 		
 		try
 		{
-			mainFrame.setIconImage(ImageIO.read(getClass().getResourceAsStream("/eTRT_icon.png")));
+			mainFrame.setIconImage(ImageIO.read(getClass().getResourceAsStream("/images/eTRT_icon.png")));
 		} 
 		catch (IOException e) 
 		{
