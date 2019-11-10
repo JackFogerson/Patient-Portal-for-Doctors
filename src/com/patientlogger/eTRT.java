@@ -2,6 +2,7 @@ package com.patientlogger;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -41,18 +42,19 @@ public class eTRT
 		HomePanel homePanel = new HomePanel();
 		PatientsPanel patientsPanel = new PatientsPanel();
 		VisitsPanel visitsPanel = new VisitsPanel();
-		OtherPanel otherPanel = new OtherPanel();
 		
 		mainPane.addTab("Home", null, homePanel, "Spash Screen");
 		mainPane.addTab("Patients", null, patientsPanel, "Information for Patients");
 		mainPane.addTab("Visits", null, visitsPanel, "Information for Visits");
-		mainPane.addTab("Other", null, otherPanel, "Other");
 		
 		mainFrame.add(mainPane);
 		
-		mainFrame.setMinimumSize(new Dimension(600, 550));
+		
+		mainFrame.setSize(new Dimension(600, 550));
+		mainFrame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		mainFrame.setLocation(d.width/2-mainFrame.getSize().width/2, d.height/2-mainFrame.getSize().height/2);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.pack();
 		mainFrame.setVisible(true);
 	} 
 }
