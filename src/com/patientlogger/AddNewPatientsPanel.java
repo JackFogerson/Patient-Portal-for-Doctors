@@ -1,11 +1,15 @@
 package com.patientlogger;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +24,29 @@ public class AddNewPatientsPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	GroupLayout layout;
+	
+	final String[] genderList = {"Select One", "Male", "Female", "Other"};
+	final String[] cityList = {"Select One", "Albany", "Annapolis", "Atlanta", "Augusta", "Austin",
+							   "Baton Rouge", "Bismarck", "Boise", "Boston", "Carson City", 
+							   "Charleston", "Cheyenne", "Columbia", "Columbus", "Concord", "Denver",
+							   "Des Moines", "Dover", "Frankfort", "Harrisburg", "Hartford", "Helena",
+							   "Honolulu", "Indianapolis", "Jackson", "Jefferson City", "Juneau", 
+							   "Lansing", "Lincoln", "Little Rock", "Madison", "Montgomery", "Montpelier",
+							   "Nashville", "Oklahoma City", "Olympia", "Phoenix", "Pierre", "Providence",
+							   "Raleigh", "Richmond", "Sacramento", "Saint Paul", "Salem", "Salt Lake City",
+							   "Santa Fe", "Springfield", "Tallahassee", "Topeka", "Trenton"};
+	final String[] stateList = {"Select One", "Alabama", "Arkansas", "Arizona", "Alaska", "California", 
+								"Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii",
+								"Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+								"Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
+								"Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska",
+								"Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
+								"North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon",
+								"Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
+								"Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
+								"West Virginia", "Wisconsin", "Wyoming" };
+	
+	final String[] countryList = {"Select One"};
 			
 	public AddNewPatientsPanel()
 	{
@@ -38,20 +65,30 @@ public class AddNewPatientsPanel extends JPanel
 		JTextField middleNameField = new JTextField();
 		JTextField lastNameField = new JTextField();
 		JTextField dobField = new JTextField();
-		JComboBox<JLabel> genderField = new JComboBox<JLabel>();
+		JComboBox<String> genderField = new JComboBox<String>(genderList);
 		JTextField phoneField = new JTextField();
 		JTextField emailField = new JTextField();
 		JTextField streetField = new JTextField();
-		JComboBox<JLabel> cityField = new JComboBox<JLabel>();
-		JComboBox<JLabel> stateField = new JComboBox<JLabel>();
+		JComboBox<String> cityField = new JComboBox<String>(cityList);
+		JComboBox<String> stateField = new JComboBox<String>(stateList);
 		JTextField zipField = new JTextField();
-		JComboBox<JLabel> countryField = new JComboBox<JLabel>();
+		JComboBox<String> countryField = new JComboBox<String>(countryList);
 		JButton photoField = new JButton(unknownPicture);
 		JTextField ssnField = new JTextField();
 		JTextField insuranceField = new JTextField();
 		
 		photoField.setBorderPainted(false);
 		photoField.addActionListener(event -> changePicture(photoField));
+		
+		THCNumberField.setEditable(false);
+		THCNumberField.setBackground(Color.GRAY);
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+		LocalDate localDate = LocalDate.now();
+		
+		currentDateField.setEditable(false);
+		currentDateField.setText(dtf.format(localDate));
+		currentDateField.setBackground(Color.GRAY);
 		
 		JLabel THCNumberLabel = new JLabel("THC Number");
 		JLabel currentDateLabel = new JLabel("Current Date");

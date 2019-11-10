@@ -49,7 +49,6 @@ public class eTRT
 		
 		mainFrame.add(mainPane);
 		
-		
 		mainFrame.setSize(new Dimension(600, 550));
 		mainFrame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
