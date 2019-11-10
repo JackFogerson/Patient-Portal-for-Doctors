@@ -4,7 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
-
+import java.sql.*;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -12,10 +12,19 @@ import javax.swing.JTabbedPane;
 public class eTRT 
 {
 	JFrame mainFrame;
+	Connection conn;
 	
 	public eTRT()
 	{
-		
+		try
+		{
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/eTRTSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","User1", "SJSUcs157");
+		}
+		catch(SQLException e)
+		{
+			System.out.println("Error connecting to database.");
+		}
 	}
 	
 	public void launch()
@@ -40,7 +49,7 @@ public class eTRT
 		JTabbedPane mainPane = new JTabbedPane();
 		
 		HomePanel homePanel = new HomePanel();
-		PatientsPanel patientsPanel = new PatientsPanel();
+		PatientsPanel patientsPanel = new PatientsPanel(conn);
 		VisitsPanel visitsPanel = new VisitsPanel();
 		
 		mainPane.addTab("Home", null, homePanel, "Spash Screen");

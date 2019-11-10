@@ -7,6 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -46,10 +50,12 @@ public class AddNewPatientsPanel extends JPanel
 								"Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
 								"West Virginia", "Wisconsin", "Wyoming" };
 	
-	final String[] countryList = {"Select One"};
-			
-	public AddNewPatientsPanel()
+	final String[] countryList = {"Select One", "United States of America"};
+	Connection conn;		
+	
+	public AddNewPatientsPanel(Connection c)
 	{
+		this.conn = c;
 		setLayout(new GridLayout(10, 4));
 		buildPanel();
 	}
@@ -57,7 +63,7 @@ public class AddNewPatientsPanel extends JPanel
 	private void buildPanel()
 	{
 		ImageIcon ogUnknownPicture = new ImageIcon("src/images/unknownPicture.png");
-		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		
 		JTextField THCNumberField = new JTextField();
 		JTextField currentDateField = new JTextField();
@@ -80,6 +86,8 @@ public class AddNewPatientsPanel extends JPanel
 		photoField.setBorderPainted(false);
 		photoField.addActionListener(event -> changePicture(photoField));
 		
+		int currentTHC = getRowCount();
+		THCNumberField.setText(Integer.toString(currentTHC + 1));
 		THCNumberField.setEditable(false);
 		THCNumberField.setBackground(Color.GRAY);
 		
@@ -176,7 +184,7 @@ public class AddNewPatientsPanel extends JPanel
 				Files.copy(inputPicture.toPath(), new File("src/images/inputPicture.png").toPath(), StandardCopyOption.REPLACE_EXISTING);
 				
 				ImageIcon ogInPic = new ImageIcon("src/images/inputPicture.png");
-				ImageIcon inPic = new ImageIcon(ogInPic.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+				ImageIcon inPic = new ImageIcon(ogInPic.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 				
 				photoField.setIcon(inPic);
 				photoField.repaint();
@@ -186,5 +194,25 @@ public class AddNewPatientsPanel extends JPanel
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private int getRowCount()
+	{
+		int rowCount = 0;
+		
+		try 
+		{
+			Statement stmt = conn.createStatement();
+			ResultSet rset = stmt.executeQuery ("SELECT COUNT(*) FROM Patients;");
+			rset.next();
+			rowCount = rset.getInt(1);
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println("Couldn't get row count.");
+			e.printStackTrace();
+		}
+		
+		return rowCount;
 	}
 }
