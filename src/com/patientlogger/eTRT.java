@@ -20,10 +20,18 @@ public class eTRT
 		{
 			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/eTRTSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","User1", "SJSUcs157");
+		
+			/*
+			String query = "INSERT INTO Patients(THCNumber, Date, FirstName, LastName, DOB, Gender, Phone, StreetAddress, City, Zip, Country) "
+											  + "VALUES(0, '2019-11-10', 'Test', 'Test', '2000-01-01', 'Male', '5555555555', '123 Test', 'Austin', '95112', 'United States of America')";
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.execute();
+			*/
 		}
 		catch(SQLException e)
 		{
 			System.out.println("Error connecting to database.");
+			e.printStackTrace();
 		}
 	}
 	

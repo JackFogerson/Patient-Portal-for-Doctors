@@ -203,7 +203,7 @@ public class AddNewPatientsPanel extends JPanel
 		try 
 		{
 			Statement stmt = conn.createStatement();
-			ResultSet rset = stmt.executeQuery ("SELECT COUNT(*) FROM Patients;");
+			ResultSet rset = stmt.executeQuery ("SELECT THCNumber FROM Patients ORDER BY THCNumber DESC LIMIT 1;");
 			rset.next();
 			rowCount = rset.getInt(1);
 		} 
