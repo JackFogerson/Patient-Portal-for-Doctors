@@ -1,12 +1,8 @@
 package com.patientlogger;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
@@ -217,6 +213,8 @@ public class AddNewPatientsPanel extends JPanel
 									 middleNameField, lastNameField, monthField, dayField, yearField, genderField, phoneField,
 									 emailField, streetField, cityField, zipField, countryField, photoField, ssnField,
 									 insuranceField));
+		
+		cancelButton.addActionListener(e -> rebuildPanel());
 
 		add(THCNumberLabel);
 		add(THCNumberField);
@@ -381,5 +379,52 @@ public class AddNewPatientsPanel extends JPanel
 		}
 		
 		return rowCount;
+	}
+	
+	private void rebuildPanel()
+	{
+		remove(THCNumberLabel);
+		remove(THCNumberField);
+		remove(currentDateLabel);
+		remove(currentDateField);
+		remove(firstNameLabel);
+		remove(firstNameField);
+		remove(middleNameLabel);
+		remove(middleNameField);
+		remove(lastNameLabel);
+		remove(lastNameField);
+		remove(dobLabel);
+		remove(dobField);
+		remove(genderLabel);
+		remove(genderField);
+		remove(phoneLabel);
+		remove(phoneField);
+		remove(emailLabel);
+		remove(emailField);
+		remove(streetLabel);
+		remove(streetField);
+		remove(cityLabel);
+		remove(cityField);
+		remove(stateLabel);
+		remove(stateField);
+		remove(zipLabel);
+		remove(zipField);
+		remove(countryLabel);
+		remove(countryField);
+		remove(photoLabel);
+		remove(photoField);
+		remove(ssnLabel);
+		remove(ssnField);
+		remove(insuranceLabel);
+		remove(insuranceField);
+		remove(blankSpace1);
+		remove(blankSpace2);
+		remove(saveButton);
+		remove(addDemoButton);
+		remove(newVisitButton);
+		remove(cancelButton);
+		buildPanel();
+		repaint();
+		revalidate();
 	}
 }
