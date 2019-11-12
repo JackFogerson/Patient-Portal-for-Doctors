@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -89,21 +91,23 @@ public class AddNewPatientsPanel extends JPanel
 	public AddNewPatientsPanel(Connection c)
 	{
 		this.conn = c;
-		setLayout(new GridLayout(10, 4));
 		buildPanel();
 	}
 	
 	private void buildPanel()
 	{	
 		ImageIcon ogUnknownPicture = new ImageIcon("src/images/unknownPicture.png");
-		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+		
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		
 		// Initalize the following for the normal form.
-		THCNumberField = new JTextField();
-		currentDateField = new JTextField();
-		firstNameField = new JTextField();
-		middleNameField = new JTextField();
-		lastNameField = new JTextField();
+		THCNumberField = new JTextField(10);
+		currentDateField = new JTextField(10);
+		firstNameField = new JTextField(10);
+		middleNameField = new JTextField(10);
+		lastNameField = new JTextField(10);
 		dobField = new JPanel(new GridLayout(1, 3));
 		monthField = new JTextField("MM");
 		dayField = new JTextField("DD");
@@ -112,16 +116,16 @@ public class AddNewPatientsPanel extends JPanel
 		dobField.add(dayField);
 		dobField.add(yearField);
 		genderField = new JComboBox<String>(genderList);
-		phoneField = new JTextField();
-		emailField = new JTextField();
-		streetField = new JTextField();
+		phoneField = new JTextField(10);
+		emailField = new JTextField(10);
+		streetField = new JTextField(10);
 		cityField = new JComboBox<String>(cityList);
 		stateField = new JComboBox<String>(stateList);
-		zipField = new JTextField();
+		zipField = new JTextField(10);
 		countryField = new JComboBox<String>(countryList);
 		photoField = new JButton(unknownPicture);
-		ssnField = new JTextField();
-		insuranceField = new JTextField();
+		ssnField = new JTextField(10);
+		insuranceField = new JTextField(10);
 		THCNumberLabel = new JLabel("THC Number");
 		currentDateLabel = new JLabel("Current Date");
 		firstNameLabel = new JLabel("First Name");
@@ -198,50 +202,286 @@ public class AddNewPatientsPanel extends JPanel
 		currentDateField.setText(dtf.format(localDate));
 		currentDateField.setBackground(Color.GRAY);
 		
-		saveButton.addActionListener(e -> submitInformation());
+		saveButton.addActionListener(e -> {
+			try 
+			{
+				submitInformation();
+			} 
+			catch (SQLException ex) 
+			{
+				ex.printStackTrace();
+			}
+		});
 		cancelButton.addActionListener(e -> rebuildPanel());
 		addDemoButton.addActionListener(e -> demographicsFrame.setVisible(true));
+		
+		try 
+		{
+			Files.copy(new File("src/images/unknownPicture.png").toPath(), new File("src/images/" + THCNumberField.getText() + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
+		} 
+		catch (IOException e1) 
+		{
+			e1.printStackTrace();
+		}
 
-		add(THCNumberLabel);
-		add(THCNumberField);
-		add(currentDateLabel);
-		add(currentDateField);
-		add(firstNameLabel);
-		add(firstNameField);
-		add(middleNameLabel);
-		add(middleNameField);
-		add(lastNameLabel);
-		add(lastNameField);
-		add(dobLabel);
-		add(dobField);
-		add(genderLabel);
-		add(genderField);
-		add(phoneLabel);
-		add(phoneField);
-		add(emailLabel);
-		add(emailField);
-		add(streetLabel);
-		add(streetField);
-		add(cityLabel);
-		add(cityField);
-		add(stateLabel);
-		add(stateField);
-		add(zipLabel);
-		add(zipField);
-		add(countryLabel);
-		add(countryField);
-		add(photoLabel);
-		add(photoField);
-		add(ssnLabel);
-		add(ssnField);
-		add(insuranceLabel);
-		add(insuranceField);
-		add(blankSpace1);
-		add(blankSpace2);
-		add(saveButton);
-		add(addDemoButton);
-		add(newVisitButton);
-		add(cancelButton);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		c.gridheight = 6;
+		add(photoField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(THCNumberLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(THCNumberField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(currentDateLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(currentDateField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2; 
+		c.gridy = 2;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(firstNameLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(firstNameField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(middleNameLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(middleNameField, c);
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(lastNameLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(lastNameField, c);
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(dobLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(dobField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(genderLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(genderField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(phoneLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(phoneField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(emailLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 7;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(emailField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 7;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(streetLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 7;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(streetField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 8;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(cityLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 8;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(cityField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 8;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(stateLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 8;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(stateField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(zipLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(zipField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(countryLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(countryField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 10;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(ssnLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 10;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(ssnField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 10;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(insuranceLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 10;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(insuranceField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 11;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(saveButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 11;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(addDemoButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 11;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(newVisitButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 11;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(cancelButton, c);
 		
 		buildDemoFrame();
 	}
@@ -262,10 +502,10 @@ public class AddNewPatientsPanel extends JPanel
 		{
 			try 
 			{
-				Files.copy(inputPicture.toPath(), new File("src/images/inputPicture.png").toPath(), StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(inputPicture.toPath(), new File("src/images/" + THCNumberField.getText() + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
 				
 				ImageIcon ogInPic = new ImageIcon("src/images/inputPicture.png");
-				ImageIcon inPic = new ImageIcon(ogInPic.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+				ImageIcon inPic = new ImageIcon(ogInPic.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 				
 				photoField.setIcon(inPic);
 				photoField.repaint();
@@ -346,12 +586,45 @@ public class AddNewPatientsPanel extends JPanel
 		return isError;
 	}
 	 
-	private void submitInformation()
+	private void submitInformation() throws SQLException
 	{
 		if(errorCheck())
 		{
 			return;
 		}
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate localDate = LocalDate.now();
+
+		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, City, State, Zip, Country, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
+								   + "VALUES(" + THCNumberField.getText() + ", "
+								   		  + "'" + dtf.format(localDate) + "', "
+								   		  + "'" + firstNameField.getText() + "', "
+								   		  + "'" + middleNameField.getText() + "', "
+								   		  + "'" + lastNameField.getText() + "', "
+								   		  + "'" + yearField.getText() + "-" + monthField.getText() + "-" + dayField.getText() + "', "
+								   		  + "'" + genderField.getSelectedItem() + "', "
+								   		  + "'" + phoneField.getText() + "', "
+								   		  + "'" + emailField.getText() + "', "
+								   		  + "'" + streetField.getText() + "', "
+								   		  + "'" + cityField.getSelectedItem() + "', "
+								   		  + "'" + stateField.getSelectedItem() + "', "
+								   		  + "'" + zipField.getText() + "', "
+								   		  + "'" + countryField.getSelectedItem() + "', "
+								   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
+								   		  + "'" + ssnField.getText() + "', "
+								   		  + "'" + insuranceField.getText() + "', "
+								   		  + "'" + occupationField.getText() + "', "
+								   		  + "'" + workStatusField.getText() + "', "
+								   		  + "'" + educationField.getText() + "', "
+								   		  + "'" + tOnsetField.getText() + "', "
+								   		  + "'" + tEtioField.getText() + "', "
+								   		  + "'" + hOnsetField.getText() + "', "
+								   		  + "'" + hEtioField.getText() + "', "
+								   		  + "'" + commentField.getText() + "')";
+		PreparedStatement preparedStmt = conn.prepareStatement(query);
+		preparedStmt.execute();
+		
 		return;
 	}
 	
@@ -431,7 +704,7 @@ public class AddNewPatientsPanel extends JPanel
 	
 	private void buildDemoFrame()
 	{
-		demographicsFrame = new JFrame();
+		demographicsFrame = new JFrame("eTRT - Add Demographics");
 		demographicsFrame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -472,96 +745,112 @@ public class AddNewPatientsPanel extends JPanel
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 2;
+		c.gridheight = 1;
 		demographicsFrame.add(demographicsLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(occupationLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 1;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(occupationField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 1;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(workStatusLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 1;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(workStatusField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(educationLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 2;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(educationField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 2;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(tOnsetLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 2;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(tOnsetField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(tEtioLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 3;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(tEtioField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 3;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(hOnsetLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 3;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(hOnsetField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(hEtioLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 4;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(hEtioField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 5;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(commentLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -569,18 +858,21 @@ public class AddNewPatientsPanel extends JPanel
 		c.gridy = 5;
 		c.gridwidth = 3;
 		c.gridheight = 4;
+		c.insets = new Insets(0, 5, 0, 0);
 		demographicsFrame.add(commentField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 9;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(demoCancelButton, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 9;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		demographicsFrame.add(demoSaveButton, c);
 		
 		demographicsFrame.setSize(new Dimension(600, 250));
