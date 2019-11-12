@@ -25,7 +25,7 @@ public class PatientsPanel extends JPanel
 		mainPane = new JTabbedPane();
 		
 		AddNewPatientsPanel addNewPatientsPanel = new AddNewPatientsPanel(conn);
-		ViewPatientsPanel viewPatientsPanel = new ViewPatientsPanel();
+		ViewPatientsPanel viewPatientsPanel = new ViewPatientsPanel(conn);
 		
 		mainPane.addTab("Add New Patient", null, addNewPatientsPanel, "Add A New Patient");
 		mainPane.addTab("View/Edit Patients", null, viewPatientsPanel, "View/Edit Patients");
