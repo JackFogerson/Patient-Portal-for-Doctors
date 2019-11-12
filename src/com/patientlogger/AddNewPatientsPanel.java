@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -144,29 +146,6 @@ public class AddNewPatientsPanel extends JPanel
 		newVisitButton = new JButton("New Visit");
 		cancelButton = new JButton("Cancel");	
 		
-		// Initialize the following for the demographics form.
-		occupationField = new JTextField(10);
-		workStatusField = new JTextField(10);
-		educationField = new JTextField(10);
-		tOnsetField = new JTextField(10);
-		tEtioField = new JTextField(10);
-		hOnsetField = new JTextField(10);
-		hEtioField = new JTextField(10);
-		commentField = new JTextArea(2, 20);
-		demographicsLabel = new JLabel("Demographics");
-		occupationLabel = new JLabel("Occupation");
-		workStatusLabel = new JLabel("Work Status");
-		educationLabel = new JLabel("Educational Degree");
-		tOnsetLabel = new JLabel("Tinnitus Onset");
-		tEtioLabel = new JLabel("Tinnitus Etiology");
-		hOnsetLabel = new JLabel("Hyperacusis Onset");
-		hEtioLabel = new JLabel("Hyperacusis Etiology");
-		commentLabel = new JLabel("Additional Comments");
-		demoSaveButton = new JButton("Save");
-		demoCancelButton = new JButton("Cancel");
-		
-		demographicsLabel.setHorizontalAlignment(JLabel.CENTER);
-		
 		monthField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -221,7 +200,7 @@ public class AddNewPatientsPanel extends JPanel
 		
 		saveButton.addActionListener(e -> submitInformation());
 		cancelButton.addActionListener(e -> rebuildPanel());
-		addDemoButton.addActionListener(e -> buildDemoFrame());
+		addDemoButton.addActionListener(e -> demographicsFrame.setVisible(true));
 
 		add(THCNumberLabel);
 		add(THCNumberField);
@@ -262,7 +241,9 @@ public class AddNewPatientsPanel extends JPanel
 		add(saveButton);
 		add(addDemoButton);
 		add(newVisitButton);
-		add(cancelButton);		
+		add(cancelButton);
+		
+		buildDemoFrame();
 	}
 	
 	private void changePicture(JButton photoField)
@@ -436,9 +417,16 @@ public class AddNewPatientsPanel extends JPanel
 		remove(addDemoButton);
 		remove(newVisitButton);
 		remove(cancelButton);
+		demographicsFrame.dispose();
 		buildPanel();
 		repaint();
 		revalidate();
+	}
+	
+	private void rebuildDemoFrame()
+	{
+		demographicsFrame.dispose();
+		buildDemoFrame();
 	}
 	
 	private void buildDemoFrame()
@@ -446,6 +434,39 @@ public class AddNewPatientsPanel extends JPanel
 		demographicsFrame = new JFrame();
 		demographicsFrame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		
+		occupationField = new JTextField(10);
+		workStatusField = new JTextField(10);
+		educationField = new JTextField(10);
+		tOnsetField = new JTextField(10);
+		tEtioField = new JTextField(10);
+		hOnsetField = new JTextField(10);
+		hEtioField = new JTextField(10);
+		commentField = new JTextArea(4, 30);
+		demographicsLabel = new JLabel("Demographics");
+		occupationLabel = new JLabel("Occupation");
+		workStatusLabel = new JLabel("Work Status");
+		educationLabel = new JLabel("Educational Degree");
+		tOnsetLabel = new JLabel("Tinnitus Onset");
+		tEtioLabel = new JLabel("Tinnitus Etiology");
+		hOnsetLabel = new JLabel("Hyperacusis Onset");
+		hEtioLabel = new JLabel("Hyperacusis Etiology");
+		commentLabel = new JLabel("Additional Comments");
+		demoSaveButton = new JButton("Save");
+		demoCancelButton = new JButton("Cancel");
+		
+		demographicsLabel.setHorizontalAlignment(JLabel.CENTER);
+		commentField.setLineWrap(true);
+		
+		commentField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if(commentField.getText().length() >= 150)
+					e.consume();
+			}
+		});
+		
+		demoSaveButton.addActionListener(e -> demographicsFrame.setVisible(false));
+		demoCancelButton.addActionListener(e -> rebuildDemoFrame());
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -477,11 +498,96 @@ public class AddNewPatientsPanel extends JPanel
 		c.gridwidth = 1;
 		demographicsFrame.add(workStatusField, c);
 		
-		demographicsFrame.setSize(new Dimension(600, 550));
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		demographicsFrame.add(educationLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		demographicsFrame.add(educationField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		demographicsFrame.add(tOnsetLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		demographicsFrame.add(tOnsetField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		demographicsFrame.add(tEtioLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		demographicsFrame.add(tEtioField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		demographicsFrame.add(hOnsetLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		demographicsFrame.add(hOnsetField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		demographicsFrame.add(hEtioLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		demographicsFrame.add(hEtioField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		demographicsFrame.add(commentLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 5;
+		c.gridwidth = 3;
+		c.gridheight = 4;
+		demographicsFrame.add(commentField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		demographicsFrame.add(demoCancelButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		demographicsFrame.add(demoSaveButton, c);
+		
+		demographicsFrame.setSize(new Dimension(600, 250));
 		demographicsFrame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		demographicsFrame.setLocation(d.width/2-demographicsFrame.getSize().width/2, d.height/2-demographicsFrame.getSize().height/2);
-		demographicsFrame.setVisible(true);
+		demographicsFrame.setVisible(false);
 	}
 }
 
