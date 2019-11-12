@@ -1,8 +1,12 @@
 package com.patientlogger;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
@@ -24,6 +28,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -62,7 +67,10 @@ public class AddNewPatientsPanel extends JPanel
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField, monthField,
 	 		   dayField, yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
 	 		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
-	 		   hEtioField, commentField;
+	 		   hEtioField;
+	
+	JTextArea commentField;
+	
 	JComboBox<String> genderField, cityField, stateField, countryField;
 	
 	JButton photoField;
@@ -74,7 +82,7 @@ public class AddNewPatientsPanel extends JPanel
 		   photoLabel, ssnLabel, insuranceLabel, blankSpace1, blankSpace2, demographicsLabel, occupationLabel,
 		   workStatusLabel, educationLabel, tOnsetLabel, tEtioLabel, hOnsetLabel, hEtioLabel, commentLabel;
 	
-	JButton saveButton, addDemoButton, newVisitButton, cancelButton;
+	JButton saveButton, addDemoButton, newVisitButton, cancelButton, demoSaveButton, demoCancelButton;
 	
 	public AddNewPatientsPanel(Connection c)
 	{
@@ -112,16 +120,39 @@ public class AddNewPatientsPanel extends JPanel
 		photoField = new JButton(unknownPicture);
 		ssnField = new JTextField();
 		insuranceField = new JTextField();
+		THCNumberLabel = new JLabel("THC Number");
+		currentDateLabel = new JLabel("Current Date");
+		firstNameLabel = new JLabel("First Name");
+		middleNameLabel = new JLabel("Middle Name");
+		lastNameLabel = new JLabel("Last Name");
+		dobLabel = new JLabel("Date of Birth");
+		genderLabel = new JLabel("Gender");
+		phoneLabel = new JLabel("Phone");
+		emailLabel = new JLabel("Email");
+		streetLabel = new JLabel("Street");
+		cityLabel = new JLabel("City");
+		stateLabel = new JLabel("State");
+		zipLabel = new JLabel("Zipcode");
+		countryLabel = new JLabel("Country");
+		photoLabel = new JLabel("Photo");
+		ssnLabel = new JLabel("SSN");
+		insuranceLabel = new JLabel("Insurance");	
+		blankSpace1 = new JLabel();
+		blankSpace2 = new JLabel();
+		saveButton = new JButton("Save");
+		addDemoButton = new JButton("Add Demographics");
+		newVisitButton = new JButton("New Visit");
+		cancelButton = new JButton("Cancel");	
 		
 		// Initialize the following for the demographics form.
-		occupationField = new JTextField();
-		workStatusField = new JTextField();
-		educationField = new JTextField();
-		tOnsetField = new JTextField();
-		tEtioField = new JTextField();
-		hOnsetField = new JTextField();
-		hEtioField = new JTextField();
-		commentField = new JTextField();
+		occupationField = new JTextField(10);
+		workStatusField = new JTextField(10);
+		educationField = new JTextField(10);
+		tOnsetField = new JTextField(10);
+		tEtioField = new JTextField(10);
+		hOnsetField = new JTextField(10);
+		hEtioField = new JTextField(10);
+		commentField = new JTextArea(2, 20);
 		demographicsLabel = new JLabel("Demographics");
 		occupationLabel = new JLabel("Occupation");
 		workStatusLabel = new JLabel("Work Status");
@@ -131,6 +162,10 @@ public class AddNewPatientsPanel extends JPanel
 		hOnsetLabel = new JLabel("Hyperacusis Onset");
 		hEtioLabel = new JLabel("Hyperacusis Etiology");
 		commentLabel = new JLabel("Additional Comments");
+		demoSaveButton = new JButton("Save");
+		demoCancelButton = new JButton("Cancel");
+		
+		demographicsLabel.setHorizontalAlignment(JLabel.CENTER);
 		
 		monthField.addFocusListener(new FocusListener() {
 
@@ -184,37 +219,9 @@ public class AddNewPatientsPanel extends JPanel
 		currentDateField.setText(dtf.format(localDate));
 		currentDateField.setBackground(Color.GRAY);
 		
-		THCNumberLabel = new JLabel("THC Number");
-		currentDateLabel = new JLabel("Current Date");
-		firstNameLabel = new JLabel("First Name");
-		middleNameLabel = new JLabel("Middle Name");
-		lastNameLabel = new JLabel("Last Name");
-		dobLabel = new JLabel("Date of Birth");
-		genderLabel = new JLabel("Gender");
-		phoneLabel = new JLabel("Phone");
-		emailLabel = new JLabel("Email");
-		streetLabel = new JLabel("Street");
-		cityLabel = new JLabel("City");
-		stateLabel = new JLabel("State");
-		zipLabel = new JLabel("Zipcode");
-		countryLabel = new JLabel("Country");
-		photoLabel = new JLabel("Photo");
-		ssnLabel = new JLabel("SSN");
-		insuranceLabel = new JLabel("Insurance");	
-		blankSpace1 = new JLabel();
-		blankSpace2 = new JLabel();
-		
-		saveButton = new JButton("Save");
-		addDemoButton = new JButton("Add Demographics");
-		newVisitButton = new JButton("New Visit");
-		cancelButton = new JButton("Cancel");	
-		
-		saveButton.addActionListener(e -> submitInformation(THCNumberField, currentDateField, firstNameField,
-									 middleNameField, lastNameField, monthField, dayField, yearField, genderField, phoneField,
-									 emailField, streetField, cityField, zipField, countryField, photoField, ssnField,
-									 insuranceField));
-		
+		saveButton.addActionListener(e -> submitInformation());
 		cancelButton.addActionListener(e -> rebuildPanel());
+		addDemoButton.addActionListener(e -> buildDemoFrame());
 
 		add(THCNumberLabel);
 		add(THCNumberField);
@@ -288,11 +295,8 @@ public class AddNewPatientsPanel extends JPanel
 			}
 		}
 	}
-	 
-	private void submitInformation(JTextField THCNumberField, JTextField currentDateField, JTextField firstNameField,
-			JTextField middleNameField, JTextField lastNameField, JTextField monthField, JTextField dayField, JTextField yearField, JComboBox<String> genderField, JTextField phoneField,
-			JTextField emailField, JTextField streetField, JComboBox<String> cityField, JTextField zipField, JComboBox<String> countryField, JButton photoField, JTextField ssnField,
-			JTextField insuranceField)
+	
+	private boolean errorCheck()
 	{
 		boolean isError = false;
 		String errorLog = "";
@@ -356,6 +360,15 @@ public class AddNewPatientsPanel extends JPanel
 		{
 			errorLog = errorLog.substring(0, errorLog.length() - 2) + ".";
 			JOptionPane.showMessageDialog(null, "The following fields can not be empty: " + errorLog, "eTRT - Decision Support System for Tinnitus Restraining Therapy", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(AddNewPatientsPanel.class.getResource("/images/eTRT_icon.png")));
+		}
+		
+		return isError;
+	}
+	 
+	private void submitInformation()
+	{
+		if(errorCheck())
+		{
 			return;
 		}
 		return;
@@ -427,4 +440,56 @@ public class AddNewPatientsPanel extends JPanel
 		repaint();
 		revalidate();
 	}
+	
+	private void buildDemoFrame()
+	{
+		demographicsFrame = new JFrame();
+		demographicsFrame.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 2;
+		demographicsFrame.add(demographicsLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		demographicsFrame.add(occupationLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		demographicsFrame.add(occupationField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		demographicsFrame.add(workStatusLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		demographicsFrame.add(workStatusField, c);
+		
+		demographicsFrame.setSize(new Dimension(600, 550));
+		demographicsFrame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		demographicsFrame.setLocation(d.width/2-demographicsFrame.getSize().width/2, d.height/2-demographicsFrame.getSize().height/2);
+		demographicsFrame.setVisible(true);
+	}
 }
+
+
+
+
+
+
+
+
+
