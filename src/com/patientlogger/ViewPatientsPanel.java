@@ -3,6 +3,11 @@ package com.patientlogger;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -32,6 +37,14 @@ public class ViewPatientsPanel extends JPanel
 	{
 		this.conn = c;
 		buildPanel();
+		try 
+		{
+			populate((String)sortCriteria.getSelectedItem());
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	private void buildPanel()
@@ -123,6 +136,37 @@ public class ViewPatientsPanel extends JPanel
 		c.gridheight = 1;
 		c.ipady = 0;
 		add(showCurrentVisitButton ,c);
+	}
+	
+	private void populate(String sortOption) throws SQLException
+	{
+		ArrayList<Patient> patients = pullAllPatients();
+		/*
+		for(int x = 1; x <= patients.size(); x++)
+		{
+			
+		}
+		*/
+	}
+	
+	private ArrayList<Patient> pullAllPatients() throws SQLException
+	{
+	    Statement stmt = conn.createStatement ();
+	    ResultSet rset = stmt.executeQuery ("SELECT * FROM PATIENTS;");
+	    ArrayList<Patient> patients = new ArrayList<Patient>();
+
+	    // Iterate through the result and print out the table names
+	    while (rset.next())
+	    {
+	    	patients.add(new Patient(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), 
+	    									 rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
+	    									 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12), 
+	    									 rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
+	    									 rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
+	    									 rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
+	    									 rset.getString(25)));
+	    }
+		return null;
 	}
 }
 
