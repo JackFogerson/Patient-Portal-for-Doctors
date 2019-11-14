@@ -1,5 +1,15 @@
 package com.patientlogger;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.time.LocalDate;
+import java.time.Year;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 public class Patient 
 {
 	String myTHCNumber, myDate, myFirstName, myMiddleName, myLastName, myDob, myGender, myPhone,
@@ -49,9 +59,19 @@ public class Patient
 		return myTHCNumber;
 	}
 	
+	public void setTHCNumber(String t)
+	{
+		myTHCNumber = t;
+	}
+	
 	public String getDate()
 	{
 		return myDate;
+	}
+	
+	public void setDate(String t)
+	{
+		myDate = t;
 	}
 	
 	public String getFirstName()
@@ -59,9 +79,19 @@ public class Patient
 		return myFirstName;
 	}
 	
+	public void setFirstName(String t)
+	{
+		myFirstName = t;
+	}
+	
 	public String getMiddleName()
 	{
 		return myMiddleName;
+	}
+	
+	public void setMiddleName(String t)
+	{
+		myMiddleName = t;
 	}
 	
 	public String getLastName()
@@ -69,9 +99,19 @@ public class Patient
 		return myLastName;
 	}
 	
+	public void setLastName(String t)
+	{
+		myLastName = t;
+	}
+	
 	public String getDob()
 	{
 		return myDob;
+	}
+	
+	public void setDob(String t)
+	{
+		myDob = t;
 	}
 	
 	public String getGender()
@@ -79,9 +119,19 @@ public class Patient
 		return myGender;
 	}
 	
+	public void setGender(String t)
+	{
+		myGender = t;
+	}
+	
 	public String getPhone()
 	{
 		return myPhone;
+	}
+	
+	public void setPhone(String t)
+	{
+		myPhone = t;
 	}
 	
 	public String getEmail()
@@ -89,9 +139,19 @@ public class Patient
 		return myEmail;
 	}
 	
+	public void setEmail(String t)
+	{
+		myEmail = t;
+	}
+	
 	public String getStreetAddress()
 	{
 		return myStreetAddress;
+	}
+	
+	public void setStreetAddress(String t)
+	{
+		myStreetAddress = t;
 	}
 	
 	public String getCity()
@@ -99,9 +159,19 @@ public class Patient
 		return myCity;
 	}
 	
+	public void setCity(String t)
+	{
+		myCity = t;
+	}
+	
 	public String getState()
 	{
 		return myState;
+	}
+	
+	public void setState(String t)
+	{
+		myState = t;
 	}
 	
 	public String getZip()
@@ -109,9 +179,19 @@ public class Patient
 		return myZip;
 	}
 	
+	public void setZip(String t)
+	{
+		myZip = t;
+	}
+	
 	public String getCountry()
 	{
 		return myCountry;
+	}
+	
+	public void setCountry(String t)
+	{
+		myCountry = t;
 	}
 	
 	public String getPhoto()
@@ -119,9 +199,19 @@ public class Patient
 		return myPhoto;
 	}
 	
+	public void setPhoto(String t)
+	{
+		myPhoto = t;
+	}
+	
 	public String getSsid()
 	{
 		return mySsid;
+	}
+	
+	public void setSsid(String t)
+	{
+		mySsid = t;
 	}
 	
 	public String getInsurance()
@@ -129,9 +219,19 @@ public class Patient
 		return myInsurance;
 	}
 	
+	public void setInsurance(String t)
+	{
+		myInsurance = t;
+	}
+	
 	public String getOccupation()
 	{
 		return myOccupation;
+	}
+	
+	public void setOccupation(String t)
+	{
+		myOccupation = t;
 	}
 	
 	public String getWorkStatus()
@@ -139,9 +239,19 @@ public class Patient
 		return myWorkStatus;
 	}
 	
+	public void setWorkStatus(String t)
+	{
+		myWorkStatus = t;
+	}
+	
 	public String getEducationalDegree()
 	{
 		return myEducationalDegree;
+	}
+	
+	public void setEducationalDegree(String t)
+	{
+		myEducationalDegree = t;
 	}
 	
 	public String getTOnset()
@@ -149,9 +259,19 @@ public class Patient
 		return myTOnset;
 	}
 	
+	public void setTOnset(String t)
+	{
+		myTOnset = t;
+	}
+	
 	public String getTEtio()
 	{
 		return myTEtio;
+	}
+	
+	public void setTEtio(String t)
+	{
+		myTEtio = t;
 	}
 	
 	public String getHOnset()
@@ -159,14 +279,77 @@ public class Patient
 		return myHOnset;
 	}
 	
+	public void setHOnset(String t)
+	{
+		myHOnset = t;
+	}
+	
 	public String getHEtio()
 	{
 		return myHEtio;
 	}
 	
+	public void setHEtio(String t)
+	{
+		myHEtio = t;
+	}
+	
 	public String getComments()
 	{
 		return myComments;
+	}
+	
+	public void setComments(String t)
+	{
+		myComments = t;
+	}
+	
+	public String getAge()
+	{
+		int month, day, year, age;
+		
+		month = Integer.parseInt(myDob.substring(5,7));
+		day = Integer.parseInt(myDob.substring(8,10));
+		year = Integer.parseInt(myDob.substring(0,4));
+		
+		LocalDate today = LocalDate.now();
+		
+		age = today.getYear() - year;
+		
+		if(today.getMonthValue() >= month)
+		{
+			if(today.getMonthValue() == month && today.getDayOfMonth() >= day)
+			{
+				age++;
+			}
+		}
+		
+		return "" + age;
+	}
+	
+	public JPanel patientDisplay()
+	{
+		JPanel container = new JPanel();
+		container.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JLabel TNum = new JLabel(myTHCNumber);
+		JLabel name = new JLabel(myFirstName + " " + myLastName);
+		JLabel age = new JLabel(getAge());
+		JLabel gender = new JLabel(myGender);
+		JLabel city = new JLabel(myCity);
+		JLabel state = new JLabel(myState);
+		JLabel date = new JLabel(myDate);
+		
+		container.add(TNum);
+		container.add(name);
+		container.add(age);
+		container.add(gender);
+		container.add(city);
+		container.add(state);
+		container.add(date);
+		
+		return container;
 	}
 	
 }

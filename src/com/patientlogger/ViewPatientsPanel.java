@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -63,6 +62,7 @@ public class ViewPatientsPanel extends JPanel
 		searchBox = new JTextField(10);
 		
 		patientsPanel = new JPanel();
+		patientsPanel.setLayout(new GridBagLayout());
 		patientsScrollPane = new JScrollPane(patientsPanel);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -141,12 +141,15 @@ public class ViewPatientsPanel extends JPanel
 	private void populate(String sortOption) throws SQLException
 	{
 		ArrayList<Patient> patients = pullAllPatients();
-		/*
-		for(int x = 1; x <= patients.size(); x++)
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridy = 1;
+		
+		for(int x = 0; x < patients.size(); x++)
 		{
-			
+			patientsPanel.add(patients.get(x).patientDisplay(), c);
+			c.gridy++;
 		}
-		*/
+		
 	}
 	
 	private ArrayList<Patient> pullAllPatients() throws SQLException
@@ -166,7 +169,7 @@ public class ViewPatientsPanel extends JPanel
 	    									 rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
 	    									 rset.getString(25)));
 	    }
-		return null;
+		return patients;
 	}
 }
 
