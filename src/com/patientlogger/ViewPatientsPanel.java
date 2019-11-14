@@ -1,5 +1,6 @@
 package com.patientlogger;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class ViewPatientsPanel extends JPanel
@@ -29,21 +31,16 @@ public class ViewPatientsPanel extends JPanel
 	
 	JTextField searchBox;
 	
+	JTable patientTable;
+	
 	final String[] searchOptions = {"Filter Options", "THC Number", "Name", "City"};
 	final String[] sortOptions = {"Sort Options", "THC Number", "Name", "Age", "Gender", "City", "State", "Date Added"};
+	final String[] columnNames = {"THC#", "Name", "Age", "Gender", "City", "State", "Date Added"};
 	
 	public ViewPatientsPanel(Connection c)
 	{
 		this.conn = c;
 		buildPanel();
-		try 
-		{
-			populate((String)sortCriteria.getSelectedItem());
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
 	}
 	
 	private void buildPanel()
@@ -61,9 +58,15 @@ public class ViewPatientsPanel extends JPanel
 		
 		searchBox = new JTextField(10);
 		
-		patientsPanel = new JPanel();
-		patientsPanel.setLayout(new GridBagLayout());
-		patientsScrollPane = new JScrollPane(patientsPanel);
+		try 
+		{
+			populate((String)sortCriteria.getSelectedItem());
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		patientsScrollPane = new JScrollPane(patientTable);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -141,15 +144,15 @@ public class ViewPatientsPanel extends JPanel
 	private void populate(String sortOption) throws SQLException
 	{
 		ArrayList<Patient> patients = pullAllPatients();
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridy = 1;
+		String[][] patientData = new String[patients.size()][7];
+		patientTable = new JTable(patientData, columnNames);
 		
-		for(int x = 0; x < patients.size(); x++)
+		for(int x = 1; x < patients.size(); x++)
 		{
-			patientsPanel.add(patients.get(x).patientDisplay(), c);
-			c.gridy++;
+			patientData[x] = patients.get(x).getPatientInfo();
 		}
 		
+		patientTable = new JTable(patientData, columnNames);
 	}
 	
 	private ArrayList<Patient> pullAllPatients() throws SQLException

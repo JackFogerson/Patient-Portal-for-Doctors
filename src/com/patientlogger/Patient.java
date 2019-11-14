@@ -1,14 +1,6 @@
 package com.patientlogger;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.time.LocalDate;
-import java.time.Year;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class Patient 
 {
@@ -327,31 +319,12 @@ public class Patient
 		return "" + age;
 	}
 	
-	public JPanel patientDisplay()
+	public String[] getPatientInfo()
 	{
-		JPanel container = new JPanel();
-		container.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		
-		JLabel TNum = new JLabel(myTHCNumber);
-		JLabel name = new JLabel(myFirstName + " " + myLastName);
-		JLabel age = new JLabel(getAge());
-		JLabel gender = new JLabel(myGender);
-		JLabel city = new JLabel(myCity);
-		JLabel state = new JLabel(myState);
-		JLabel date = new JLabel(myDate);
-		
-		container.add(TNum);
-		container.add(name);
-		container.add(age);
-		container.add(gender);
-		container.add(city);
-		container.add(state);
-		container.add(date);
-		
-		return container;
+		String[] results = {myTHCNumber, myFirstName + " " + myLastName, getAge(), myGender,
+							myCity, myState, myDate};
+		return results;
 	}
-	
 }
 
 
