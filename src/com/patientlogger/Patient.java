@@ -319,10 +319,21 @@ public class Patient
 		return "" + age;
 	}
 	
+	public String convertDate()
+	{
+		int month, day, year;
+
+		month = Integer.parseInt(myDate.substring(5,7));
+		day = Integer.parseInt(myDate.substring(8,10));
+		year = Integer.parseInt(myDate.substring(0,4));
+		
+		return month + "-" + day + "-" + year;
+	}
+	
 	public String[] getPatientInfo()
 	{
 		String[] results = {myTHCNumber, myFirstName + " " + myLastName, getAge(), myGender,
-							myCity, myState, myDate};
+							myCity, myState, convertDate()};
 		return results;
 	}
 }

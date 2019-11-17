@@ -1,6 +1,5 @@
 package com.patientlogger;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
@@ -149,10 +148,13 @@ public class ViewPatientsPanel extends JPanel
 		
 		for(int x = 1; x < patients.size(); x++)
 		{
-			patientData[x] = patients.get(x).getPatientInfo();
+			patientData[x-1] = patients.get(x).getPatientInfo();
 		}
 		
 		patientTable = new JTable(patientData, columnNames);
+		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+		patientTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 	}
 	
 	private ArrayList<Patient> pullAllPatients() throws SQLException
