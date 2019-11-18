@@ -26,9 +26,11 @@ public class PatientsPanel extends JPanel
 		
 		AddNewPatientsPanel addNewPatientsPanel = new AddNewPatientsPanel(conn);
 		ViewPatientsPanel viewPatientsPanel = new ViewPatientsPanel(conn);
+		LookupPatientPanel lookupPatientsPanel = new LookupPatientPanel(conn);
 		
 		mainPane.addTab("Add New Patient", null, addNewPatientsPanel, "Add A New Patient");
 		mainPane.addTab("View/Edit Patients", null, viewPatientsPanel, "View/Edit Patients");
+		mainPane.addTab("Lookup Patients", null, lookupPatientsPanel, "Lookup Patients");
 		
 		add(mainPane);
 	}

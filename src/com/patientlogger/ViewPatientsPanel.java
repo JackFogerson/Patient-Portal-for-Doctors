@@ -26,7 +26,8 @@ public class ViewPatientsPanel extends JPanel
 	
 	JComboBox<String> searchCriteria;
 	
-	JButton viewPatientButton, editPatientButton, deletePatientButton, addNewVisitButton, showCurrentVisitButton, searchButton, refreshButton;
+	JButton viewPatientButton, editPatientButton, deletePatientButton, addNewVisitButton, showCurrentVisitButton,
+			searchButton, refreshButton;
 	
 	JPanel patientsPaneButtons, patientsPanel;
 	
@@ -61,6 +62,7 @@ public class ViewPatientsPanel extends JPanel
 		refreshButton = new JButton("Refresh");
 
 		patientTable = new JTable();
+		
 		
 		refreshButton.addActionListener(e -> {
 			try 
