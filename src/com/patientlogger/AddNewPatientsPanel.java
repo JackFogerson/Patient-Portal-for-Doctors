@@ -995,12 +995,3 @@ public class AddNewPatientsPanel extends JPanel
 		return cancelButton;
 	}
 }
-
-
-
-
-
-
-
-
-
