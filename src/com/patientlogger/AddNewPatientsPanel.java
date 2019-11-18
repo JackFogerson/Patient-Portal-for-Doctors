@@ -38,7 +38,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * @title	AddNewPatientsPanel
- * @author	Nick Fulton
+ * @author	Nick Fulton, Jack Fogerson
  * @desc	This class is an extension of JPanel which allows the user to add new patients to the
  * 			database.
  */
@@ -49,6 +49,8 @@ public class AddNewPatientsPanel extends JPanel
 	
 	GroupLayout layout;
 	
+	//These four variables are for demographic info collected from the patient to add to database
+	
 	final String[] genderList = {"Select One", "Male", "Female", "Other"};
 	
 	final String[] cityList = {"Select One", "Albany", "Annapolis", "Atlanta", "Augusta", "Austin",
@@ -56,10 +58,11 @@ public class AddNewPatientsPanel extends JPanel
 							   "Charleston", "Cheyenne", "Columbia", "Columbus", "Concord", "Denver",
 							   "Des Moines", "Dover", "Frankfort", "Harrisburg", "Hartford", "Helena",
 							   "Honolulu", "Indianapolis", "Jackson", "Jefferson City", "Juneau", 
-							   "Lansing", "Lincoln", "Little Rock", "Madison", "Montgomery", "Montpelier",
-							   "Nashville", "Oklahoma City", "Olympia", "Phoenix", "Pierre", "Providence",
-							   "Raleigh", "Richmond", "Sacramento", "Saint Paul", "Salem", "Salt Lake City",
-							   "Santa Fe", "Springfield", "Tallahassee", "Topeka", "Trenton"};
+							   "Lansing", "Lincoln", "Little Rock", "Los Angeles", "Madison", "Montgomery",
+							   "Montpelier", "Nashville", "New York","Oklahoma City", "Olympia", "Phoenix", 
+							   "Pierre", "Providence", "Raleigh", "Richmond", "Sacramento", "Saint Paul", 
+							   "Salem", "Salt Lake City", "San Jose", "Santa Fe", "Springfield", "Tallahassee",
+							   "Topeka", "Trenton"};
 	final String[] stateList = {"Select One", "Alabama", "Arkansas", "Arizona", "Alaska", "California", 
 								"Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii",
 								"Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
@@ -69,13 +72,14 @@ public class AddNewPatientsPanel extends JPanel
 								"North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon",
 								"Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
 								"Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
-								"West Virginia", "Wisconsin", "Wyoming" };
+								"Washington, D.C.",	"West Virginia", "Wisconsin", "Wyoming" };
 	final String[] countryList = {"Select One", "United States of America"};
 	
 	JFrame demographicsFrame;
 	
 	Connection conn;	
 	
+	//Contains all data fields needed from patient	
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField, monthField,
 	 		   dayField, yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
 	 		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
