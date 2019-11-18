@@ -18,8 +18,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+/**
+ * @title 	ViewPatientsPanel Class
+ * @author 	Nick Fulton
+ * @desc	Builds the panel to view patients.
+ */
 public class ViewPatientsPanel extends JPanel
 {
+	// Create all of the needed variables.
 	private static final long serialVersionUID = 1L;
 
 	Connection conn;
@@ -41,17 +47,27 @@ public class ViewPatientsPanel extends JPanel
 	
 	final String[] searchOptions = {"Filter Options", "THC Number", "Name", "City"};
 	
+	/**
+	 * @title	ViewPatientsPanel Constructor
+	 * @param 	c - Connection to the database.
+	 */
 	public ViewPatientsPanel(Connection c)
 	{
 		this.conn = c;
 		buildPanel();
 	}
 
+	/**
+	 * @title	buildPanel Method
+	 * @desc	Builds the ViewPatientsPanel
+	 */
 	private void buildPanel()
 	{
+		// Set the layout and create the constraints of the panel.
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
+		// Create all of the needed components of the panel.
 		searchCriteria = new JComboBox<String>(searchOptions);
 		viewPatientButton = new JButton("View");
 		editPatientButton = new JButton("Edit");
@@ -60,10 +76,10 @@ public class ViewPatientsPanel extends JPanel
 		showCurrentVisitButton = new JButton("Current Visit");
 		searchButton = new JButton("Search");
 		refreshButton = new JButton("Refresh");
-
 		patientTable = new JTable();
+		searchBox = new JTextField(10);
 		
-		
+		// Add the ability to refresh the table.
 		refreshButton.addActionListener(e -> {
 			try 
 			{
@@ -75,6 +91,7 @@ public class ViewPatientsPanel extends JPanel
 			}
 		});
 		
+		// Add the ability to search for a patient.
 		searchButton.addActionListener(e -> {
 			try 
 			{
@@ -86,6 +103,7 @@ public class ViewPatientsPanel extends JPanel
 			}
 		});
 		
+		// Add the ability to delete a patient.
 		deletePatientButton.addActionListener(e -> {
 			try 
 			{
@@ -97,10 +115,10 @@ public class ViewPatientsPanel extends JPanel
 			}
 		});
 		
+		// Add the ability to edit a patient.
 		editPatientButton.addActionListener(e -> edit());
 		
-		searchBox = new JTextField(10);
-		
+		// Populate the patient table.
 		try 
 		{
 			populate();
@@ -109,8 +127,11 @@ public class ViewPatientsPanel extends JPanel
 		{
 			e.printStackTrace();
 		}
+		
+		// Create the scroll pane.
 		patientsScrollPane = new JScrollPane(patientTable);
 		
+		// The following is adding all of the components to the panel.
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -193,22 +214,30 @@ public class ViewPatientsPanel extends JPanel
 		add(showCurrentVisitButton ,c);
 	}
 	
+	/**
+	 * @title	search Method
+	 * @throws 	SQLException - If the database has problems pulling the patients.
+	 */
 	private void search() throws SQLException
 	{
+		// If there isnt a search query just refresh the table.
 		if(searchBox.getText().equals(""))
 		{
 			populate();
 			return;
 		}
 		
+		// Find the patients from the database from pullSomePatients (this method handles the search)
 		patients = pullSomePatients();
 		String[][] patientData = new String[patients.size()][7];
 		
+		// Assign the patient's data to the table's data.
 		for(int x = 0; x < patients.size(); x++)
 		{
 			patientData[x] = patients.get(x).getPatientInfo();
 		}
 		
+		// Set the table correctly.
 		patientTable.setModel(new PatientTableModel(patientData));
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -216,21 +245,30 @@ public class ViewPatientsPanel extends JPanel
 		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 	}
 	
+	/**
+	 * @title	delete Method
+	 * @throws 	SQLException - If the database has problems deleting information.
+	 */
 	private void delete() throws SQLException
 	{
+		// Pull the THC number to be deleted.
 		String THCNumber = (String)patientTable.getValueAt(patientTable.getSelectedRow(), 0);
 		
+		// Delete the patient from the table.
 		PreparedStatement preparedStmt = conn.prepareStatement("DELETE FROM PATIENTS WHERE THCNumber ='" + THCNumber + "';");
 		preparedStmt.execute();
 		
+		// Pull the new patient information.
 		patients = pullAllPatients();
 		String[][] patientData = new String[patients.size()][7];
 		
+		// Get the new patientdata after deleting.
 		for(int x = 0; x < patients.size(); x++)
 		{
 			patientData[x] = patients.get(x).getPatientInfo();
 		}
 		
+		// Redo the table after deletion.
 		patientTable.setModel(new PatientTableModel(patientData));
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -238,10 +276,16 @@ public class ViewPatientsPanel extends JPanel
 		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 	}
 	
+	/**
+	 * @title	edit Method
+	 * @desc	Allows functionality to edit a patient through an external frame.
+	 */
 	private void edit()
 	{
+		// Declare the patient.
 		Patient patient = null;
 		
+		// Get the patient that was selected.
 		for(int x = 0; x < patients.size(); x++)
 		{
 			if((String)patientTable.getValueAt(patientTable.getSelectedRow(), 0) == patients.get(x).getTHCNumber())
@@ -251,9 +295,9 @@ public class ViewPatientsPanel extends JPanel
 			}
 		}
 		
+		// Build a edit patient screen.
 		JFrame frame = new JFrame("eTRT - Edit Patient");
 		frame.add(new EditPatientScreen(conn, patient));
-		
 		frame.setSize(new Dimension(600, 450));
 		frame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -262,16 +306,23 @@ public class ViewPatientsPanel extends JPanel
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * @title	populate Method
+	 * @throws 	SQLException - If the database can't retreive information.
+	 */
 	private void populate() throws SQLException
 	{
+		// Get the patients from the database.
 		patients = pullAllPatients();
 		String[][] patientData = new String[patients.size()][7];
 		
+		// Assign all of the patient data to patientData
 		for(int x = 0; x < patients.size(); x++)
 		{
 			patientData[x] = patients.get(x).getPatientInfo();
 		}
 		
+		// Build the table.
 		patientTable.setModel(new PatientTableModel(patientData));
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -279,8 +330,15 @@ public class ViewPatientsPanel extends JPanel
 		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 	}
 	
+	/**
+	 * @title	pullAllPatients Method
+	 * @return	Arraylist of patients from database
+	 * @throws 	SQLException - If the database cant get the information
+	 * @desc	Find all of the patients in the database.
+	 */
 	private ArrayList<Patient> pullAllPatients() throws SQLException
 	{
+		// Tell the database what you want.
 	    Statement stmt = conn.createStatement ();
 	    ResultSet rset = stmt.executeQuery ("SELECT * FROM PATIENTS;");
 	    ArrayList<Patient> patients = new ArrayList<Patient>();
@@ -299,12 +357,20 @@ public class ViewPatientsPanel extends JPanel
 		return patients;
 	}
 	
+	/**
+	 * @title	pullSomePatients Method
+	 * @return	The patients requested
+	 * @throws 	SQLException - If the database can not return information.
+	 * @desc	Pulls patients as needed for the search query.
+	 */
 	private ArrayList<Patient> pullSomePatients() throws SQLException
 	{
+		// Create the needed variables.
 		Statement stmt = conn.createStatement();
 		ArrayList<Patient> patients = new ArrayList<Patient>();
 		ResultSet rset = null;
 		
+		// Figure out what information to pull, and go off of that (from the searchbox)
 		switch((String)searchCriteria.getSelectedItem())
 		{
 			// Default will be for THC and select search
@@ -322,6 +388,7 @@ public class ViewPatientsPanel extends JPanel
 				break;
 		}
 		
+		// Pull the information.
 		while (rset.next())
 	    {
 			patients.add(new Patient(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), 
@@ -332,6 +399,8 @@ public class ViewPatientsPanel extends JPanel
 				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
 				 	rset.getString(25)));
 	    }
+		
+		// Return the patients.
 		return patients;
 	}
 }
