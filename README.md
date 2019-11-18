@@ -1,2 +1,3 @@
 # CS157-Project
-Jack Fogerson - author 1
+Nick Fulton - author 1
+Jack Fogerson - author 2
