@@ -2,17 +2,80 @@ package com.patientlogger;
 
 import java.time.LocalDate;
 
+/**
+ * @title	Patient Class
+ * @author	Nick Fulton
+ *
+ */
 public class Patient 
 {
+	// Declare all of the variables.
 	String myTHCNumber, myDate, myFirstName, myMiddleName, myLastName, myDob, myGender, myPhone,
 		   myEmail, myStreetAddress, myCity, myState, myZip, myCountry, myPhoto, mySsid, myInsurance,
 		   myOccupation, myWorkStatus, myEducationalDegree, myTOnset, myTEtio, myHOnset, myHEtio, myComments;
 	
+	/**
+	 * @title	Patient Constructor
+	 * @desc	Nulls all of the data. This is a blank constructor to build an empty patient to start off with.
+	 */
 	public Patient()
 	{
-		
+		this.myTHCNumber = null;
+		this.myDate = null;
+		this.myFirstName = null;
+		this.myMiddleName = null;
+		this.myLastName = null;
+		this.myDob = null;
+		this.myGender = null;
+		this.myPhone = null;
+		this.myEmail = null;
+		this.myStreetAddress = null;
+		this.myCity = null;
+		this.myState = null;
+		this.myZip = null;
+		this.myCountry = null;
+		this.myPhoto = null;
+		this.mySsid = null;
+		this.myInsurance = null;
+		this.myOccupation = null;
+		this.myWorkStatus = null;
+		this.myEducationalDegree = null;
+		this.myTOnset = null;
+		this.myTEtio = null;
+		this.myHOnset = null;
+		this.myHEtio = null;
+		this.myComments = null;
 	}
 	
+	/**
+	 * @title	Patient Constructor
+	 * @param	THCNumber - THC Number of patient
+	 * @param	date - Date of patient creation
+	 * @param	firstName - First name of patient.
+	 * @param	middleName - Middle name of patient.
+	 * @param	lastName - Last name of patient.
+	 * @param	dob - Date of birth of the patient.
+	 * @param	gender - Gender of patient.
+	 * @param	phone - Phone number of patient.
+	 * @param	email - Email address of patient.
+	 * @param	streetAddress - Street address of patient.
+	 * @param	city - City of patient.
+	 * @param	state - State of patient.
+	 * @param	zip - Zip code of patient.
+	 * @param	country - Country of patient.
+	 * @param	photo - Photo address of patient.
+	 * @param	ssid - SSN of patient.
+	 * @param	insurance - Insurance of patient.
+	 * @param	occupation - Patient occupation.
+	 * @param	workStatus - Work Status of patient.
+	 * @param	educationalDegree - Educational degree  of patient.
+	 * @param 	TOnset - TOnset of patient.
+	 * @param 	TEtio - TEtio of patient.
+	 * @param 	HOnset - HOnset of patient.
+	 * @param 	HEtio - HEtio of patient.
+	 * @param 	comments - Patient comments.
+	 * @desc	Sets all of the data to what is provided.
+	 */
 	public Patient(String THCNumber, String date, String firstName, String middleName, String lastName, String dob,
 				   String gender, String phone, String email, String streetAddress, String city, String state,
 				   String zip, String country, String photo, String ssid, String insurance, String occupation,
@@ -46,6 +109,10 @@ public class Patient
 		this.myComments = comments;
 	}
 	
+	/**
+	 * @title	getTHCNumber method
+	 * @return	myTHCNumber
+	 */
 	public String getTHCNumber()
 	{
 		return myTHCNumber;
@@ -56,6 +123,10 @@ public class Patient
 		myTHCNumber = t;
 	}
 	
+	/**
+	 * @title	getDate method
+	 * @return	myDate
+	 */
 	public String getDate()
 	{
 		return myDate;
@@ -66,6 +137,10 @@ public class Patient
 		myDate = t;
 	}
 	
+	/**
+	 * @title	getFirstName method
+	 * @return	myFirstName
+	 */
 	public String getFirstName()
 	{
 		return myFirstName;
@@ -76,6 +151,10 @@ public class Patient
 		myFirstName = t;
 	}
 	
+	/**
+	 * @title	getMiddleName method
+	 * @return	myMiddleName
+	 */
 	public String getMiddleName()
 	{
 		return myMiddleName;
@@ -86,6 +165,10 @@ public class Patient
 		myMiddleName = t;
 	}
 	
+	/**
+	 * @title	getLastName method
+	 * @return	myLastName
+	 */
 	public String getLastName()
 	{
 		return myLastName;
@@ -96,6 +179,10 @@ public class Patient
 		myLastName = t;
 	}
 	
+	/**
+	 * @title	getDOB method
+	 * @return	myDob
+	 */
 	public String getDob()
 	{
 		return myDob;
@@ -106,6 +193,10 @@ public class Patient
 		myDob = t;
 	}
 	
+	/**
+	 * @title	getGender method
+	 * @return	myGender
+	 */
 	public String getGender()
 	{
 		return myGender;
@@ -116,6 +207,10 @@ public class Patient
 		myGender = t;
 	}
 	
+	/**
+	 * @title	getPhone method
+	 * @return	myPhone
+	 */
 	public String getPhone()
 	{
 		return myPhone;
@@ -126,6 +221,10 @@ public class Patient
 		myPhone = t;
 	}
 	
+	/**
+	 * @title	getEmail method
+	 * @return	myEmail
+	 */
 	public String getEmail()
 	{
 		return myEmail;
@@ -135,6 +234,7 @@ public class Patient
 	{
 		myEmail = t;
 	}
+	
 	
 	public String getStreetAddress()
 	{

@@ -36,12 +36,21 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * @title	AddNewPatientsPanel
+ * @author	Nick Fulton
+ * @desc	This class is an extension of JPanel which allows the user to add new patients to the
+ * 			database.
+ */
 public class AddNewPatientsPanel extends JPanel
 {
+	// First thing's first, go through and instantiate all of the needed variables.
 	private static final long serialVersionUID = 1L;
+	
 	GroupLayout layout;
 	
 	final String[] genderList = {"Select One", "Male", "Female", "Other"};
+	
 	final String[] cityList = {"Select One", "Albany", "Annapolis", "Atlanta", "Augusta", "Austin",
 							   "Baton Rouge", "Bismarck", "Boise", "Boston", "Carson City", 
 							   "Charleston", "Cheyenne", "Columbia", "Columbus", "Concord", "Denver",
@@ -61,7 +70,6 @@ public class AddNewPatientsPanel extends JPanel
 								"Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
 								"Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
 								"West Virginia", "Wisconsin", "Wyoming" };
-	
 	final String[] countryList = {"Select One", "United States of America"};
 	
 	JFrame demographicsFrame;
@@ -88,21 +96,32 @@ public class AddNewPatientsPanel extends JPanel
 	
 	JButton saveButton, addDemoButton, newVisitButton, cancelButton, demoSaveButton, demoCancelButton;
 	
+	/**
+	 * @title	AddNewPatientsPanel Constructor
+	 * @param 	c - Is the connection to the database.
+	 */
 	public AddNewPatientsPanel(Connection c)
 	{
 		this.conn = c;
 		buildPanel();
 	}
 	
-	protected void buildPanel()
+	/**
+	 *	@title	buildPanel method
+	 *	@desc	Is the local method used to build this panel, everything from assigning listeners to putting the
+	 *			components in the correct place.
+	 */
+	private void buildPanel()
 	{	
+		// Take care of the picture, we need to pull the unknown avatar and scale it to the needed size.
 		ImageIcon ogUnknownPicture = new ImageIcon("src/images/unknownPicture.png");
 		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 		
+		// Handle the layout of the panel.
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		// Initalize the following for the normal form.
+		// Initalize the following for the main form.
 		THCNumberField = new JTextField(10);
 		currentDateField = new JTextField(10);
 		firstNameField = new JTextField(10);
@@ -150,6 +169,7 @@ public class AddNewPatientsPanel extends JPanel
 		newVisitButton = new JButton("New Visit");
 		cancelButton = new JButton("Cancel");	
 		
+		// Add a listener for the fields in the year to revert the box to empty once clicked.
 		monthField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -187,21 +207,28 @@ public class AddNewPatientsPanel extends JPanel
 			}
 		});
 		
+		// Make the photo button look more like a picture, and not like a button.
 		photoField.setBorderPainted(false);
+		// Add the option of changing the picture once it is cicked.
 		photoField.addActionListener(event -> changePicture(photoField));
 		
+		// Figure out what the next THC number is and then fill the THC field with it.
+		// This field will be gray to stand for it not being editable.
 		int currentTHC = getRowCount();
 		THCNumberField.setText(Integer.toString(currentTHC + 1));
 		THCNumberField.setEditable(false);
 		THCNumberField.setBackground(Color.GRAY);
 		
+		// Find today's date.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 		LocalDate localDate = LocalDate.now();
 		
+		// Make it so you can't change today's date either.
 		currentDateField.setEditable(false);
 		currentDateField.setText(dtf.format(localDate));
 		currentDateField.setBackground(Color.GRAY);
 		
+		// Add a listener for if the save button is clicked. Once clicked, submit the information provided.
 		saveButton.addActionListener(e -> {
 			try 
 			{
@@ -212,9 +239,13 @@ public class AddNewPatientsPanel extends JPanel
 				ex.printStackTrace();
 			}
 		});
+		
+		// Add action listeners for the cancel button and the demographics button as well.
 		cancelButton.addActionListener(e -> rebuildPanel());
+		// The demographics pane is already open, it just needs to be made visible.
 		addDemoButton.addActionListener(e -> demographicsFrame.setVisible(true));
 		
+		// Save the picture locally, and set it to the thcnumber.png
 		try 
 		{
 			Files.copy(new File("src/images/unknownPicture.png").toPath(), new File("src/images/" + THCNumberField.getText() + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -224,6 +255,7 @@ public class AddNewPatientsPanel extends JPanel
 			e1.printStackTrace();
 		}
 
+		// All of the following is to design the panel and put all the components in the correct place.
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -483,16 +515,26 @@ public class AddNewPatientsPanel extends JPanel
 		c.gridheight = 1;
 		add(cancelButton, c);
 		
+		// Build the demographics frame during this stage as well.
 		buildDemoFrame();
 	}
 	
+	/**
+	 * @title	changePicture method
+	 * @param	photoField - The button that houses the picture.
+	 */
 	private void changePicture(JButton photoField)
 	{
+		// Instantiate the file that will hold the picture.
 		File inputPicture = null;
 		
+		// Create a file chooser to pull the picture when selected.
 		JFileChooser jfc = new JFileChooser();
+		// Make sure the file chosen is a picture.
 		jfc.setFileFilter(new FileNameExtensionFilter("JPG and PNG", "jpg", "png"));
 		int returnVal = jfc.showOpenDialog(null);
+		
+		// If the file is good, then get the file.
 		if(returnVal == JFileChooser.APPROVE_OPTION)
 		{
 			inputPicture = jfc.getSelectedFile();
@@ -502,11 +544,14 @@ public class AddNewPatientsPanel extends JPanel
 		{
 			try 
 			{
+				// Save the file locally under the patient's THC number.
 				Files.copy(inputPicture.toPath(), new File("src/images/" + THCNumberField.getText() + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
 				
+				// Scale the image
 				ImageIcon ogInPic = new ImageIcon("src/images/inputPicture.png");
 				ImageIcon inPic = new ImageIcon(ogInPic.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 				
+				// Set the image.
 				photoField.setIcon(inPic);
 				photoField.repaint();
 			} 
@@ -517,11 +562,20 @@ public class AddNewPatientsPanel extends JPanel
 		}
 	}
 	
-	protected boolean errorCheck()
+	/**
+	 * @title	errorCheck method
+	 * @return	Boolean on whether or not there is an error.
+	 * @desc	This method is called to check to see if all the needed fields are filled out in the form before firing
+	 * 			to the database.
+	 */
+	private boolean errorCheck()
 	{
+		// Instantiate the needed variables.
 		boolean isError = false;
 		String errorLog = "";
 		
+		// All of the following checks to see if the field is empty.
+		// If it is, add it to the list of errors.
 		if(firstNameField.getText().equals(""))
 		{
 			errorLog += "First Name, ";
@@ -577,6 +631,8 @@ public class AddNewPatientsPanel extends JPanel
 			errorLog += "Country, ";
 			isError = true;
 		}
+		
+		// If there is an error, alert the user to everywhere it went wrong.
 		if(isError)
 		{
 			errorLog = errorLog.substring(0, errorLog.length() - 2) + ".";
@@ -586,16 +642,23 @@ public class AddNewPatientsPanel extends JPanel
 		return isError;
 	}
 	 
+	/**
+	 * @title	submitInformation method
+	 * @throws 	SQLException - If there is an error when submitting to the database.
+	 */
 	private void submitInformation() throws SQLException
 	{
+		// If there is an error, don't submit the information.
 		if(errorCheck())
 		{
 			return;
 		}
 		
+		// Find the current date again, to make it easier for data submission.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.now();
 
+		// Create the query for submitting all the information into the patients table.
 		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, City, State, Zip, Country, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
 								   + "VALUES(" + THCNumberField.getText() + ", "
 								   		  + "'" + dtf.format(localDate) + "', "
@@ -622,22 +685,31 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + hOnsetField.getText() + "', "
 								   		  + "'" + hEtioField.getText() + "', "
 								   		  + "'" + commentField.getText() + "')";
+		
+		// Preform the query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
 		
+		// Rebuild the panel once it is submitted so it is blank for the next data entry.
 		rebuildPanel();
 		
 		return;
 	}
 	
+	/**
+	 * @title	getRowCount Method
+	 * @return	The highest thc number in the table.
+	 */
 	private int getRowCount()
 	{
+		// Start out at 0.
 		int rowCount = 0;
 		
 		try 
 		{
+			// Ask the database for the highest THC number.
 			Statement stmt = conn.createStatement();
-			ResultSet rset = stmt.executeQuery ("SELECT THCNumber FROM Patients ORDER BY THCNumber DESC LIMIT 1;");
+			ResultSet rset = stmt.executeQuery ("SELECT MAX(THCNumber) FROM Patients;");
 			rset.next();
 			rowCount = rset.getInt(1);
 		} 
@@ -647,9 +719,14 @@ public class AddNewPatientsPanel extends JPanel
 			e.printStackTrace();
 		}
 		
+		// Return the highest THC number added to the table.
 		return rowCount;
 	}
 	
+	/**
+	 * @title	rebuildPanel Method
+	 * @desc	Destroys the panel and then rebuilds it to clear all data.
+	 */
 	protected void rebuildPanel()
 	{
 		remove(THCNumberLabel);
@@ -698,18 +775,28 @@ public class AddNewPatientsPanel extends JPanel
 		revalidate();
 	}
 	
+	/**
+	 * @title	rebuildDemoFrame Method
+	 * @desc	Destroys the demo frame and then rebuilds it to erase all inputted data.
+	 */
 	private void rebuildDemoFrame()
 	{
 		demographicsFrame.dispose();
 		buildDemoFrame();
 	}
 	
+	/**
+	 * @title	buildDemoFrame Method
+	 * @desc	Builds the demographic frame and makes it not visible.
+	 */
 	private void buildDemoFrame()
 	{
+		// Start with all the basic JFrame stuff.
 		demographicsFrame = new JFrame("eTRT - Add Demographics");
 		demographicsFrame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
+		// Initalize all of the components.
 		occupationField = new JTextField(10);
 		workStatusField = new JTextField(10);
 		educationField = new JTextField(10);
@@ -733,16 +820,21 @@ public class AddNewPatientsPanel extends JPanel
 		demographicsLabel.setHorizontalAlignment(JLabel.CENTER);
 		commentField.setLineWrap(true);
 		
+		// Make sure that there is no more than 150 characters in the comment field.
 		commentField.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
+			public void keyTyped(KeyEvent e) 
+			{
 				if(commentField.getText().length() >= 150)
 					e.consume();
 			}
 		});
 		
+		// Set listeners for the buttons at the bottom of he frame.
 		demoSaveButton.addActionListener(e -> demographicsFrame.setVisible(false));
 		demoCancelButton.addActionListener(e -> rebuildDemoFrame());
 		
+		
+		// All of the following is for positioning the components correctly.
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
@@ -877,6 +969,7 @@ public class AddNewPatientsPanel extends JPanel
 		c.gridheight = 1;
 		demographicsFrame.add(demoSaveButton, c);
 		
+		// Set the rest of the JFrame stuff.
 		demographicsFrame.setSize(new Dimension(600, 250));
 		demographicsFrame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -884,12 +977,19 @@ public class AddNewPatientsPanel extends JPanel
 		demographicsFrame.setVisible(false);
 	}
 	
-	
+	/**
+	 * @title	getSaveButton Method
+	 * @return	JButton - The save button of the panel.
+	 */
 	protected JButton getSaveButton()
 	{
 		return saveButton;
 	}
 	
+	/**
+	 * @tite	getCancelButton Method
+	 * @return	JButton - The cancel button of the panel.
+	 */
 	protected JButton getCancelButton()
 	{
 		return cancelButton;
