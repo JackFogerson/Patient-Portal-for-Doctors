@@ -153,6 +153,7 @@ public class ViewPatientsPanel extends JPanel
 		c.ipady = 0;
 		add(deletePatientButton, c);
 		
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 21;

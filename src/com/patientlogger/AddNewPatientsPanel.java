@@ -884,6 +884,7 @@ public class AddNewPatientsPanel extends JPanel
 		demographicsFrame.setVisible(false);
 	}
 	
+	
 	protected JButton getSaveButton()
 	{
 		return saveButton;

@@ -92,6 +92,7 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM PATIENTS WHERE THCNumber ='" + myPatient.getTHCNumber() + "';");
 		deleteStmt.execute();
 
+		
 		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, City, State, Zip, Country, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
 								   + "VALUES(" + THCNumberField.getText() + ", "
 								   		  + "'" + dtf.format(localDate) + "', "
