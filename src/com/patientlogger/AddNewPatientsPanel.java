@@ -94,7 +94,7 @@ public class AddNewPatientsPanel extends JPanel
 		buildPanel();
 	}
 	
-	private void buildPanel()
+	protected void buildPanel()
 	{	
 		ImageIcon ogUnknownPicture = new ImageIcon("src/images/unknownPicture.png");
 		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
@@ -517,7 +517,7 @@ public class AddNewPatientsPanel extends JPanel
 		}
 	}
 	
-	private boolean errorCheck()
+	protected boolean errorCheck()
 	{
 		boolean isError = false;
 		String errorLog = "";
@@ -650,7 +650,7 @@ public class AddNewPatientsPanel extends JPanel
 		return rowCount;
 	}
 	
-	private void rebuildPanel()
+	protected void rebuildPanel()
 	{
 		remove(THCNumberLabel);
 		remove(THCNumberField);
@@ -882,6 +882,16 @@ public class AddNewPatientsPanel extends JPanel
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		demographicsFrame.setLocation(d.width/2-demographicsFrame.getSize().width/2, d.height/2-demographicsFrame.getSize().height/2);
 		demographicsFrame.setVisible(false);
+	}
+	
+	protected JButton getSaveButton()
+	{
+		return saveButton;
+	}
+	
+	protected JButton getCancelButton()
+	{
+		return cancelButton;
 	}
 }
 

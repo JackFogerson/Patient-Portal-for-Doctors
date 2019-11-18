@@ -1,7 +1,9 @@
 package com.patientlogger;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,6 +35,8 @@ public class ViewPatientsPanel extends JPanel
 	JTextField searchBox;
 	
 	JTable patientTable;
+	
+	ArrayList<Patient> patients;
 	
 	final String[] searchOptions = {"Filter Options", "THC Number", "Name", "City"};
 	
@@ -77,6 +82,8 @@ public class ViewPatientsPanel extends JPanel
 				e1.printStackTrace();
 			}
 		});
+		
+		editPatientButton.addActionListener(e -> edit());
 		
 		searchBox = new JTextField(10);
 		
@@ -171,7 +178,7 @@ public class ViewPatientsPanel extends JPanel
 			return;
 		}
 		
-		ArrayList<Patient> patients = pullSomePatients();
+		patients = pullSomePatients();
 		String[][] patientData = new String[patients.size()][7];
 		
 		for(int x = 0; x < patients.size(); x++)
@@ -193,7 +200,7 @@ public class ViewPatientsPanel extends JPanel
 		PreparedStatement preparedStmt = conn.prepareStatement("DELETE FROM PATIENTS WHERE THCNumber ='" + THCNumber + "';");
 		preparedStmt.execute();
 		
-		ArrayList<Patient> patients = pullAllPatients();
+		patients = pullAllPatients();
 		String[][] patientData = new String[patients.size()][7];
 		
 		for(int x = 0; x < patients.size(); x++)
@@ -208,9 +215,33 @@ public class ViewPatientsPanel extends JPanel
 		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 	}
 	
+	private void edit()
+	{
+		Patient patient = null;
+		
+		for(int x = 0; x < patients.size(); x++)
+		{
+			if((String)patientTable.getValueAt(patientTable.getSelectedRow(), 0) == patients.get(x).getTHCNumber())
+			{
+				patient = patients.get(x);
+				break;
+			}
+		}
+		
+		JFrame frame = new JFrame("eTRT - Edit Patient");
+		frame.add(new EditPatientScreen(conn, patient));
+		
+		frame.setSize(new Dimension(600, 450));
+		frame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+	
 	private void populate() throws SQLException
 	{
-		ArrayList<Patient> patients = pullAllPatients();
+		patients = pullAllPatients();
 		String[][] patientData = new String[patients.size()][7];
 		
 		for(int x = 0; x < patients.size(); x++)
