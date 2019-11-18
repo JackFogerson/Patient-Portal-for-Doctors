@@ -3,6 +3,7 @@ package com.patientlogger;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -52,6 +53,8 @@ public class ViewPatientsPanel extends JPanel
 		addNewVisitButton = new JButton("Add Visit");
 		showCurrentVisitButton = new JButton("Current Visit");
 		searchButton = new JButton("Search");
+
+		patientTable = new JTable();
 		
 		searchButton.addActionListener(e -> {
 			try 
@@ -64,11 +67,22 @@ public class ViewPatientsPanel extends JPanel
 			}
 		});
 		
+		deletePatientButton.addActionListener(e -> {
+			try 
+			{
+				delete();
+			} 
+			catch (SQLException e1) 
+			{
+				e1.printStackTrace();
+			}
+		});
+		
 		searchBox = new JTextField(10);
 		
 		try 
 		{
-			populate((String)searchCriteria.getSelectedItem());
+			populate();
 		} 
 		catch (SQLException e) 
 		{
@@ -153,6 +167,7 @@ public class ViewPatientsPanel extends JPanel
 	{
 		if(searchBox.getText().equals(""))
 		{
+			populate();
 			return;
 		}
 		
@@ -165,19 +180,45 @@ public class ViewPatientsPanel extends JPanel
 		}
 		
 		patientTable.setModel(new PatientTableModel(patientData));
+		patientTable.setAutoCreateRowSorter(true);
+		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+		patientTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 	}
 	
-	private void populate(String sortOption) throws SQLException
+	private void delete() throws SQLException
+	{
+		String THCNumber = (String)patientTable.getValueAt(patientTable.getSelectedRow(), 0);
+		
+		PreparedStatement preparedStmt = conn.prepareStatement("DELETE FROM PATIENTS WHERE THCNumber ='" + THCNumber + "';");
+		preparedStmt.execute();
+		
+		ArrayList<Patient> patients = pullAllPatients();
+		String[][] patientData = new String[patients.size()][7];
+		
+		for(int x = 0; x < patients.size(); x++)
+		{
+			patientData[x] = patients.get(x).getPatientInfo();
+		}
+		
+		patientTable.setModel(new PatientTableModel(patientData));
+		patientTable.setAutoCreateRowSorter(true);
+		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+		patientTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+	}
+	
+	private void populate() throws SQLException
 	{
 		ArrayList<Patient> patients = pullAllPatients();
 		String[][] patientData = new String[patients.size()][7];
 		
-		for(int x = 1; x < patients.size(); x++)
+		for(int x = 0; x < patients.size(); x++)
 		{
-			patientData[x-1] = patients.get(x).getPatientInfo();
+			patientData[x] = patients.get(x).getPatientInfo();
 		}
 		
-		patientTable = new JTable(new PatientTableModel(patientData));
+		patientTable.setModel(new PatientTableModel(patientData));
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		patientTable.getColumnModel().getColumn(2).setPreferredWidth(30);

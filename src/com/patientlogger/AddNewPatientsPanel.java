@@ -625,6 +625,8 @@ public class AddNewPatientsPanel extends JPanel
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
 		
+		rebuildPanel();
+		
 		return;
 	}
 	
