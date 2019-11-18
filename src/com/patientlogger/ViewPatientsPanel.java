@@ -26,7 +26,7 @@ public class ViewPatientsPanel extends JPanel
 	
 	JComboBox<String> searchCriteria;
 	
-	JButton viewPatientButton, editPatientButton, deletePatientButton, addNewVisitButton, showCurrentVisitButton, searchButton;
+	JButton viewPatientButton, editPatientButton, deletePatientButton, addNewVisitButton, showCurrentVisitButton, searchButton, refreshButton;
 	
 	JPanel patientsPaneButtons, patientsPanel;
 	
@@ -45,7 +45,7 @@ public class ViewPatientsPanel extends JPanel
 		this.conn = c;
 		buildPanel();
 	}
-	
+
 	private void buildPanel()
 	{
 		setLayout(new GridBagLayout());
@@ -58,8 +58,20 @@ public class ViewPatientsPanel extends JPanel
 		addNewVisitButton = new JButton("Add Visit");
 		showCurrentVisitButton = new JButton("Current Visit");
 		searchButton = new JButton("Search");
+		refreshButton = new JButton("Refresh");
 
 		patientTable = new JTable();
+		
+		refreshButton.addActionListener(e -> {
+			try 
+			{
+				populate();
+			} 
+			catch (SQLException e2) 
+			{
+				e2.printStackTrace();
+			}
+		});
 		
 		searchButton.addActionListener(e -> {
 			try 
@@ -96,6 +108,14 @@ public class ViewPatientsPanel extends JPanel
 			e.printStackTrace();
 		}
 		patientsScrollPane = new JScrollPane(patientTable);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.ipady = 0;
+		add(refreshButton, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
