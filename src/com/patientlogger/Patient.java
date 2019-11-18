@@ -437,22 +437,3 @@ public class Patient
 		return results;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
