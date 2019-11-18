@@ -51,7 +51,7 @@ public class eTRT
 		
 		HomePanel homePanel = new HomePanel();
 		PatientsPanel patientsPanel = new PatientsPanel(conn);
-		VisitsPanel visitsPanel = new VisitsPanel();
+		VisitsPanel visitsPanel = new VisitsPanel(conn);
 		
 		mainPane.addTab("Home", null, homePanel, "Spash Screen");
 		mainPane.addTab("Patients", null, patientsPanel, "Information for Patients");
