@@ -55,14 +55,14 @@ public class AddNewPatientsPanel extends JPanel
 	
 	final String[] cityList = {"Select One", "Albany", "Annapolis", "Atlanta", "Augusta", "Austin",
 							   "Baton Rouge", "Bismarck", "Boise", "Boston", "Carson City", 
-							   "Charleston", "Cheyenne", "Columbia", "Columbus", "Concord", "Denver",
+							   "Charleston", "Cheyenne", "Chicago","Columbia", "Columbus", "Concord", "Denver",
 							   "Des Moines", "Dover", "Frankfort", "Harrisburg", "Hartford", "Helena",
 							   "Honolulu", "Indianapolis", "Jackson", "Jefferson City", "Juneau", 
 							   "Lansing", "Lincoln", "Little Rock", "Los Angeles", "Madison", "Montgomery",
 							   "Montpelier", "Nashville", "New York","Oklahoma City", "Olympia", "Phoenix", 
 							   "Pierre", "Providence", "Raleigh", "Richmond", "Sacramento", "Saint Paul", 
-							   "Salem", "Salt Lake City", "San Jose", "Santa Fe", "Springfield", "Tallahassee",
-							   "Topeka", "Trenton"};
+							   "Salem", "Salt Lake City", "San Diego","San Jose", "Santa Fe", "Springfield", 
+							   "Tallahassee", "Tampa", "Topeka", "Trenton", "Tulsa"};
 	final String[] stateList = {"Select One", "Alabama", "Arkansas", "Arizona", "Alaska", "California", 
 								"Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii",
 								"Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
@@ -119,13 +119,14 @@ public class AddNewPatientsPanel extends JPanel
 	{	
 		// Take care of the picture, we need to pull the unknown avatar and scale it to the needed size.
 		ImageIcon ogUnknownPicture = new ImageIcon("src/images/unknownPicture.png");
+		//Scales picture to fit box
 		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 		
 		// Handle the layout of the panel.
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		// Initalize the following for the main form.
+		//Initialize the following for the main JFrame.
 		THCNumberField = new JTextField(10);
 		currentDateField = new JTextField(10);
 		firstNameField = new JTextField(10);
@@ -140,14 +141,14 @@ public class AddNewPatientsPanel extends JPanel
 		dobField.add(yearField);
 		genderField = new JComboBox<String>(genderList);
 		phoneField = new JTextField(10);
-		emailField = new JTextField(10);
+		emailField = new JTextField(30);
 		streetField = new JTextField(10);
 		cityField = new JComboBox<String>(cityList);
 		stateField = new JComboBox<String>(stateList);
-		zipField = new JTextField(10);
+		zipField = new JTextField(9);
 		countryField = new JComboBox<String>(countryList);
 		photoField = new JButton(unknownPicture);
-		ssnField = new JTextField(10);
+		ssnField = new JTextField(9);
 		insuranceField = new JTextField(10);
 		THCNumberLabel = new JLabel("THC Number");
 		currentDateLabel = new JLabel("Current Date");
