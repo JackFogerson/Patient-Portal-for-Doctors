@@ -335,16 +335,3 @@ public class ViewPatientsPanel extends JPanel
 		return patients;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
