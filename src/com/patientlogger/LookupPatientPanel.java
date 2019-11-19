@@ -1,9 +1,11 @@
 package com.patientlogger;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +14,7 @@ import java.sql.Statement;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -93,6 +96,8 @@ public class LookupPatientPanel extends JPanel
 				e1.printStackTrace();
 			}
 		});
+		
+		editPatientButton.addActionListener(e -> edit());
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -618,6 +623,22 @@ public class LookupPatientPanel extends JPanel
 		hOnsetField.setText(myPatient.getHOnset());
 		hEtioField.setText(myPatient.getHEtio());
 		commentField.setText(myPatient.getComments());
+	}
+	
+	private void edit()
+	{
+		if(myPatient == null)
+			return;
+		
+		// Build a edit patient screen.
+		JFrame frame = new JFrame("eTRT - Edit Patient");
+		frame.add(new EditPatientScreen(conn, myPatient));
+		frame.setSize(new Dimension(600, 450));
+		frame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 	}
 }
 
