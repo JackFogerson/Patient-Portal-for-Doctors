@@ -5,6 +5,10 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,6 +29,8 @@ public class LookupPatientPanel extends JPanel
 	JTextField searchBox;
 	JButton searchButton;
 	
+	Patient myPatient;
+	
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField, monthField,
 	   		   dayField, yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
 	   		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
@@ -32,7 +38,7 @@ public class LookupPatientPanel extends JPanel
 
 	JTextArea commentField;
 
-	JButton photoField;
+	JLabel photoField;
 
 	JPanel dobField, patientPanel;
 
@@ -42,6 +48,8 @@ public class LookupPatientPanel extends JPanel
 		   workStatusLabel, educationLabel, tOnsetLabel, tEtioLabel, hOnsetLabel, hEtioLabel, commentLabel;
 	
 	JScrollPane patientScrollable;
+	
+	JButton editPatientButton, addNewVisitButton, currentVisitButton;
 	
 	
 	public LookupPatientPanel(Connection c)
@@ -60,6 +68,14 @@ public class LookupPatientPanel extends JPanel
 		searchBox = new JTextField(10);
 		searchButton = new JButton("Search");
 		patientPanel = new JPanel();
+		photoLabel = new JLabel(unknownPicture);
+		firstNameLabel = new JLabel("Unkown", SwingConstants.CENTER);
+		lastNameLabel = new JLabel("Patient", SwingConstants.CENTER);
+		THCNumberLabel = new JLabel("THC#: ", SwingConstants.CENTER);
+		
+		editPatientButton = new JButton("Edit Patient");
+		addNewVisitButton = new JButton("New Visit");
+		currentVisitButton = new JButton("Current Visit");
 		
 		patientPanel.setLayout(new GridBagLayout());
 		buildPatientPanel();
@@ -67,7 +83,16 @@ public class LookupPatientPanel extends JPanel
 		patientScrollable = new JScrollPane(patientPanel);
 		patientScrollable.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		searchButton.addActionListener(e -> search());
+		searchButton.addActionListener(e -> {
+			try 
+			{
+				search();
+			} 
+			catch (SQLException e1)
+			{
+				e1.printStackTrace();
+			}
+		});
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -106,6 +131,69 @@ public class LookupPatientPanel extends JPanel
 		c.ipady = 300;
 		c.ipadx = 300;
 		add(patientScrollable, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.ipady = 0;
+		c.ipadx = 0;
+		add(photoLabel, c);
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.ipady = 0;
+		c.ipadx = 0;
+		add(firstNameLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.ipady = 0;
+		c.ipadx = 0;
+		add(lastNameLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.ipady = 0;
+		c.ipadx = 0;
+		add(THCNumberLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.ipady = 0;
+		c.ipadx = 0;
+		add(editPatientButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.ipady = 0;
+		c.ipadx = 0;
+		add(addNewVisitButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.ipady = 0;
+		c.ipadx = 0;
+		add(currentVisitButton, c);
 	}
 	
 	private void buildPatientPanel()
@@ -156,6 +244,29 @@ public class LookupPatientPanel extends JPanel
 		hOnsetLabel = new JLabel("Hyperacusis Onset");
 		hEtioLabel = new JLabel("Hyperacusis Etiology");
 		commentLabel = new JLabel("Additional Comments");
+		
+		currentDateField.setEditable(false);
+		monthField.setEditable(false);
+		dayField.setEditable(false);
+		yearField.setEditable(false);
+		genderField.setEditable(false);
+		phoneField.setEditable(false);
+		emailField.setEditable(false);
+		streetField.setEditable(false);
+		cityField.setEditable(false);
+		stateField.setEditable(false);
+		zipField.setEditable(false);
+		countryField.setEditable(false);
+		ssnField.setEditable(false);
+		insuranceField.setEditable(false);	
+		occupationField.setEditable(false);
+		workStatusField.setEditable(false);
+		educationField.setEditable(false);
+		tOnsetField.setEditable(false);
+		tEtioField.setEditable(false);
+		hOnsetField.setEditable(false);
+		hEtioField.setEditable(false);
+		commentField.setEditable(false);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -440,8 +551,103 @@ public class LookupPatientPanel extends JPanel
 		patientPanel.add(commentField, c);
 	}
 	
-	private void search()
+	private void search() throws SQLException
 	{
+		Statement stmt = conn.createStatement();
+		ResultSet rset = null;
 		
+		switch((String)searchCriteria.getSelectedItem())
+		{
+			// Default will be for THC and select search
+			default:
+				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE THCNumber ='" + searchBox.getText() + "';");
+				break;
+				
+			case "Name":
+				String[] name = searchBox.getText().split(" ");
+				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE FirstName = '" + name[0] + "' AND LastName = '" + name[1] + "';");
+				break;
+			
+			case "SSN":
+				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE SSID = '" + searchBox.getText() + "';");
+				break;
+		}
+		while(rset.next())
+		{
+			myPatient = new Patient(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), 
+					rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
+					rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12), 
+				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
+				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
+				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
+				 	rset.getString(25));
+		}
+		assignPatient();
+	}
+	
+	private void assignPatient()
+	{
+		// Set the picture to the patient's stored picture and scale it.
+		ImageIcon ogUnknownPicture = new ImageIcon(myPatient.getPhoto());
+		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+		
+		// Set the data to all of the text fields.
+		THCNumberLabel.setText("THC#: " + myPatient.getTHCNumber());
+		currentDateField.setText(myPatient.getDate());
+		firstNameLabel.setText(myPatient.getFirstName());
+		lastNameLabel.setText(myPatient.getLastName());
+		monthField.setText(myPatient.getDob().substring(5,7));
+		dayField.setText(myPatient.getDob().substring(8,10));
+		yearField.setText(myPatient.getDob().substring(0,4));
+		genderField.setText(myPatient.getGender());
+		phoneField.setText(myPatient.getPhone());
+		emailField.setText(myPatient.getEmail());
+		streetField.setText(myPatient.getStreetAddress());
+		cityField.setText(myPatient.getCity());
+		stateField.setText(myPatient.getState());
+		zipField.setText(myPatient.getZip());
+		countryField.setText(myPatient.getCountry());
+		photoLabel.setIcon(unknownPicture);
+		ssnField.setText(myPatient.getSsid());
+		insuranceField.setText(myPatient.getInsurance());
+		occupationField.setText(myPatient.getOccupation());
+		workStatusField.setText(myPatient.getWorkStatus());
+		educationField.setText(myPatient.getEducationalDegree());
+		tOnsetField.setText(myPatient.getTOnset());
+		tEtioField.setText(myPatient.getTEtio());
+		hOnsetField.setText(myPatient.getHOnset());
+		hEtioField.setText(myPatient.getHEtio());
+		commentField.setText(myPatient.getComments());
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
