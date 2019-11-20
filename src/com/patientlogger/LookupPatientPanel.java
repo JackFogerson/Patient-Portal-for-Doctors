@@ -558,8 +558,14 @@ public class LookupPatientPanel extends JPanel
 	
 	private void search() throws SQLException
 	{
+		if(searchBox.getText().equals(""))
+		{
+			return;
+		}
+		
 		Statement stmt = conn.createStatement();
 		ResultSet rset = null;
+		myPatient = null;
 		
 		switch((String)searchCriteria.getSelectedItem())
 		{
@@ -587,7 +593,8 @@ public class LookupPatientPanel extends JPanel
 				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
 				 	rset.getString(25));
 		}
-		assignPatient();
+		if(myPatient != null)
+			assignPatient();
 	}
 	
 	private void assignPatient()

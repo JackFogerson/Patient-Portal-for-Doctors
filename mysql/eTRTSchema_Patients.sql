@@ -37,7 +37,7 @@ CREATE TABLE `Patients` (
   `State` varchar(45) DEFAULT NULL,
   `Zip` int(11) NOT NULL,
   `Country` varchar(45) NOT NULL,
-  `Photo` longblob,
+  `Photo` varchar(45) DEFAULT NULL,
   `SSID` varchar(45) DEFAULT NULL,
   `Insurance` varchar(45) DEFAULT NULL,
   `Occupation` varchar(45) DEFAULT NULL,
@@ -59,8 +59,40 @@ CREATE TABLE `Patients` (
 
 LOCK TABLES `Patients` WRITE;
 /*!40000 ALTER TABLE `Patients` DISABLE KEYS */;
-INSERT INTO `Patients` VALUES (0,'2019-11-10','Test',NULL,'Test','2000-01-01','Male','5555555555',NULL,'123 Test','Austin',NULL,95112,'United States of America',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `Patients` VALUES (1,'2019-11-17','Nick','Michael','Fulton','1998-09-14','Male','8587761407','nickfulton98@gmail.com','123 Test','Tallahassee','Florida',34786,'United States of America','src/images/1.png','1234567890','State Farm','Student','Employed','B.A.','N/A','N/A','N/A','N/A','This is a test. This is another test. This is a third test.');
 /*!40000 ALTER TABLE `Patients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Visits`
+--
+
+DROP TABLE IF EXISTS `Visits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Visits` (
+  `VisitID` int(11) NOT NULL,
+  `Date` date NOT NULL,
+  `THCNumber` int(11) NOT NULL,
+  `VisitSequence` int(11) NOT NULL,
+  `ProblemRank` varchar(3) NOT NULL,
+  `Category` int(11) NOT NULL,
+  `Protocol` int(11) NOT NULL,
+  `Instrument` varchar(3) NOT NULL,
+  `Comments` varchar(150) DEFAULT NULL,
+  `NextVisit` date NOT NULL,
+  PRIMARY KEY (`VisitID`),
+  UNIQUE KEY `VisitID_UNIQUE` (`VisitID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Visits`
+--
+
+LOCK TABLES `Visits` WRITE;
+/*!40000 ALTER TABLE `Visits` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Visits` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -72,4 +104,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-11 15:48:20
+-- Dump completed on 2019-11-19 17:01:57
