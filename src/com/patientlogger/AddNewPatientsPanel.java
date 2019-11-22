@@ -75,8 +75,12 @@ public class AddNewPatientsPanel extends JPanel
 								"Washington, D.C.",	"West Virginia", "Wisconsin", "Wyoming" };
 	final String[] countryList = {"Select One", "United States of America"};
 	
-	final String[] MonthList = {"Select One", "January", "February", "March", "April", "May", "June",
+	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
 								"July", "August", "September", "October", "November", "December"};
+	
+	final String[] dayList = {"Select One", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 	
 	JFrame demographicsFrame;
 	
@@ -84,13 +88,13 @@ public class AddNewPatientsPanel extends JPanel
 	
 	//Contains all data fields needed from patient	
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField,
-	 		   dayField, yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
+	 		   yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
 	 		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
 	 		   hEtioField;
 	
 	JTextArea commentField;
 	
-	JComboBox<String> monthField, genderField, cityField, stateField, countryField;
+	JComboBox<String> monthField, dayField, genderField, cityField, stateField, countryField;
 	
 	JButton photoField;
 	
@@ -136,8 +140,8 @@ public class AddNewPatientsPanel extends JPanel
 		middleNameField = new JTextField(10);
 		lastNameField = new JTextField(10);
 		dobField = new JPanel(new GridLayout(1, 3));
-		monthField = new JComboBox<String>(MonthList);;
-		dayField = new JTextField("DD");
+		monthField = new JComboBox<String>(monthList);
+		dayField = new JComboBox<String>(dayList);
 		yearField = new JTextField("YYYY");
 		dobField.add(monthField);
 		dobField.add(dayField);
@@ -176,19 +180,7 @@ public class AddNewPatientsPanel extends JPanel
 		addDemoButton = new JButton("Add Demographics");
 		newVisitButton = new JButton("New Visit");
 		cancelButton = new JButton("Cancel");	
-		
-		dayField.addFocusListener(new FocusListener() {
 
-			@Override
-			public void focusGained(FocusEvent e) {
-				dayField.setText("");
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// Do Nothing	
-			}
-		});
 		yearField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -586,7 +578,7 @@ public class AddNewPatientsPanel extends JPanel
 			errorLog += "Month of Birth, ";
 			isError = true;
 		}
-		if(dayField.getText().equals("DD") || dayField.getText().equals(""))
+		if(dayField.getSelectedItem().equals("Select One"))
 		{
 			errorLog += "Day of Birth, ";
 			isError = true;
@@ -660,7 +652,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + firstNameField.getText() + "', "
 								   		  + "'" + middleNameField.getText() + "', "
 								   		  + "'" + lastNameField.getText() + "', "
-								   		  + "'" + yearField.getText() + "-" + monthField.getSelectedItem() + "-" + dayField.getText() + "', "
+								   		  + "'" + yearField.getText() + "-" + monthField.getSelectedItem() + "-" + dayField.getSelectedItem() + "', "
 								   		  + "'" + genderField.getSelectedItem() + "', "
 								   		  + "'" + phoneField.getText() + "', "
 								   		  + "'" + emailField.getText() + "', "
