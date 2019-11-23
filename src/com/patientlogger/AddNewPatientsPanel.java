@@ -62,7 +62,7 @@ public class AddNewPatientsPanel extends JPanel
 							   "Montpelier", "Nashville", "New York","Oklahoma City", "Olympia", "Phoenix", 
 							   "Pierre", "Providence", "Raleigh", "Richmond", "Sacramento", "Saint Paul", 
 							   "Salem", "Salt Lake City", "San Diego","San Jose", "Santa Fe", "Springfield", 
-							   "Tallahassee", "Tampa", "Topeka", "Trenton", "Tulsa", "Washington, D.C."};
+							   "Tallahassee", "Tampa", "Topeka", "Trenton", "Tulsa"};
 	final String[] stateList = {"Select One", "Alabama", "Arkansas", "Arizona", "Alaska", "California", 
 								"Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii",
 								"Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
@@ -75,26 +75,19 @@ public class AddNewPatientsPanel extends JPanel
 								"Washington, D.C.",	"West Virginia", "Wisconsin", "Wyoming" };
 	final String[] countryList = {"Select One", "United States of America"};
 	
-	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
-								"July", "August", "September", "October", "November", "December"};
-	
-	final String[] dayList = {"Select One", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-	
 	JFrame demographicsFrame;
 	
 	Connection conn;	
 	
 	//Contains all data fields needed from patient	
-	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField,
-	 		   yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
+	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField, monthField,
+	 		   dayField, yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
 	 		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
 	 		   hEtioField;
 	
 	JTextArea commentField;
 	
-	JComboBox<String> monthField, dayField, genderField, cityField, stateField, countryField;
+	JComboBox<String> genderField, cityField, stateField, countryField;
 	
 	JButton photoField;
 	
@@ -140,8 +133,8 @@ public class AddNewPatientsPanel extends JPanel
 		middleNameField = new JTextField(10);
 		lastNameField = new JTextField(10);
 		dobField = new JPanel(new GridLayout(1, 3));
-		monthField = new JComboBox<String>(monthList);
-		dayField = new JComboBox<String>(dayList);
+		monthField = new JTextField("MM");
+		dayField = new JTextField("DD");
 		yearField = new JTextField("YYYY");
 		dobField.add(monthField);
 		dobField.add(dayField);
@@ -180,7 +173,32 @@ public class AddNewPatientsPanel extends JPanel
 		addDemoButton = new JButton("Add Demographics");
 		newVisitButton = new JButton("New Visit");
 		cancelButton = new JButton("Cancel");	
+		
+		// Add a listener for the fields in the year to revert the box to empty once clicked.
+		monthField.addFocusListener(new FocusListener() {
 
+			@Override
+			public void focusGained(FocusEvent e) {
+				monthField.setText("");
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+		dayField.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				dayField.setText("");
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
 		yearField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -573,12 +591,12 @@ public class AddNewPatientsPanel extends JPanel
 			errorLog += "Last Name, ";
 			isError = true;
 		}
-		if(monthField.getSelectedItem().equals("Select One"))
+		if(monthField.getText().equals("MM") || monthField.getText().equals(""))
 		{
 			errorLog += "Month of Birth, ";
 			isError = true;
 		}
-		if(dayField.getSelectedItem().equals("Select One"))
+		if(dayField.getText().equals("DD") || dayField.getText().equals(""))
 		{
 			errorLog += "Day of Birth, ";
 			isError = true;
@@ -652,7 +670,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + firstNameField.getText() + "', "
 								   		  + "'" + middleNameField.getText() + "', "
 								   		  + "'" + lastNameField.getText() + "', "
-								   		  + "'" + yearField.getText() + "-" + monthField.getSelectedItem() + "-" + dayField.getSelectedItem() + "', "
+								   		  + "'" + yearField.getText() + "-" + monthField.getText() + "-" + dayField.getText() + "', "
 								   		  + "'" + genderField.getSelectedItem() + "', "
 								   		  + "'" + phoneField.getText() + "', "
 								   		  + "'" + emailField.getText() + "', "
