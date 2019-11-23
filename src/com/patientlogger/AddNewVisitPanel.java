@@ -1,5 +1,6 @@
 package com.patientlogger;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.Connection;
@@ -75,10 +76,14 @@ public class AddNewVisitPanel extends JPanel
 		addPharmaButton = new JButton("Medical Other");
 		diagnoseButton = new JButton("Diagnose");
 		
-		addInstrumentButton = new JButton("Instrument Details");
-		addREMDetailsButton = new JButton("REM Details");
-		addCounselingButton = new JButton("Counseling Details");
-		recommendTreatmentButton = new JButton("Recommend Treatment");
+		addInstrumentButton = new JButton("<html><p align =\"center\">Instrument<br>Details</p></html>");
+		addInstrumentButton.setPreferredSize(new Dimension(50, 60));
+		addREMDetailsButton = new JButton("<html><p align =\\\"center\\\">REM<br>Details</p><</html>");
+		addREMDetailsButton.setPreferredSize(new Dimension(50, 60));
+		addCounselingButton = new JButton("<html><p align =\\\"center\\\">Counseling<br>Details</p><</html>");
+		addCounselingButton.setPreferredSize(new Dimension(50, 60));
+		recommendTreatmentButton = new JButton("<html><p align =\\\"center\\\">Recommend<br>Treatment</p><</html>");
+		recommendTreatmentButton.setPreferredSize(new Dimension(50, 60));
 		
 		saveButton = new JButton("Save");
 		cancelButton = new JButton("Cancel");
@@ -183,6 +188,158 @@ public class AddNewVisitPanel extends JPanel
 		c.gridheight = 1;
 		add(diagnoseButton, c);
 		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(problemRankLabel, c);
 		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(problemRankField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(categoryLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 4;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(categoryField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 5;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(protocolLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 6;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(protocolField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(fuLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(fuField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(instrumentLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 4;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(instrumentField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 5;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(remLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 6;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(remField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		add(commentsLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 5;
+		c.gridwidth = 7;
+		c.gridheight = 2;
+		add(commentField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		add(nextVisitLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 7;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		add(nextVisitField, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 8;
+		c.gridheight = 2;
+		c.gridwidth = 2;
+		add(addInstrumentButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 8;
+		c.gridheight = 2;
+		c.gridwidth = 2;
+		add(addREMDetailsButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 4;
+		c.gridy = 8;
+		c.gridheight = 2;
+		c.gridwidth = 2;
+		add(addCounselingButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 6;
+		c.gridy = 8;
+		c.gridheight = 2;
+		c.gridwidth = 2;
+		add(recommendTreatmentButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 6;
+		c.gridy = 10;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		add(saveButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 7;
+		c.gridy = 10;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		add(cancelButton, c);
 	}
 }
