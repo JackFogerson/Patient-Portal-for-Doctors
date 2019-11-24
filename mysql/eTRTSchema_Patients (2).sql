@@ -78,7 +78,8 @@ CREATE TABLE `Visits` (
   `ProblemRank` varchar(3) NOT NULL,
   `Category` int(11) NOT NULL,
   `Protocol` int(11) NOT NULL,
-  `Instrument` varchar(3) NOT NULL,
+  `FU` varchar(45) DEFAULT NULL,
+  `Instrument` varchar(3) DEFAULT NULL,
   `REM` tinyint(4) NOT NULL,
   `Comments` varchar(150) DEFAULT NULL,
   `NextVisit` date NOT NULL,
@@ -105,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-23 19:10:08
+-- Dump completed on 2019-11-23 20:13:02

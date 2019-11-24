@@ -78,10 +78,11 @@ CREATE TABLE `Visits` (
   `ProblemRank` varchar(3) NOT NULL,
   `Category` int(11) NOT NULL,
   `Protocol` int(11) NOT NULL,
-  `Instrument` varchar(3) NOT NULL,
+  `Instrument` varchar(3) DEFAULT NULL,
   `REM` tinyint(4) NOT NULL,
   `Comments` varchar(150) DEFAULT NULL,
   `NextVisit` date NOT NULL,
+  `FU` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`VisitID`),
   UNIQUE KEY `VisitID_UNIQUE` (`VisitID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -105,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-23 19:10:08
+-- Dump completed on 2019-11-23 20:11:34
