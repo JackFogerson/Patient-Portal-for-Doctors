@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -123,7 +122,7 @@ public class AddNewVisitPanel extends JPanel
             	visitSequenceField.setText(Integer.toString(getVisitSequence()));
         }});
 		
-		
+		cancelButton.addActionListener(e -> rebuildPanel());
 		
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -451,5 +450,49 @@ public class AddNewVisitPanel extends JPanel
 		}
 		
 		return visitSequence;
+	}
+	
+	private void rebuildPanel()
+	{
+		remove(visitIDLabel);
+		remove(visitDateLabel);
+		remove(thcLabel);
+		remove(nameLabel);
+		remove(visitSequenceLabel);
+		remove(problemRankLabel);
+		remove(categoryLabel);
+		remove(protocolLabel);
+		remove(fuLabel);
+		remove(instrumentLabel);
+		remove(remLabel);
+		remove(commentsLabel);
+		remove(nextVisitLabel);
+		remove(visitIDField);
+		remove(visitDateField);
+		remove(nameField);
+		remove(thcField);
+		remove(visitSequenceField);
+		remove(problemRankField);
+		remove(categoryField);
+		remove(protocolField);
+		remove(fuField);
+		remove(instrumentField);
+		remove(nextVisitField);
+		remove(remField);
+		remove(commentField);
+		remove(addInterviewButton);
+		remove(addAudioButton);
+		remove(addPharmaButton);
+		remove(diagnoseButton);
+		remove(addInstrumentButton);
+		remove(addREMDetailsButton);
+		remove(addCounselingButton);
+		remove(recommendTreatmentButton);
+		remove(saveButton);
+		remove(cancelButton);
+		
+		buildPanel();
+		repaint();
+		revalidate();
 	}
 }

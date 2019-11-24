@@ -32,7 +32,7 @@ public class ViewVisitsPanel extends JPanel
 	
 	JComboBox<String> searchCriteria;
 	
-	JButton viewVisitButton, editVisitButton, deleteVisitButton, analyzeVisitButton,
+	JButton viewVisitButton, deleteVisitButton, analyzeVisitButton,
 			searchButton, refreshButton;
 	
 	JPanel visitsPaneButtons, visitsPanel;
@@ -45,7 +45,7 @@ public class ViewVisitsPanel extends JPanel
 	
 	ArrayList<Visit> visits;
 	
-	final String[] searchOptions = {"Filter Options", "THC Number", "Name", "City"};
+	final String[] searchOptions = {"Filter Options", "Name", "Date"};
 	
 	/**
 	 * @title	ViewVisitsPanel Constructor
@@ -69,8 +69,7 @@ public class ViewVisitsPanel extends JPanel
 		
 		// Create all of the needed components of the panel.
 		searchCriteria = new JComboBox<String>(searchOptions);
-		viewVisitButton = new JButton("View");
-		editVisitButton = new JButton("Edit");
+		viewVisitButton = new JButton("View/Edit");
 		deleteVisitButton = new JButton("Delete");
 		analyzeVisitButton = new JButton("Analyze Visit");
 		searchButton = new JButton("Search");
@@ -115,7 +114,7 @@ public class ViewVisitsPanel extends JPanel
 		});
 		
 		// Add the ability to edit a patient.
-		editVisitButton.addActionListener(e -> edit());
+		viewVisitButton.addActionListener(e -> edit());
 		
 		// Populate the patient table.
 		try 
@@ -175,18 +174,11 @@ public class ViewVisitsPanel extends JPanel
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 21;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		c.gridheight = 1;
 		c.ipady = 0;
 		add(viewVisitButton, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 21;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.ipady = 0;
-		add(editVisitButton, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
@@ -230,7 +222,7 @@ public class ViewVisitsPanel extends JPanel
 		}
 		
 		// Set the table correctly.
-		visitTable.setModel(new PatientTableModel(visitData));
+		visitTable.setModel(new VisitDataModel(visitData));
 		visitTable.setAutoCreateRowSorter(true);
 		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		visitTable.getColumnModel().getColumn(3).setPreferredWidth(30);
@@ -252,7 +244,7 @@ public class ViewVisitsPanel extends JPanel
 		String IDNumber = (String)visitTable.getValueAt(visitTable.getSelectedRow(), 0);
 		
 		// Delete the patient from the table.
-		PreparedStatement preparedStmt = conn.prepareStatement("DELETE FROM Visits WHERE ID ='" + IDNumber + "';");
+		PreparedStatement preparedStmt = conn.prepareStatement("DELETE FROM Visits WHERE VisitID ='" + IDNumber + "';");
 		preparedStmt.execute();
 		
 		// Pull the new patient information.
@@ -266,7 +258,7 @@ public class ViewVisitsPanel extends JPanel
 		}
 		
 		// Redo the table after deletion.
-		visitTable.setModel(new PatientTableModel(visitData));
+		visitTable.setModel(new VisitDataModel(visitData));
 		visitTable.setAutoCreateRowSorter(true);
 		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		visitTable.getColumnModel().getColumn(3).setPreferredWidth(30);
@@ -379,12 +371,11 @@ public class ViewVisitsPanel extends JPanel
 			// Name and default
 			default:
 				String[] name = searchBox.getText().split(" ");
-				rset = stmt.executeQuery("SELECT * FROM VISITS WHERE FirstName = '" + name[0] + "' AND LastName = '" + name[1] + "';");
+				rset = stmt.executeQuery("SELECT visits.* FROM visits,patients WHERE patients.FirstName = '" + name[0] + "' AND patients.LastName = '" + name[1] + "' AND patients.THCNumber = visits.THCNumber;");
 				break;
 			
 			case "Date":
-				//rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE City = '" + searchBox.getText() + "';");
-				// TODO ADD A DATE SEARCH
+				rset = stmt.executeQuery("SELECT * FROM VISITS WHERE DATE = '" + searchBox.getText() + "';");
 				break;
 		}
 		
