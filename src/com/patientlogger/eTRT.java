@@ -81,7 +81,7 @@ public class eTRT
 		mainFrame.add(mainPane);
 		
 		// Finish off the JFrame stuff.
-		mainFrame.setSize(new Dimension(600, 450));
+		mainFrame.setSize(new Dimension(650, 450));
 		mainFrame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		mainFrame.setLocation(d.width/2-mainFrame.getSize().width/2, d.height/2-mainFrame.getSize().height/2);
