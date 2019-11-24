@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -30,8 +31,9 @@ public class AddNewVisitPanel extends JPanel
 		   fuLabel, commentsLabel, nextVisitLabel;
 	
 	JTextField visitIDField, visitDateField, thcField, nameField, visitSequenceField,
-			   problemRankField, categoryField, protocolField, instrumentField,
-			   fuField, nextVisitField;
+			   nextVisitField;
+	
+	JComboBox<String> problemRankField, categoryField, protocolField, instrumentField, fuField;
 	
 	JCheckBox remField;
 	
@@ -40,6 +42,11 @@ public class AddNewVisitPanel extends JPanel
 	JButton thcLookupButton, addInterviewButton, addAudioButton, addPharmaButton,
 			diagnoseButton, addInstrumentButton, addREMDetailsButton, addCounselingButton,
 			recommendTreatmentButton, saveButton, cancelButton;
+	
+	final String[] problemRanks = {" ", "THL", "T", "HT"};
+	final String[] categories = {" ", "1", "2", "3", "4"};
+	final String[] instruments = {" ", "V", "GS", "GH", "HA"};
+	final String[] fu = {" ", "A", "C", "T", "E"};
 	
 	public AddNewVisitPanel(Connection c)
 	{
@@ -69,11 +76,11 @@ public class AddNewVisitPanel extends JPanel
 		nameField = new JTextField();
 		thcField = new JTextField();
 		visitSequenceField = new JTextField();
-		problemRankField = new JTextField();
-		categoryField = new JTextField();
-		protocolField = new JTextField();
-		fuField = new JTextField();
-		instrumentField = new JTextField();
+		problemRankField = new JComboBox<String>(problemRanks);
+		categoryField = new JComboBox<String>(categories);
+		protocolField = new JComboBox<String>(categories);
+		fuField = new JComboBox<String>(fu);
+		instrumentField = new JComboBox<String>(instruments);
 		nextVisitField = new JTextField();
 		
 		remField = new JCheckBox();

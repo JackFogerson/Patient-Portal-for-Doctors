@@ -118,14 +118,33 @@ public class Visit
 		myInstrument = i;
 	}
 	
-	public String getREM()
+	public boolean getREM()
 	{
-		return myREM;
+		boolean r = false;
+		
+		switch(myREM)
+		{
+			case "1":
+				r = true;
+				break;
+			case "0":
+				r = false;
+				break;
+		}
+		return r;
 	}
 	
 	public void setREM(String r)
 	{
 		myREM = r;
+	}
+	
+	public void setREM(boolean b)
+	{
+		if(b)
+			myREM = "1";
+		else
+			myREM = "0";
 	}
 	
 	public String getComments()

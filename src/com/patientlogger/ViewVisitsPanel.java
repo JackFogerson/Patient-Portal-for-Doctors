@@ -296,7 +296,6 @@ public class ViewVisitsPanel extends JPanel
 		frame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
