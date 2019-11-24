@@ -169,6 +169,7 @@ public class ViewVisitsPanel extends JPanel
 		c.gridwidth = 5;
 		c.gridheight = 20;
 		c.ipady = 250;
+		c.ipadx = 25;
 		add(visitsScrollPane, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -231,9 +232,14 @@ public class ViewVisitsPanel extends JPanel
 		// Set the table correctly.
 		visitTable.setModel(new PatientTableModel(visitData));
 		visitTable.setAutoCreateRowSorter(true);
-		//visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-		//visitTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-		//visitTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(3).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(4).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(5).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(6).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(7).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(8).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(9).setPreferredWidth(30);
 	}
 	
 	/**
@@ -262,9 +268,14 @@ public class ViewVisitsPanel extends JPanel
 		// Redo the table after deletion.
 		visitTable.setModel(new PatientTableModel(visitData));
 		visitTable.setAutoCreateRowSorter(true);
-		//visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-		//visitTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-		//visitTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(3).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(4).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(5).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(6).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(7).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(8).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(9).setPreferredWidth(30);
 	}
 	
 	/**
@@ -316,9 +327,14 @@ public class ViewVisitsPanel extends JPanel
 		// Build the table.
 		visitTable.setModel(new VisitDataModel(visitData));
 		visitTable.setAutoCreateRowSorter(true);
-		//visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-		//visitTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-		//visitTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(3).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(4).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(5).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(6).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(7).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(8).setPreferredWidth(30);
+		visitTable.getColumnModel().getColumn(9).setPreferredWidth(30);
 	}
 	
 	/**

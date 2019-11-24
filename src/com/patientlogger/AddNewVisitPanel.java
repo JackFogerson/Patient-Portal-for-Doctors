@@ -1,9 +1,18 @@
 package com.patientlogger;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -89,6 +98,33 @@ public class AddNewVisitPanel extends JPanel
 		cancelButton = new JButton("Cancel");
 		
 		GridBagConstraints c = new GridBagConstraints();
+		
+		visitIDField.setText(Integer.toString(getRowCount() + 1));
+		
+
+		// Find today's date.
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+		LocalDate localDate = LocalDate.now();
+		
+		visitIDField.setEditable(false);
+		visitIDField.setBackground(Color.GRAY);
+		
+		nameField.setEditable(false);
+		nameField.setBackground(Color.GRAY);
+		
+		// Make it so you can't change today's date either.
+		visitDateField.setEditable(false);
+		visitDateField.setText(dtf.format(localDate));
+		visitDateField.setBackground(Color.GRAY);
+		
+		thcField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	nameField.setText(getName());
+            	visitSequenceField.setText(Integer.toString(getVisitSequence()));
+        }});
+		
+		
+		
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
@@ -341,5 +377,79 @@ public class AddNewVisitPanel extends JPanel
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		add(cancelButton, c);
+	}
+	
+	public String getName()
+	{
+		String name = null;
+		
+		try 
+		{
+			Statement stmt = conn.createStatement();
+			ResultSet rset = stmt.executeQuery("SELECT FirstName, LastName FROM Patients WHERE THCNumber = '" + thcField.getText() + "';");
+			
+			while(rset.next())
+			{
+				name = rset.getString(1) + " " + rset.getString(2);
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return name;
+	}
+	
+	/**
+	 * @title	getRowCount Method
+	 * @return	The highest thc number in the table.
+	 */
+	private int getRowCount()
+	{
+		// Start out at 0.
+		int rowCount = 0;
+		
+		try 
+		{
+			// Ask the database for the highest THC number.
+			Statement stmt = conn.createStatement();
+			ResultSet rset = stmt.executeQuery ("SELECT MAX(VisitID) FROM Visits;");
+			rset.next();
+			rowCount = rset.getInt(1);
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println("Couldn't get row count.");
+			e.printStackTrace();
+		}
+		
+		// Return the highest THC number added to the table.
+		return rowCount;
+	}
+	
+	private int getVisitSequence()
+	{
+		int visitSequence = 0;
+		try 
+		{
+			Statement stmt = conn.createStatement();
+			ResultSet rset = stmt.executeQuery("SELECT MAX(VisitSequence) FROM Visits WHERE THCNumber = '" + thcField.getText() + "';");
+		
+			while(rset.next())
+			{
+				visitSequence = Integer.parseInt(rset.getString(1)) + 1;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		catch(NumberFormatException e)
+		{
+			// DO nothing because this means there are no visits for this THC number.
+		}
+		
+		return visitSequence;
 	}
 }

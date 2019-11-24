@@ -151,8 +151,8 @@ public class Visit
 	public String[] getVisitInfo()
 	{
 		String[] visitInfo = {myVisitID, myDate, myTHCNumber, myVisitSequence,
-							  myProblemRank, myFU, myCategory, myProtocol, myInstrument,
-							  myREM, myNextVisit};
+							  myProblemRank, myCategory, myProtocol, myInstrument,
+							  myREM, myFU, myComments};
 		return visitInfo;
 	}
 }
