@@ -36,17 +36,8 @@ public class LookupPatientPanel extends JPanel
 	//Field to choose how to lookup patients
 	String[] searchOptions = {"Choose One", "Name", "THC Number", "SSN"};
 	
-	//field for dob month
-	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
-								"July", "August", "September", "October", "November", "December"};
-	
-	//field for dob day
-	final String[] dayList = {"Select One", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-	
 	//Drop Down menu for search
-	JComboBox<String> searchCriteria, monthField,dayField;
+	JComboBox<String> searchCriteria;
 	
 	//Field to insert search terms
 	JTextField searchBox;
@@ -59,9 +50,10 @@ public class LookupPatientPanel extends JPanel
 	
 	//text fields with patient data	
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField,
-			   yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
+			   yearField, emailField, addressField, zipField, insuranceField,
 	   		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
-	   		   hEtioField, genderField, cityField, stateField, countryField;
+	   		   hEtioField, genderField, cityField, stateField, countryField, monthField,dayField,
+	   		   areaCodeField, phone1Field, phone2Field, ssn1Field, ssn2Field, ssn3Field;
 
 	//Patient's comment field	
 	JTextArea commentField;
@@ -70,11 +62,11 @@ public class LookupPatientPanel extends JPanel
 	JLabel photoField;
 
 	//Used for fields with multiple entry boxes
-	JPanel dobField, patientPanel;
+	JPanel dobField, patientPanel, phoneField, ssnField;
 
 	//labels to be used in lookup of patient data
 	JLabel THCNumberLabel, currentDateLabel, firstNameLabel, middleNameLabel, lastNameLabel, dobLabel,
-		   genderLabel, phoneLabel, emailLabel, streetLabel, cityLabel, stateLabel, zipLabel, countryLabel,
+		   genderLabel, phoneLabel, emailLabel, addressLabel, cityLabel, stateLabel, zipLabel, countryLabel,
 		   photoLabel, ssnLabel, insuranceLabel, blankSpace1, blankSpace2, demographicsLabel, occupationLabel,
 		   workStatusLabel, educationLabel, tOnsetLabel, tEtioLabel, hOnsetLabel, hEtioLabel, commentLabel;
 	
@@ -257,21 +249,33 @@ public class LookupPatientPanel extends JPanel
 	{	
 		// Initialize all variables
 		dobField = new JPanel(new GridLayout(1, 3));
-		monthField = new JTextField();
-		dayField = new JTextField();
+		monthField = new JTextField("MM");
+		dayField = new JTextField("DD");
 		yearField = new JTextField("YYYY");
 		dobField.add(monthField);
 		dobField.add(dayField);
 		dobField.add(yearField);
 		genderField = new JTextField();
-		phoneField = new JTextField();
+		phoneField = new JPanel(new GridLayout(1, 3));
+		areaCodeField = new JTextField("(XXX)");
+		phone1Field = new JTextField("XXX");
+		phone2Field = new JTextField("XXXX");
+		phoneField.add(areaCodeField);
+		phoneField.add(phone1Field);
+		phoneField.add(phone2Field);
 		emailField = new JTextField();
-		streetField = new JTextField();
+		addressField = new JTextField("House Number and Street");
 		cityField = new JTextField();
 		stateField = new JTextField();
 		zipField = new JTextField();
 		countryField = new JTextField();
-		ssnField = new JTextField();
+		ssnField = new JPanel(new GridLayout(1, 3));
+		ssn1Field = new JTextField("XXX");
+		ssn2Field = new JTextField("XX");
+		ssn3Field = new JTextField("XXXX");
+		ssnField.add(ssn1Field);
+		ssnField.add(ssn2Field);
+		ssnField.add(ssn3Field);
 		insuranceField = new JTextField();	
 		occupationField = new JTextField();
 		workStatusField = new JTextField();
@@ -285,7 +289,7 @@ public class LookupPatientPanel extends JPanel
 		genderLabel = new JLabel("Gender");
 		phoneLabel = new JLabel("Phone");
 		emailLabel = new JLabel("Email");
-		streetLabel = new JLabel("Street");
+		addressLabel = new JLabel("Street Address");
 		cityLabel = new JLabel("City");
 		stateLabel = new JLabel("State");
 		zipLabel = new JLabel("Zipcode");
@@ -305,14 +309,18 @@ public class LookupPatientPanel extends JPanel
 		dayField.setEditable(false);
 		yearField.setEditable(false);
 		genderField.setEditable(false);
-		phoneField.setEditable(false);
+		areaCodeField.setEditable(false);
+		phone1Field.setEditable(false);
+		phone2Field.setEditable(false);
 		emailField.setEditable(false);
-		streetField.setEditable(false);
+		addressField.setEditable(false);
 		cityField.setEditable(false);
 		stateField.setEditable(false);
 		zipField.setEditable(false);
 		countryField.setEditable(false);
-		ssnField.setEditable(false);
+		ssn1Field.setEditable(false);
+		ssn2Field.setEditable(false);
+		ssn3Field.setEditable(false);
 		insuranceField.setEditable(false);	
 		occupationField.setEditable(false);
 		workStatusField.setEditable(false);
