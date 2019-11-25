@@ -55,9 +55,9 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		dayField.setSelectedItem(myPatient.getDOBDay());
 		yearField.setText(myPatient.getDOBYear());
 		genderField.setSelectedItem(myPatient.getGender());	
-		areaCodeField.setText(myPatient.getareaCode());
-		phone1Field.setText(myPatient.getphone1());
-		phone2Field.setText(myPatient.getphone2());		
+		areaCodeField.setText(myPatient.getAreaCode());
+		phone1Field.setText(myPatient.getPhone1());
+		phone2Field.setText(myPatient.getPhone2());		
 		emailField.setText(myPatient.getEmail());
 		addressField.setText(myPatient.getStreetAddress());
 		cityField.setSelectedItem(myPatient.getCity());
@@ -65,9 +65,9 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		zipField.setText(myPatient.getZip());
 		countryField.setSelectedItem(myPatient.getCountry());
 		photoField.setIcon(unknownPicture);
-		ssn1Field.setText(myPatient.getssn1());
-		ssn2Field.setText(myPatient.getssn2());
-		ssn3Field.setText(myPatient.getssn3());	
+		ssn1Field.setText(myPatient.getSSN1());
+		ssn2Field.setText(myPatient.getSSN2());
+		ssn3Field.setText(myPatient.getSSN3());	
 		insuranceField.setText(myPatient.getInsurance());
 		occupationField.setText(myPatient.getOccupation());	
 		workStatusField.setSelectedItem(myPatient.getWorkStatus());
