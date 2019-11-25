@@ -12,9 +12,9 @@ import javax.swing.SwingUtilities;
 
 /**
  * @title	EditPatientScreen
- * @author 	Nick Fulton
- * @desc	This JPanel is an extension of the AddNewPatients Panel, it will use a lot of the information,
- * 			it just needs to be modified to allow for patient editing and not creation.
+ * @author	Nick Fulton, Jack Fogerson
+ * @desc	This JPanel is an extension of the AddNewPatients Panel, similar except
+ * 			it allows for patient editing instead of creation.
  */
 public class EditPatientScreen extends AddNewPatientsPanel
 {
@@ -35,10 +35,9 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		fillInfo();
 	}
 	
-	
 	/**
-	 * @title	fillInfo Method
-	 * @desc	Fills all of the Patient's info into the local form.
+	 * @title	fillInfo
+	 * @desc	Imports all of the Patient's info into the form.
 	 */
 	private void fillInfo()
 	{
@@ -46,24 +45,27 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		ImageIcon ogUnknownPicture = new ImageIcon(myPatient.getPhoto());
 		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 		
-		// Set the data to all of the text fields.
+		//Import the data to all of the text fields.
 		THCNumberField.setText(myPatient.getTHCNumber());
 		currentDateField.setText(myPatient.getDate());
 		firstNameField.setText(myPatient.getFirstName());
 		middleNameField.setText(myPatient.getMiddleName());
 		lastNameField.setText(myPatient.getLastName());
-		monthField.setText(myPatient.getDob().substring(5,7));
-		dayField.setText(myPatient.getDob().substring(8,10));
-		yearField.setText(myPatient.getDob().substring(0,4));
-		genderField.setSelectedItem(myPatient.getGender());
-		phoneField.setText(myPatient.getPhone());
+		monthField.setSelectedItem(myPatient.getDOBMonth());
+		dayField.setSelectedItem(myPatient.getDOBDay());
+		yearField.setText(myPatient.getDOBYear());
+		genderField.setSelectedItem(myPatient.getGender());	
+		areaCodeField.setText(myPatient.getareaCode());
+		phone1Field.setText(myPatient.getphone1());
+		phone2Field.setText(myPatient.getphone2());		
 		emailField.setText(myPatient.getEmail());
-		streetField.setText(myPatient.getStreetAddress());
+		addressField.setText(myPatient.getStreetAddress());
 		cityField.setSelectedItem(myPatient.getCity());
 		stateField.setSelectedItem(myPatient.getState());
 		zipField.setText(myPatient.getZip());
 		countryField.setSelectedItem(myPatient.getCountry());
 		photoField.setIcon(unknownPicture);
+		
 		ssnField.setText(myPatient.getSsid());
 		insuranceField.setText(myPatient.getInsurance());
 		occupationField.setText(myPatient.getOccupation());
