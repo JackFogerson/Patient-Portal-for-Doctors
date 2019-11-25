@@ -71,11 +71,13 @@ public class eTRT
 		HomePanel homePanel = new HomePanel();
 		PatientsPanel patientsPanel = new PatientsPanel(conn);
 		VisitsPanel visitsPanel = new VisitsPanel(conn);
+		OtherPanel otherPanel = new OtherPanel(conn);
 		
 		// Add the tabs to the tabbed pane.
 		mainPane.addTab("Home", null, homePanel, "Spash Screen");
 		mainPane.addTab("Patients", null, patientsPanel, "Information for Patients");
 		mainPane.addTab("Visits", null, visitsPanel, "Information for Visits");
+		mainPane.addTab("Other", null, otherPanel, "Other Information");
 		
 		// Add the tabbed pane to the main frame.
 		mainFrame.add(mainPane);
