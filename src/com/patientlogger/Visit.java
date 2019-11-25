@@ -9,8 +9,7 @@ public class Visit
 {
 	// All of the variables needed for visit.
 	String myVisitID, myDate, myTHCNumber, myVisitSequence, myProblemRank, myCategory,
-		   myProtocol, myFU, myInstrument, myREM, myComments, myNextVisit, myNextVisitMonth,
-		   myNextVisitDay, myNextVisitYear;
+		   myProtocol, myFU, myInstrument, myREM, myComments, myNextVisit;
 	
 	/**
 	 * @title	Visit Constructor
@@ -30,10 +29,7 @@ public class Visit
 		this.myInstrument = null;
 		this.myREM = null;
 		this.myComments = null;
-		this.myNextVisit = null;
-		this.myNextVisitMonth = null;
-		this.myNextVisitDay = null;
-		this.myNextVisitYear = null;	
+		this.myNextVisit = null;	
 	}
 
 	/**
@@ -42,8 +38,7 @@ public class Visit
 	 */
 	public Visit(String visitID, String date, String THCNumber, String visitSequence,
 				 String problemRank, String category, String FU, String protocol, String instrument,
-				 String REM, String comments, String nextVisit, String nextVisitMonth, String nextVisitDay,
-				 String nextVisitYear)
+				 String REM, String comments, String nextVisit)
 	{
 		this.myVisitID = visitID;
 		this.myDate = date;
@@ -57,9 +52,6 @@ public class Visit
 		this.myREM = REM;
 		this.myComments = comments;
 		this.myNextVisit = nextVisit;
-		this.myNextVisitMonth = nextVisitMonth;
-		this.myNextVisitDay = nextVisitDay;
-		this.myNextVisitYear = nextVisitYear;
 	}
 	
 	/**
@@ -301,58 +293,19 @@ public class Visit
 		myNextVisit = n;
 	}
 	
-	/**
-	 * @title	getNextVisitMonth
-	 * @return	myNextVisitMonth
-	 */
 	public String getNextVisitMonth()
 	{
-		return myNextVisitMonth;
+		return myNextVisit.substring(5,7);
 	}
 	
-	/**
-	 * @title setNextVisitMonth
-	 * @param n - myNextVisitMonth
-	 */
-	public void setNextVisitMonth(String n)
-	{
-		myNextVisitMonth = n;
-	}
-	
-	/**
-	 * @title	getNextVisitDay
-	 * @return	myNextVisitDay
-	 */
 	public String getNextVisitDay()
 	{
-		return myNextVisitDay;
+		return myNextVisit.substring(8,10);
 	}
 	
-	/**
-	 * @title setNextVisitDay
-	 * @param n - myNextVisitDay
-	 */
-	public void setNextVisitDay(String n)
-	{
-		myNextVisitDay = n;
-	}
-	
-	/**
-	 * @title	getNextVisitYear
-	 * @return	myNextVisitYear
-	 */
 	public String getNextVisitYear()
 	{
-		return myNextVisitYear;
-	}
-	
-	/**
-	 * @title setNextVisitYear
-	 * @param n - myNextVisitYear
-	 */
-	public void setNextVisitYear(String n)
-	{
-		myNextVisitYear = n;
+		return myNextVisit.substring(0,4);
 	}
 	
 	/**

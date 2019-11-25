@@ -358,8 +358,7 @@ public class ViewVisitsPanel extends JPanel
 	    {
 	    	visits.add(new Visit(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
 	    						 rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
-	    						 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12),
-	    						 rset.getString(13), rset.getString(14), rset.getString(15)));
+	    						 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12)));
 	    }
 		return visits;
 	}
@@ -398,8 +397,7 @@ public class ViewVisitsPanel extends JPanel
 		{
 	    	visits.add(new Visit(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
 					 rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
-					 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12),
-					 rset.getString(13), rset.getString(14), rset.getString(15)));
+					 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12)));
 	    }
 		
 		// Return the visits.

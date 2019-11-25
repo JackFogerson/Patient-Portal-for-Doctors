@@ -567,7 +567,7 @@ public class AddNewVisitPanel extends JPanel
 								   		  + "'" + instrumentField.getSelectedItem() + "', "
 								   		  + "'" + rem + "', "
 								   		  + "'" + commentField.getText() + "', "
-										  + "'" + dayField.getSelectedItem() + "/" + monthField.getSelectedItem() + "/" + yearField.getText() + "')";
+										  + "'" + yearField.getText() + "/" + monthField.getSelectedItem() + "/" + dayField.getSelectedItem() + "')";
 
 		// Perform query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);

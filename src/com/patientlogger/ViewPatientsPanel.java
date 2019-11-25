@@ -364,9 +364,7 @@ public class ViewPatientsPanel extends JPanel
 				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
 				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
 				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
-				 	rset.getString(25), rset.getString(26), rset.getString(27), rset.getString(28),
-				 	rset.getString(29), rset.getString(30), rset.getString(31), rset.getString(32),
-				 	rset.getString(33), rset.getString(34)));
+				 	rset.getString(25)));
 	    }
 		return patients;
 	}
@@ -414,9 +412,7 @@ public class ViewPatientsPanel extends JPanel
 				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
 				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
 				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
-				 	rset.getString(25), rset.getString(26), rset.getString(27), rset.getString(28),
-				 	rset.getString(29), rset.getString(30), rset.getString(31), rset.getString(32),
-				 	rset.getString(33), rset.getString(34)));
+				 	rset.getString(25)));
 	    }
 		
 		// Return the patients.
