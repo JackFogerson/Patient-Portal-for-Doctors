@@ -307,28 +307,28 @@ public class AddNewPatientsPanel extends JPanel
 			}
 		});
 		
-		// Make the photo button look more like a picture, and not like a button.
+		// Make photo button look more like a picture, not like a button.
 		photoField.setBorderPainted(false);
-		// Add the option of changing the picture once it is cicked.
+		// Changes the picture on click
 		photoField.addActionListener(event -> changePicture(photoField));
 		
 		// Figure out what the next THC number is and then fill the THC field with it.
-		// This field will be gray to stand for it not being editable.
+		// This field will be grayed out since it is not editable.
 		int currentTHC = getRowCount();
 		THCNumberField.setText(Integer.toString(currentTHC + 1));
 		THCNumberField.setEditable(false);
 		THCNumberField.setBackground(Color.GRAY);
 		
-		// Find today's date.
+		// Gets today's date.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 		LocalDate localDate = LocalDate.now();
 		
-		// Make it so you can't change today's date either.
+		// Makes current date non-editable
 		currentDateField.setEditable(false);
 		currentDateField.setText(dtf.format(localDate));
 		currentDateField.setBackground(Color.GRAY);
 		
-		// Add a listener for if the save button is clicked. Once clicked, submit the information provided.
+		// Listener for save button if clicked. Once clicked, submit the information provided.
 		saveButton.addActionListener(e -> {
 			try 
 			{
@@ -340,12 +340,12 @@ public class AddNewPatientsPanel extends JPanel
 			}
 		});
 		
-		// Add action listeners for the cancel button and the demographics button as well.
+		// Listeners for the cancel button and the demographics button
 		cancelButton.addActionListener(e -> rebuildPanel());
 		// The demographics pane is already open, it just needs to be made visible.
 		addDemoButton.addActionListener(e -> demographicsFrame.setVisible(true));
 		
-		// Save the picture locally, and set it to the thcnumber.png
+		// Saves the given picture locally, and set it to the thcnumber.png
 		try 
 		{
 			Files.copy(new File("src/images/unknownPicture.png").toPath(), new File("src/images/" + THCNumberField.getText() + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -620,7 +620,8 @@ public class AddNewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	changePicture method
+	 * @title	changePicture
+	 * @desc	changes picture button to given image
 	 * @param	photoField - The button that houses the picture.
 	 */
 	private void changePicture(JButton photoField)
@@ -663,10 +664,10 @@ public class AddNewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	errorCheck method
+	 * @title	errorCheck
 	 * @return	Boolean on whether or not there is an error.
-	 * @desc	This method is called to check to see if all the needed fields are filled out in the form before firing
-	 * 			to the database.
+	 * @desc	Method is called to check if all necessary fields are
+	 * 			completed before submission to database.
 	 */
 	private boolean errorCheck()
 	{
@@ -706,19 +707,34 @@ public class AddNewPatientsPanel extends JPanel
 			errorLog += "Gender, ";
 			isError = true;
 		}
-		if(phoneField.getText().equals(""))
+		if(areaCodeField.getText().equals("(XXX)"))
+		{
+			errorLog += "Area Code, ";
+			isError = true;
+		}
+		if(phone1Field.getText().equals("XXX"))
 		{
 			errorLog += "Phone, ";
 			isError = true;
 		}
+		if(phone2Field.getText().equals("XXXX"))
+		{
+			errorLog += "Phone, ";
+			isError = true;
+		}		
 		if(addressField.getText().equals(""))
 		{
-			errorLog += "Street, ";
+			errorLog += "Street Address, ";
 			isError = true;
 		}
 		if(cityField.getSelectedItem().equals("Select One"))
 		{
 			errorLog += "City, ";
+			isError = true;
+		}
+		if(stateField.getSelectedItem().equals("Select One"))
+		{
+			errorLog += "State, ";
 			isError = true;
 		}
 		if(zipField.getText().equals(""))
@@ -729,6 +745,26 @@ public class AddNewPatientsPanel extends JPanel
 		if(countryField.getSelectedItem().equals("Select One"))
 		{
 			errorLog += "Country, ";
+			isError = true;
+		}
+		if(ssn1Field.getText().equals("XXX"))
+		{
+			errorLog += "SSN, ";
+			isError = true;
+		}
+		if(ssn2Field.getText().equals("XX"))
+		{
+			errorLog += "SSN, ";
+			isError = true;
+		}
+		if(ssn3Field.getText().equals("XXXX"))
+		{
+			errorLog += "SSN, ";
+			isError = true;
+		}
+		if(insuranceField.getText().equals(""))
+		{
+			errorLog += "Insurance, ";
 			isError = true;
 		}
 		
