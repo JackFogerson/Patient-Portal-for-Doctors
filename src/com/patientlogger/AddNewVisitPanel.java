@@ -1,7 +1,6 @@
 package com.patientlogger;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -17,6 +16,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,6 +37,7 @@ public class AddNewVisitPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	Connection conn;
+	GroupLayout layout;
 	
 	//field for next visit month
 	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
@@ -47,41 +48,62 @@ public class AddNewVisitPanel extends JPanel
 							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
 							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 	
-	
-	JLabel visitIDLabel, visitDateLabel, thcLabel, nameLabel, visitSequenceLabel,
-		   problemRankLabel, categoryLabel, protocolLabel, instrumentLabel, remLabel,
-		   fuLabel, commentsLabel, nextVisitLabel;
-	
-	JTextField visitIDField, visitDateField, thcField, nameField, visitSequenceField,
-			   yearField;
-	
-	JComboBox<String> problemRankField, categoryField, protocolField, instrumentField,
-					  fuField, monthField, dayField;
-	
-	JCheckBox remField;
-	
-	JPanel nextVisitField;
-	
-	JTextArea commentField;
-	
-	JButton thcLookupButton, addInterviewButton, addAudioButton, addPharmaButton,
-			diagnoseButton, addInstrumentButton, addREMDetailsButton, addCounselingButton,
-			recommendTreatmentButton, saveButton, cancelButton;
-	
+	//Fields to be used for drop-down entry menus
 	final String[] problemRanks = {" ", "THL", "T", "HT"};
 	final String[] categories = {" ", "1", "2", "3", "4"};
 	final String[] instruments = {" ", "V", "GS", "GH", "HA"};
 	final String[] fu = {" ", "A", "C", "T", "E"};
 	
+	//labels to be used in gathering of visit data
+	JLabel visitIDLabel, visitDateLabel, thcLabel, nameLabel, visitSequenceLabel,
+		   problemRankLabel, categoryLabel, protocolLabel, instrumentLabel, remLabel,
+		   fuLabel, commentsLabel, nextVisitLabel;
+	
+	//text fields to get raw input from entry	
+	JTextField visitIDField, visitDateField, thcField, nameField, visitSequenceField,
+			   yearField;
+	
+	//Used for drop down menus
+	JComboBox<String> problemRankField, categoryField, protocolField, instrumentField,
+					  fuField, monthField, dayField;
+	
+	//For use for rem checkbox
+	JCheckBox remField;
+	
+	//Used for fields with multiple entry boxes
+	JPanel nextVisitField;
+	
+	//text area to get additional comments on visit
+	JTextArea commentField;
+	
+	//Sets all buttons for use on page
+	JButton thcLookupButton, addInterviewButton, addAudioButton, addPharmaButton,
+			diagnoseButton, addInstrumentButton, addREMDetailsButton, addCounselingButton,
+			recommendTreatmentButton, saveButton, cancelButton;
+	
+	/**
+	 *	@title	AddNewVisitPanel
+	 *  @desc	constructor, builds panel
+	 *  @param 	c - Is the connection to the database.
+	 */
 	public AddNewVisitPanel(Connection c)
 	{
 		conn = c;
-		setLayout(new GridBagLayout());
 		buildPanel();
 	}
 	
+	/**
+	 *	@title	buildPanel
+	 *	@desc	Local method used to build this panel, everything from assigning listeners to putting the
+	 *			components in the correct place.
+	 */
 	private void buildPanel()
 	{
+		// Handle the layout of the panel.
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+
+		//Initialize all labels used in panel
 		visitIDLabel = new JLabel("Visit ID");
 		visitDateLabel = new JLabel("Date");
 		thcLabel = new JLabel("THC#");
@@ -96,6 +118,7 @@ public class AddNewVisitPanel extends JPanel
 		commentsLabel = new JLabel("Comments");
 		nextVisitLabel = new JLabel("Next Visit");
 		
+		//Initialize all textFields and Drop-Down Menus used in panel
 		visitIDField = new JTextField();
 		visitDateField = new JTextField();
 		nameField = new JTextField();
@@ -114,7 +137,7 @@ public class AddNewVisitPanel extends JPanel
 		nextVisitField.add(dayField);
 		nextVisitField.add(yearField);
 		
-		// Listeners to revert the box to empty once clicked.
+		// Listeners to revert the year box to empty once clicked.
 		yearField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -125,43 +148,40 @@ public class AddNewVisitPanel extends JPanel
 				// Do Nothing	
 			}
 		});
-				
+		
+		//Initialize CheckBox and TextArea
 		remField = new JCheckBox();
 		commentField = new JTextArea(4, 30);
 		
+		//Initialize JButtons
 		addInterviewButton = new JButton("Interview");
 		addAudioButton = new JButton("Audiology");
 		addPharmaButton = new JButton("Medical Other");
 		diagnoseButton = new JButton("Diagnose");
 		
 		addInstrumentButton = new JButton("<html><p align =\"center\">Instrument<br>Details</p></html>");
-		addInstrumentButton.setPreferredSize(new Dimension(50, 60));
 		addREMDetailsButton = new JButton("<html><p align =\\\"center\\\">REM<br>Details</p><</html>");
-		addREMDetailsButton.setPreferredSize(new Dimension(50, 60));
 		addCounselingButton = new JButton("<html><p align =\\\"center\\\">Counseling<br>Details</p><</html>");
-		addCounselingButton.setPreferredSize(new Dimension(50, 60));
 		recommendTreatmentButton = new JButton("<html><p align =\\\"center\\\">Recommend<br>Treatment</p><</html>");
-		recommendTreatmentButton.setPreferredSize(new Dimension(50, 60));
 		
-		saveButton = new JButton("Save");
+		saveButton = new JButton("Save Visit");
 		cancelButton = new JButton("Cancel");
-		
-		GridBagConstraints c = new GridBagConstraints();
-		
+				
 		visitIDField.setText(Integer.toString(getRowCount() + 1));
 		
-
-		// Find today's date.
+		// Get today's date.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 		LocalDate localDate = LocalDate.now();
 		
+		//Make visitIDField non editable
 		visitIDField.setEditable(false);
 		visitIDField.setBackground(Color.GRAY);
 		
+		//Make nameField non editable
 		nameField.setEditable(false);
 		nameField.setBackground(Color.GRAY);
 		
-		// Make it so you can't change today's date either.
+		//Make visitDateField non editable
 		visitDateField.setEditable(false);
 		visitDateField.setText(dtf.format(localDate));
 		visitDateField.setBackground(Color.GRAY);
