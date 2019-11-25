@@ -130,32 +130,44 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		deleteStmt.execute();
 
 		// Re-input the user.
-		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, City, State, Zip, Country, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
-								   + "VALUES(" + THCNumberField.getText() + ", "
-								   	  + "'" + dtf.format(localDate) + "', "
-							   		  + "'" + firstNameField.getText() + "', "
-							   		  + "'" + middleNameField.getText() + "', "
-							   		  + "'" + lastNameField.getText() + "', "
-									  + "'" + dayField.getSelectedItem() + "/" + monthField.getSelectedItem() + "/" + yearField.getText() + "', "
-							   		  + "'" + genderField.getSelectedItem() + "', "
-							   		  + "'(" + areaCodeField.getText() + ")" + phone1Field.getText() + "-" + phone2Field.getText() + "', "
-							   		  + "'" + emailField.getText() + "', "
-							   		  + "'" + addressField.getText() + "', "
-							   		  + "'" + cityField.getSelectedItem() + "', "
-							   		  + "'" + stateField.getSelectedItem() + "', "
-							   		  + "'" + zipField.getText() + "', "
-							   		  + "'" + countryField.getSelectedItem() + "', "
-							   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
-							   		  + "'" + ssn1Field.getText() + "-" + ssn2Field.getText() + "-" + ssn3Field.getText() + "', "
-							   		  + "'" + insuranceField.getText() + "', "
-							   		  + "'" + occupationField.getText() + "', "
-							   		  + "'" + workStatusField.getSelectedItem() + "', "
-							   		  + "'" + educationField.getSelectedItem() + "', "
-							   		  + "'" + tOnsetField.getText() + "', "
-							   		  + "'" + tEtioField.getText() + "', "
-							   		  + "'" + hOnsetField.getText() + "', "
-							   		  + "'" + hEtioField.getText() + "', "
-							   		  + "'" + commentField.getText() + "')";
+		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, City, State, Zip, Country, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments, DOBMonth, DOBDay, DOBYear, areaCode, phone1, phone2, phone3, ssn1, ssn2, ssn3) "
+				   + "VALUES(" + THCNumberField.getText() + ", "
+				   		  + "'" + dtf.format(localDate) + "', "
+				   		  + "'" + firstNameField.getText() + "', "
+				   		  + "'" + middleNameField.getText() + "', "
+				   		  + "'" + lastNameField.getText() + "', "
+						  + "'" + dayField.getSelectedItem() + "/" + monthField.getSelectedItem() + "/" + yearField.getText() + "', "
+				   		  + "'" + genderField.getSelectedItem() + "', "
+				   		  + "'(" + areaCodeField.getText() + ")" + phone1Field.getText() + "-" + phone2Field.getText() + "', "
+				   		  + "'" + emailField.getText() + "', "
+				   		  + "'" + addressField.getText() + "', "
+				   		  + "'" + cityField.getSelectedItem() + "', "
+				   		  + "'" + stateField.getSelectedItem() + "', "
+				   		  + "'" + zipField.getText() + "', "
+				   		  + "'" + countryField.getSelectedItem() + "', "
+				   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
+				   		  + "'" + ssn1Field.getText() + "-" + ssn2Field.getText() + "-" + ssn3Field.getText() + "', "
+				   		  + "'" + insuranceField.getText() + "', "
+				   		  + "'" + occupationField.getText() + "', "
+				   		  + "'" + workStatusField.getSelectedItem() + "', "
+				   		  + "'" + educationField.getSelectedItem() + "', "
+				   		  + "'" + tOnsetField.getText() + "', "
+				   		  + "'" + tEtioField.getText() + "', "
+				   		  + "'" + hOnsetField.getText() + "', "
+				   		  + "'" + hEtioField.getText() + "', "
+				   		  + "'" + commentField.getText() + "', "
+				   		  
+				   		  + "'" + monthField.getSelectedItem() + "', "
+				   		  + "'" + dayField.getSelectedItem() + "', "
+				   		  + "'" + yearField.getText() + "', "
+				   		  
+				   		  + "'" + areaCodeField.getText() + "', "
+				   		  + "'" + phone1Field.getText() + "', "
+				   		  + "'" + phone2Field.getText() + "', "
+				   		  
+				   		  + "'" + ssn1Field.getText() + "', "
+				   		  + "'" + ssn2Field.getText() + "', "
+				   		  + "'" + ssn3Field.getText() + "')";
 		
 		// Perform query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -166,5 +178,4 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		
 		return;
 	}
-	
 }
