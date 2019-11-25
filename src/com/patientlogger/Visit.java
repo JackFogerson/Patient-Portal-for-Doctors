@@ -1,18 +1,49 @@
 package com.patientlogger;
 
+/**
+ * @title	Visit Class
+ * @author	Nick Fulton, Jack Fogerson
+ * @desc	This is the class for visits
+ */
 public class Visit 
 {
+	// All of the variables needed for visit.
 	String myVisitID, myDate, myTHCNumber, myVisitSequence, myProblemRank, myCategory,
-		   myProtocol, myFU, myInstrument, myREM, myComments, myNextVisit;
+		   myProtocol, myFU, myInstrument, myREM, myComments, myNextVisit, myNextVisitMonth,
+		   myNextVisitDay, myNextVisitYear;
 	
+	/**
+	 * @title	Visit Constructor
+	 * @desc	Data starts null. This is a blank constructor 
+	 * 			to build an empty visit to start off with.
+	 */
 	public Visit()
 	{
-		
+		this.myVisitID = null;
+		this.myDate = null;
+		this.myTHCNumber = null;
+		this.myVisitSequence = null;
+		this.myProblemRank = null;
+		this.myCategory = null;
+		this.myFU = null;
+		this.myProtocol = null;
+		this.myInstrument = null;
+		this.myREM = null;
+		this.myComments = null;
+		this.myNextVisit = null;
+		this.myNextVisitMonth = null;
+		this.myNextVisitDay = null;
+		this.myNextVisitYear = null;	
 	}
-	
+
+	/**
+	 * @title	Patient Constructor
+	 * @desc	Sets all of the data to what is provided.
+	 */
 	public Visit(String visitID, String date, String THCNumber, String visitSequence,
 				 String problemRank, String category, String FU, String protocol, String instrument,
-				 String REM, String comments, String nextVisit)
+				 String REM, String comments, String nextVisit, String nextVisitMonth, String nextVisitDay,
+				 String nextVisitYear)
 	{
 		this.myVisitID = visitID;
 		this.myDate = date;
@@ -26,8 +57,15 @@ public class Visit
 		this.myREM = REM;
 		this.myComments = comments;
 		this.myNextVisit = nextVisit;
+		this.myNextVisitMonth = nextVisitMonth;
+		this.myNextVisitDay = nextVisitDay;
+		this.myNextVisitYear = nextVisitYear;
 	}
 	
+	/**
+	 * @title	getVisitID
+	 * @return	myVisitID
+	 */
 	public String getVisitID()
 	{
 		return myVisitID;
@@ -82,6 +120,25 @@ public class Visit
 	{
 		return myCategory;
 	}
+	
+	public void getNextVisitMonth()
+	{
+		//TODO
+		return;
+	}
+	public void getNextVisitDay()
+	{
+		//TODO
+		return;
+	}
+	public void getNextVisitYear()
+	{
+		//TODO
+		return;
+	}
+	
+	
+	
 	
 	public void setCategory(String c)
 	{
@@ -175,32 +232,3 @@ public class Visit
 		return visitInfo;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
