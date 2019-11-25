@@ -65,22 +65,22 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		zipField.setText(myPatient.getZip());
 		countryField.setSelectedItem(myPatient.getCountry());
 		photoField.setIcon(unknownPicture);
-		
-		ssnField.setText(myPatient.getSsid());
+		ssn1Field.setText(myPatient.getssn1());
+		ssn2Field.setText(myPatient.getssn2());
+		ssn3Field.setText(myPatient.getssn3());	
 		insuranceField.setText(myPatient.getInsurance());
-		occupationField.setText(myPatient.getOccupation());
-		workStatusField.setText(myPatient.getWorkStatus());
-		educationField.setText(myPatient.getEducationalDegree());
+		occupationField.setText(myPatient.getOccupation());	
+		workStatusField.setSelectedItem(myPatient.getWorkStatus());
+		educationField.setSelectedItem(myPatient.getEducationalDegree());
 		tOnsetField.setText(myPatient.getTOnset());
 		tEtioField.setText(myPatient.getTEtio());
 		hOnsetField.setText(myPatient.getHOnset());
 		hEtioField.setText(myPatient.getHEtio());
 		commentField.setText(myPatient.getComments());
 		
-		// Remove the current action listeners of the save and cancel buttons. This is needed
-		// because they are still linked with the super's action listeners, which mess up the
-		// editing process. We need to change the action listeners to the edit version of the
-		// save and cancel button.
+		// Removes action listeners of the save and cancel buttons. This is needed
+		// because they are linked with the super's action listeners, which mess up the
+		// editing process
 		for(ActionListener al : super.getSaveButton().getActionListeners())
 		{
 			super.getSaveButton().removeActionListener(al);
@@ -106,7 +106,7 @@ public class EditPatientScreen extends AddNewPatientsPanel
 	}
 	
 	/**
-	 * @title	newCancel Method
+	 * @title	newCancel
 	 * @desc	Closes the edit form for the patient.
 	 */
 	private void newCancel()
