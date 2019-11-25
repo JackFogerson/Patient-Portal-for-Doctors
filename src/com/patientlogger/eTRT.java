@@ -11,12 +11,12 @@ import javax.swing.JTabbedPane;
 
 /**
  * @title	eTRT Class
- * @author	Nick Fulton
- * @desc	This is the main application. It is responsible for holding all tabbed panes.
+ * @author	Nick Fulton, Jack Fogerson
+ * @desc	The main application. Holds all tabbed panes.
  */
 public class eTRT 
 {
-	// Create the frame and connection.
+	// Creates the frame and connection.
 	JFrame mainFrame;
 	Connection conn;
 	
@@ -24,7 +24,7 @@ public class eTRT
 	{
 		try
 		{
-			// Establish the connection to the database.
+			// Establishs connection to the database.
 			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/eTRTSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","User1", "SJSUcs157");
 		}
@@ -36,8 +36,8 @@ public class eTRT
 	}
 	
 	/**
-	 * @title	launch method
-	 * @desc	Creates the program.
+	 * @title	launch
+	 * @desc	Starts the program.
 	 */
 	public void launch()
 	{
@@ -45,18 +45,18 @@ public class eTRT
 	}
 	
 	/**
-	 * @title	buildFrames method
+	 * @title	buildFrames
 	 * @desc	Builds everything inside of the application.
 	 */
 	private void buildFrames()
 	{
-		// Create the frame and set the layout.
+		// Creates frame and sets the layout.
 		mainFrame = new JFrame("eTRT - Decision Support System for Tinnitus Restraining Therapy");
 		mainFrame.setLayout(new CardLayout());
 		
 		try
 		{
-			// Set the icon of the application to the eTRT logo.
+			// Sets application icon to the eTRT logo
 			mainFrame.setIconImage(ImageIO.read(getClass().getResourceAsStream("/images/eTRT_icon.png")));
 		} 
 		catch (IOException e) 
@@ -64,28 +64,29 @@ public class eTRT
 			e.printStackTrace();
 		}
 		
-		// Create the tabbed pane of the application.
+		// Creates JTabbedPane for the application.
 		JTabbedPane mainPane = new JTabbedPane();
 		
-		// Create all of the panels to be put into the tabbed pane.
+		// Create all of the panels to be put into the JTabbedPane.
 		HomePanel homePanel = new HomePanel();
 		PatientsPanel patientsPanel = new PatientsPanel(conn);
 		VisitsPanel visitsPanel = new VisitsPanel(conn);
 		OtherPanel otherPanel = new OtherPanel(conn);
 		
-		// Add the tabs to the tabbed pane.
+		// Add tabs to the JTabbedPane.
 		mainPane.addTab("Home", null, homePanel, "Spash Screen");
 		mainPane.addTab("Patients", null, patientsPanel, "Information for Patients");
 		mainPane.addTab("Visits", null, visitsPanel, "Information for Visits");
 		mainPane.addTab("Other", null, otherPanel, "Other Information");
 		
-		// Add the tabbed pane to the main frame.
+		// Add the JTabbedPane to the main frame.
 		mainFrame.add(mainPane);
 		
-		// Finish off the JFrame stuff.
+		// Finish JFrame settings.
 		mainFrame.setSize(new Dimension(650, 450));
 		mainFrame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		//Center Frame
 		mainFrame.setLocation(d.width/2-mainFrame.getSize().width/2, d.height/2-mainFrame.getSize().height/2);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
