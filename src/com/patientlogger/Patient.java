@@ -5,18 +5,19 @@ import java.time.LocalDate;
 /**
  * @title	Patient Class
  * @author	Nick Fulton, Jack Fogerson
- *
+ * @desc	This is the class for patients
  */
 public class Patient 
 {
-	// Declare all of the variables.
+	// All of the variables needed for patient.
 	String myTHCNumber, myDate, myFirstName, myMiddleName, myLastName, myDob, myGender, myPhone,
 		   myEmail, myStreetAddress, myCity, myState, myZip, myCountry, myPhoto, mySsid, myInsurance,
 		   myOccupation, myWorkStatus, myEducationalDegree, myTOnset, myTEtio, myHOnset, myHEtio, myComments;
 	
 	/**
 	 * @title	Patient Constructor
-	 * @desc	Nulls all of the data. This is a blank constructor to build an empty patient to start off with.
+	 * @desc	Data starts null. This is a blank constructor 
+	 * 			to build an empty patient to start off with.
 	 */
 	public Patient()
 	{
@@ -55,8 +56,14 @@ public class Patient
 	 * @param	middleName - Middle name of patient.
 	 * @param	lastName - Last name of patient.
 	 * @param	dob - Date of birth of the patient.
+	 * @param	DOBMonth - Birth Month of the patient.
+	 * @param	DOBDay - Birth Day of the patient.
+	 * @param	DOBYear - Birth Year of the patient.
 	 * @param	gender - Gender of patient.
 	 * @param	phone - Phone number of patient.
+	 * @param	areaCode - pt. 1 of phone number
+	 * @param	phone1 - pt. 2 of phone number
+	 * @param	phone2 - pt. 3 of phone number
 	 * @param	email - Email address of patient.
 	 * @param	streetAddress - Street address of patient.
 	 * @param	city - City of patient.
@@ -65,6 +72,9 @@ public class Patient
 	 * @param	country - Country of patient.
 	 * @param	photo - Photo address of patient.
 	 * @param	ssid - SSN of patient.
+	 * @param	ssn1 - Pt. 1 of ssid
+	 * @param	ssn2 - Pt. 2 of ssid
+	 * @param	ssn3 - Pt. 3 of ssid
 	 * @param	insurance - Insurance of patient.
 	 * @param	occupation - Patient occupation.
 	 * @param	workStatus - Work Status of patient.
@@ -80,7 +90,7 @@ public class Patient
 				   String gender, String phone, String email, String streetAddress, String city, String state,
 				   String zip, String country, String photo, String ssid, String insurance, String occupation,
 				   String workStatus, String educationalDegree, String TOnset, String TEtio, String HOnset,
-				   String HEtio, String comments)
+				   String HEtio, String comments, String DOBMonth)
 	{
 		this.myTHCNumber = THCNumber;
 		this.myDate = date;
@@ -107,10 +117,11 @@ public class Patient
 		this.myHOnset = HOnset;
 		this.myHEtio = HEtio;
 		this.myComments = comments;
+
 	}
 	
 	/**
-	 * @title	getTHCNumber method
+	 * @title	getTHCNumber
 	 * @return	myTHCNumber
 	 */
 	public String getTHCNumber()
@@ -119,7 +130,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title setTHCNumber method
+	 * @title setTHCNumber
 	 * @param t - THCNumber
 	 */
 	public void setTHCNumber(String t)
@@ -128,7 +139,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getDate method
+	 * @title	getDate
 	 * @return	myDate
 	 */
 	public String getDate()
@@ -137,7 +148,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setDate method
+	 * @title setDate
 	 * @param t - Date
 	 */
 	public void setDate(String t)
@@ -146,7 +157,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getFirstName method
+	 * @title	getFirstName
 	 * @return	myFirstName
 	 */
 	public String getFirstName()
@@ -155,7 +166,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setFirstName method
+	 * @title setFirstName
 	 * @param t - FirstName
 	 */
 	public void setFirstName(String t)
@@ -164,7 +175,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getMiddleName method
+	 * @title	getMiddleName
 	 * @return	myMiddleName
 	 */
 	public String getMiddleName()
@@ -174,8 +185,8 @@ public class Patient
 	
 
 	/**
-	 * @title setMiddle method
-	 * @param t - THCNumber
+	 * @title setMiddleName
+	 * @param t - MiddleName
 	 */
 	public void setMiddleName(String t)
 	{
@@ -183,7 +194,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getLastName method
+	 * @title	getLastName
 	 * @return	myLastName
 	 */
 	public String getLastName()
@@ -201,7 +212,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getDOB method
+	 * @title	getDOB
 	 * @return	myDob
 	 */
 	public String getDob()
@@ -210,8 +221,8 @@ public class Patient
 	}
 
 	/**
-	 * @title setDob method
-	 * @param t - myDob
+	 * @title setDob
+	 * @param t - Dob
 	 */
 	public void setDob(String t)
 	{
@@ -219,7 +230,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getGender method
+	 * @title	getGender
 	 * @return	myGender
 	 */
 	public String getGender()
