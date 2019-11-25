@@ -647,7 +647,9 @@ public class LookupPatientPanel extends JPanel
 				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
 				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
 				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
-				 	rset.getString(25));
+				 	rset.getString(25), rset.getString(26), rset.getString(27), rset.getString(28),
+				 	rset.getString(29), rset.getString(30), rset.getString(31), rset.getString(32),
+				 	rset.getString(33), rset.getString(34));
 		}
 		//If patient found, get that patient data
 		if(myPatient != null)
@@ -668,13 +670,13 @@ public class LookupPatientPanel extends JPanel
 		THCNumberLabel.setText("THC#: " + myPatient.getTHCNumber());
 		firstNameLabel.setText(myPatient.getFirstName());
 		lastNameLabel.setText(myPatient.getLastName());
-		monthField.setSelectedItem(myPatient.getDOBMonth());
-		dayField.setSelectedItem(myPatient.getDOBDay());
+		monthField.setText(myPatient.getDOBMonth());
+		dayField.setText(myPatient.getDOBDay());
 		yearField.setText(myPatient.getDOBYear());
 		genderField.setText(myPatient.getGender());
-		areaCodeField.setText(myPatient.getareaCode());
-		phone1Field.setText(myPatient.getphone1());
-		phone2Field.setText(myPatient.getphone2());	
+		areaCodeField.setText(myPatient.getAreaCode());
+		phone1Field.setText(myPatient.getPhone1());
+		phone2Field.setText(myPatient.getPhone2());	
 		emailField.setText(myPatient.getEmail());
 		addressField.setText(myPatient.getStreetAddress());
 		cityField.setText(myPatient.getCity());
@@ -682,9 +684,9 @@ public class LookupPatientPanel extends JPanel
 		zipField.setText(myPatient.getZip());
 		countryField.setText(myPatient.getCountry());
 		photoLabel.setIcon(unknownPicture);
-		ssn1Field.setText(myPatient.getssn1());
-		ssn2Field.setText(myPatient.getssn2());
-		ssn3Field.setText(myPatient.getssn3());
+		ssn1Field.setText(myPatient.getSSN1());
+		ssn2Field.setText(myPatient.getSSN2());
+		ssn3Field.setText(myPatient.getSSN3());
 		insuranceField.setText(myPatient.getInsurance());
 		occupationField.setText(myPatient.getOccupation());
 		workStatusField.setText(myPatient.getWorkStatus());
