@@ -264,7 +264,7 @@ public class LookupPatientPanel extends JPanel
 		phoneField.add(phone1Field);
 		phoneField.add(phone2Field);
 		emailField = new JTextField();
-		addressField = new JTextField("House Number and Street");
+		addressField = new JTextField("");
 		cityField = new JTextField();
 		stateField = new JTextField();
 		zipField = new JTextField();
@@ -305,6 +305,7 @@ public class LookupPatientPanel extends JPanel
 		hEtioLabel = new JLabel("Hyperacusis Etiology");
 		commentLabel = new JLabel("Additional Comments");
 		
+		//Make field non editable
 		monthField.setEditable(false);
 		dayField.setEditable(false);
 		yearField.setEditable(false);
@@ -333,6 +334,7 @@ public class LookupPatientPanel extends JPanel
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
+		// The following code designs the panel and puts all the components in the correct place.
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -394,14 +396,14 @@ public class LookupPatientPanel extends JPanel
 		c.gridy = 5;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		patientPanel.add(streetLabel, c);
+		patientPanel.add(addressLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 5;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		patientPanel.add(streetField, c);
+		patientPanel.add(addressField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -600,13 +602,20 @@ public class LookupPatientPanel extends JPanel
 		patientPanel.add(commentField, c);
 	}
 	
+	/**
+	 *	@title	search
+	 *	@desc	search method for finding patients
+	 */
 	private void search() throws SQLException
 	{
+		//Doesn't search if nothing inputed
 		if(searchBox.getText().equals(""))
 		{
 			return;
 		}
 		
+		//Connects with database
+		//Search begins empty
 		Statement stmt = conn.createStatement();
 		ResultSet rset = null;
 		myPatient = null;
@@ -615,15 +624,18 @@ public class LookupPatientPanel extends JPanel
 		{
 			// Default will be for THC and select search
 			default:
+				//looks in database for patient with inputed thc number
 				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE THCNumber ='" + searchBox.getText() + "';");
 				break;
 				
 			case "Name":
+				//looks in database for patient with inputed name
 				String[] name = searchBox.getText().split(" ");
 				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE FirstName = '" + name[0] + "' AND LastName = '" + name[1] + "';");
 				break;
 			
 			case "SSN":
+				//looks in database for patient with inputed SSN
 				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE SSID = '" + searchBox.getText() + "';");
 				break;
 		}
@@ -637,10 +649,15 @@ public class LookupPatientPanel extends JPanel
 				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
 				 	rset.getString(25));
 		}
+		//If patient found, get that patient data
 		if(myPatient != null)
 			assignPatient();
 	}
 	
+	/**
+	 *	@title	assignPatient
+	 *	@desc	gets searched patient and imports their data
+	 */
 	private void assignPatient()
 	{
 		// Set the picture to the patient's stored picture and scale it.
@@ -649,22 +666,25 @@ public class LookupPatientPanel extends JPanel
 		
 		// Set the data to all of the text fields.
 		THCNumberLabel.setText("THC#: " + myPatient.getTHCNumber());
-		currentDateField.setText(myPatient.getDate());
 		firstNameLabel.setText(myPatient.getFirstName());
 		lastNameLabel.setText(myPatient.getLastName());
-		monthField.setText(myPatient.getDob().substring(5,7));
-		dayField.setText(myPatient.getDob().substring(8,10));
-		yearField.setText(myPatient.getDob().substring(0,4));
+		monthField.setSelectedItem(myPatient.getDOBMonth());
+		dayField.setSelectedItem(myPatient.getDOBDay());
+		yearField.setText(myPatient.getDOBYear());
 		genderField.setText(myPatient.getGender());
-		phoneField.setText(myPatient.getPhone());
+		areaCodeField.setText(myPatient.getareaCode());
+		phone1Field.setText(myPatient.getphone1());
+		phone2Field.setText(myPatient.getphone2());	
 		emailField.setText(myPatient.getEmail());
-		streetField.setText(myPatient.getStreetAddress());
+		addressField.setText(myPatient.getStreetAddress());
 		cityField.setText(myPatient.getCity());
 		stateField.setText(myPatient.getState());
 		zipField.setText(myPatient.getZip());
 		countryField.setText(myPatient.getCountry());
 		photoLabel.setIcon(unknownPicture);
-		ssnField.setText(myPatient.getSsid());
+		ssn1Field.setText(myPatient.getssn1());
+		ssn2Field.setText(myPatient.getssn2());
+		ssn3Field.setText(myPatient.getssn3());
 		insuranceField.setText(myPatient.getInsurance());
 		occupationField.setText(myPatient.getOccupation());
 		workStatusField.setText(myPatient.getWorkStatus());
@@ -676,8 +696,13 @@ public class LookupPatientPanel extends JPanel
 		commentField.setText(myPatient.getComments());
 	}
 	
+	/**
+	 *	@title	edit
+	 *	@desc	Launches new JFrame to edit searched patient
+	 */
 	private void edit()
 	{
+		//edit only if searched patient
 		if(myPatient == null)
 			return;
 		
