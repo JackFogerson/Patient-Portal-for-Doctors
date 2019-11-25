@@ -1,5 +1,8 @@
 package com.patientlogger;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,7 +17,7 @@ public class HomePanel extends JPanel
 	private static final long serialVersionUID = 1L;
 	GroupLayout layout;
 
-	JLabel welcome;
+	JLabel welcomeLabel, instructionLabel;
 	
 	/**
 	 * @title	AddNewPatientsPanel
@@ -30,6 +33,30 @@ public class HomePanel extends JPanel
 	 *	@desc	Local method used to build this panel, puts the components in the correct place.
 	 */
 	private void buildPanel()
-	{	
+	{			
+		// Handle the layout of the panel.
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		//Initialize the label for the main JFrame.
+		welcomeLabel = new JLabel("Welcome to eTRT: The Decision Support System for "
+								   + "Tinnitus Restraining Therapy");
+		instructionLabel = new JLabel("Select a tab above to get started");
+
+		
+		// All of the following is to design the panel and put all the components in the correct place.
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 4;
+		c.gridy = 2;
+		c.gridwidth = 2;
+		c.gridheight = 3;
+		add(welcomeLabel, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 5;
+		c.gridy = 6;
+		c.gridwidth = 2;
+		c.gridheight = 1;
+		add(instructionLabel, c);
 	}
 }
