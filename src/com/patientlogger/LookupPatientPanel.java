@@ -36,8 +36,17 @@ public class LookupPatientPanel extends JPanel
 	//Field to choose how to lookup patients
 	String[] searchOptions = {"Choose One", "Name", "THC Number", "SSN"};
 	
+	//field for dob month
+	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
+								"July", "August", "September", "October", "November", "December"};
+	
+	//field for dob day
+	final String[] dayList = {"Select One", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+	
 	//Drop Down menu for search
-	JComboBox<String> searchCriteria;
+	JComboBox<String> searchCriteria, monthField,dayField;
 	
 	//Field to insert search terms
 	JTextField searchBox;
@@ -49,8 +58,8 @@ public class LookupPatientPanel extends JPanel
 	Patient myPatient;
 	
 	//text fields with patient data	
-	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField, monthField,
-	   		   dayField, yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
+	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField,
+			   yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
 	   		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
 	   		   hEtioField, genderField, cityField, stateField, countryField;
 
@@ -87,14 +96,24 @@ public class LookupPatientPanel extends JPanel
 		buildPanel();
 	}
 	
+	/**
+	 *	@title	buildPanel
+	 *	@desc	Local method used to build this panel, everything from assigning listeners to putting the
+	 *			components in the correct place.
+	 */
 	private void buildPanel()
 	{
+		// Take care of the picture, we need to pull the unknown avatar and scale it to the needed size.
 		ImageIcon ogUnknownPicture = new ImageIcon("src/images/unknownPicture.png");
+		//Scales picture to fit box
 		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 		
+		//Initialize the following for the main JFrame.
 		searchCriteria = new JComboBox<String>(searchOptions);
 		searchBox = new JTextField(10);
 		searchButton = new JButton("Search");
+		
+		//Side Panel with patient info
 		patientPanel = new JPanel();
 		photoLabel = new JLabel(unknownPicture);
 		firstNameLabel = new JLabel("Unkown", SwingConstants.CENTER);
@@ -105,12 +124,14 @@ public class LookupPatientPanel extends JPanel
 		addNewVisitButton = new JButton("New Visit");
 		currentVisitButton = new JButton("Current Visit");
 		
+		//Sets pane with patient lookup info
 		patientPanel.setLayout(new GridBagLayout());
 		buildPatientPanel();
 		
 		patientScrollable = new JScrollPane(patientPanel);
 		patientScrollable.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
+		//Add listener when search button clicked
 		searchButton.addActionListener(e -> {
 			try 
 			{
@@ -122,10 +143,12 @@ public class LookupPatientPanel extends JPanel
 			}
 		});
 		
+		//Add listener when edit patient button clicked
 		editPatientButton.addActionListener(e -> edit());
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
+		// All of the following is to design the panel and put all the components in the correct place.
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -226,12 +249,16 @@ public class LookupPatientPanel extends JPanel
 		add(currentVisitButton, c);
 	}
 	
+	/**
+	 * @title	buildPatientPanel
+	 * @desc	Builds the patient frame and changes on search.
+	 */
 	private void buildPatientPanel()
 	{	
-		currentDateField = new JTextField(10);
+		// Initialize all variables
 		dobField = new JPanel(new GridLayout(1, 3));
-		monthField = new JTextField("MM");
-		dayField = new JTextField("DD");
+		monthField = new JTextField();
+		dayField = new JTextField();
 		yearField = new JTextField("YYYY");
 		dobField.add(monthField);
 		dobField.add(dayField);
@@ -254,7 +281,6 @@ public class LookupPatientPanel extends JPanel
 		hOnsetField = new JTextField();
 		hEtioField = new JTextField();
 		commentField = new JTextArea(4, 30);
-		currentDateLabel = new JLabel("Current Date");
 		dobLabel = new JLabel("Date of Birth");
 		genderLabel = new JLabel("Gender");
 		phoneLabel = new JLabel("Phone");
@@ -275,7 +301,6 @@ public class LookupPatientPanel extends JPanel
 		hEtioLabel = new JLabel("Hyperacusis Etiology");
 		commentLabel = new JLabel("Additional Comments");
 		
-		currentDateField.setEditable(false);
 		monthField.setEditable(false);
 		dayField.setEditable(false);
 		yearField.setEditable(false);
@@ -299,20 +324,6 @@ public class LookupPatientPanel extends JPanel
 		commentField.setEditable(false);
 		
 		GridBagConstraints c = new GridBagConstraints();
-		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		patientPanel.add(currentDateLabel, c);
-		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		patientPanel.add(currentDateField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
