@@ -6,15 +6,26 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import javax.swing.SwingUtilities;
 
+/**
+ * @title	EditVisitScreen
+ * @author	Nick Fulton, Jack Fogerson
+ * @desc	This JPanel is an extension of the AddNewVisit Panel, similar except
+ * 			it allows for visit editing instead of creation.
+ */
 public class EditVisitScreen extends AddNewVisitPanel
 {
 	private static final long serialVersionUID = 1L;
 	Connection conn;
 	Visit myVisit;
 
+	/**
+	 * @title	EditVisitScreen
+	 * @param	c - The connection to the database.
+	 * @param	visit - The account to be edited.
+	 * @desc	Send the connection to super and then fill the info.
+	 */
 	public EditVisitScreen(Connection c, Visit visit) 
 	{
 		super(c);
@@ -22,6 +33,10 @@ public class EditVisitScreen extends AddNewVisitPanel
 		fillInfo();
 	}
 	
+	/**
+	 * @title	fillInfo
+	 * @desc	Imports Visit info into the form.
+	 */
 	private void fillInfo()
 	{
 		visitIDField.setText(myVisit.getVisitID());
@@ -34,7 +49,10 @@ public class EditVisitScreen extends AddNewVisitPanel
 		protocolField.setSelectedItem(myVisit.getProtocol());
 		fuField.setSelectedItem(myVisit.getFU());
 		instrumentField.setSelectedItem(myVisit.getInstrument());
-		nextVisitField.setText(myVisit.getNextVisit());
+		monthField.setSelectedItem(myVisit.getNextVisitMonth());
+		dayField.setSelectedItem(myVisit.getNextVisitDay());
+		yearField.setText(myVisit.getNextVisitYear());
+		
 		remField.setSelected(myVisit.getREM());
 		commentField.setText(myVisit.getComments());
 		
