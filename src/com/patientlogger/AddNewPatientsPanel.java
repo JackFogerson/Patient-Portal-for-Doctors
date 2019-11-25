@@ -699,7 +699,7 @@ public class AddNewPatientsPanel extends JPanel
 		}
 		if(yearField.getText().equals("YYYY") || yearField.getText().equals(""))
 		{
-			errorLog += "Year";
+			errorLog += "Year of Birth";
 			isError = true;
 		}
 		if(genderField.getSelectedItem().equals("Select One"))
