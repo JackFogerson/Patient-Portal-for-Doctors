@@ -12,7 +12,8 @@ public class Patient
 	// All of the variables needed for patient.
 	String myTHCNumber, myDate, myFirstName, myMiddleName, myLastName, myDob, myGender, myPhone,
 		   myEmail, myStreetAddress, myCity, myState, myZip, myCountry, myPhoto, mySsid, myInsurance,
-		   myOccupation, myWorkStatus, myEducationalDegree, myTOnset, myTEtio, myHOnset, myHEtio, myComments;
+		   myOccupation, myWorkStatus, myEducationalDegree, myTOnset, myTEtio, myHOnset, myHEtio, myComments,
+		   myDOBMonth, myDOBDay, myDOBYear, myAreaCode, myPhone1, myPhone2, mySSN1, mySSN2,mySSN3;
 	
 	/**
 	 * @title	Patient Constructor
@@ -46,6 +47,16 @@ public class Patient
 		this.myHOnset = null;
 		this.myHEtio = null;
 		this.myComments = null;
+		this.myDOBMonth = null;
+		this.myDOBDay = null;
+		this.myDOBYear = null;
+		this.myAreaCode = null;
+		this.myPhone1 = null;
+		this.myPhone2 = null;
+		this.mySSN1 = null;
+		this.mySSN2 = null;
+		this.mySSN3 = null;
+
 	}
 	
 	/**
@@ -90,7 +101,8 @@ public class Patient
 				   String gender, String phone, String email, String streetAddress, String city, String state,
 				   String zip, String country, String photo, String ssid, String insurance, String occupation,
 				   String workStatus, String educationalDegree, String TOnset, String TEtio, String HOnset,
-				   String HEtio, String comments, String DOBMonth)
+				   String HEtio, String comments, String DOBMonth, String DOBDay, String DOBYear, String areaCode,
+				   String phone1, String phone2, String SSN1, String SSN2, String SSN3)
 	{
 		this.myTHCNumber = THCNumber;
 		this.myDate = date;
@@ -117,7 +129,15 @@ public class Patient
 		this.myHOnset = HOnset;
 		this.myHEtio = HEtio;
 		this.myComments = comments;
-
+		this.myDOBMonth = DOBMonth;
+		this.myDOBDay = DOBDay;
+		this.myDOBYear = DOBYear;
+		this.myAreaCode = areaCode;
+		this.myPhone1 = phone1;
+		this.myPhone2 = phone2;
+		this.mySSN1 = SSN1;
+		this.mySSN2 = SSN2;
+		this.mySSN3 = SSN3;
 	}
 	
 	/**
@@ -230,6 +250,60 @@ public class Patient
 	}
 	
 	/**
+	 * @title	getDOBMonth
+	 * @return	myDobMonth
+	 */
+	public String getDOBMonth()
+	{
+		return myDOBMonth;
+	}
+	
+	/**
+	 * @title setDobMonth
+	 * @param t - DobMonth
+	 */
+	public void setDobMonth(String t)
+	{
+		myDOBMonth = t;
+	}
+	
+	/**
+	 * @title	getDOBDay
+	 * @return	myDOBDay
+	 */
+	public String getDOBDay()
+	{
+		return myDOBDay;
+	}
+	
+	/**
+	 * @title setDobDay
+	 * @param t - DobDay
+	 */
+	public void setDobDay(String t)
+	{
+		myDOBDay = t;
+	}
+	
+	/**
+	 * @title	getDOBYear
+	 * @return	myDOBYear
+	 */
+	public String getDOBYear()
+	{
+		return myDOBYear;
+	}
+	
+	/**
+	 * @title setDobYear
+	 * @param t - DobYear
+	 */
+	public void setDobYear(String t)
+	{
+		myDOBYear = t;
+	}
+	
+	/**
 	 * @title	getGender
 	 * @return	myGender
 	 */
@@ -238,21 +312,25 @@ public class Patient
 		return myGender;
 	}
 	
-	public void getDOBMonth()
+	/**
+	 * @title setGender method
+	 * @param t - myGender
+	 */
+	public void setGender(String t)
 	{
-		//TODO
-		return;
+		myGender = t;
 	}
-	public void getDOBDay()
+	
+	/**
+	 * @title	getPhone method
+	 * @return	myPhone
+	 */
+	public String getPhone()
 	{
-		//TODO
-		return;
+		return myPhone;
 	}
-	public void getDOBYear()
-	{
-		//TODO
-		return;
-	}
+	
+	
 	public void getareaCode()
 	{
 		//TODO
@@ -284,23 +362,6 @@ public class Patient
 		return;
 	}
 
-	/**
-	 * @title setGender method
-	 * @param t - myGender
-	 */
-	public void setGender(String t)
-	{
-		myGender = t;
-	}
-	
-	/**
-	 * @title	getPhone method
-	 * @return	myPhone
-	 */
-	public String getPhone()
-	{
-		return myPhone;
-	}
 	
 
 	/**
