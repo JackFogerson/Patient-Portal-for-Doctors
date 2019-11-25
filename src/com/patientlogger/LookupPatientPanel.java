@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,39 +21,65 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+/**
+ * @title	LookupPatientPanel
+ * @author	Nick Fulton, Jack Fogerson
+ * @desc	This class is an extension of JPanel which allows the user to lookup a patient in 
+ * 			the database.
+ */
 public class LookupPatientPanel extends JPanel
 {
+	//Go through and instantiate all of the needed variables.
 	private static final long serialVersionUID = 1L;
 	Connection conn;
 	
+	//Field to choose how to lookup patients
 	String[] searchOptions = {"Choose One", "Name", "THC Number", "SSN"};
+	
+	//Drop Down menu for search
 	JComboBox<String> searchCriteria;
+	
+	//Field to insert search terms
 	JTextField searchBox;
+	
+	//Initialize Search Button
 	JButton searchButton;
 	
+	//Patient being looked up
 	Patient myPatient;
 	
+	//text fields with patient data	
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField, monthField,
 	   		   dayField, yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
 	   		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
 	   		   hEtioField, genderField, cityField, stateField, countryField;
 
+	//Patient's comment field	
 	JTextArea commentField;
 
+	//Patient's photo
 	JLabel photoField;
 
+	//Used for fields with multiple entry boxes
 	JPanel dobField, patientPanel;
 
+	//labels to be used in lookup of patient data
 	JLabel THCNumberLabel, currentDateLabel, firstNameLabel, middleNameLabel, lastNameLabel, dobLabel,
 		   genderLabel, phoneLabel, emailLabel, streetLabel, cityLabel, stateLabel, zipLabel, countryLabel,
 		   photoLabel, ssnLabel, insuranceLabel, blankSpace1, blankSpace2, demographicsLabel, occupationLabel,
 		   workStatusLabel, educationLabel, tOnsetLabel, tEtioLabel, hOnsetLabel, hEtioLabel, commentLabel;
 	
+	//make pane scrollable
 	JScrollPane patientScrollable;
 	
+	//Initialize all buttons
 	JButton editPatientButton, addNewVisitButton, currentVisitButton;
 	
-	
+	/**
+	 * @title	LookupPatientPanel
+	 * @desc	constructor, builds panel
+	 * @param 	c - Is the connection to the database.
+	 */
 	public LookupPatientPanel(Connection c)
 	{
 		conn = c;
@@ -648,34 +673,3 @@ public class LookupPatientPanel extends JPanel
 		frame.setVisible(true);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
