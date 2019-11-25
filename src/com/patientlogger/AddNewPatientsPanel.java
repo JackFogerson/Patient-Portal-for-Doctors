@@ -923,18 +923,19 @@ public class AddNewPatientsPanel extends JPanel
 	/**
 	 * @title	buildDemoFrame
 	 * @desc	Builds the demographic frame and makes it not visible.
+	 * 			Visible on button click
 	 */
 	private void buildDemoFrame()
 	{
-		// Start with all the basic JFrame stuff.
+		// Establish Demographic Frame
 		demographicsFrame = new JFrame("eTRT - Add Demographics");
 		demographicsFrame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		// Initalize all of the components.
+		// Initialize all variables
 		occupationField = new JTextField(10);
-		workStatusField = new JTextField(10);
-		educationField = new JTextField(10);
+		workStatusField	= new JComboBox<String>(statusList);
+		educationField = new JComboBox<String>(eduList);
 		tOnsetField = new JTextField(10);
 		tEtioField = new JTextField(10);
 		hOnsetField = new JTextField(10);
@@ -952,10 +953,11 @@ public class AddNewPatientsPanel extends JPanel
 		demoSaveButton = new JButton("Save");
 		demoCancelButton = new JButton("Cancel");
 		
+		//Set label to center
 		demographicsLabel.setHorizontalAlignment(JLabel.CENTER);
 		commentField.setLineWrap(true);
 		
-		// Make sure that there is no more than 150 characters in the comment field.
+		// Checks that there are no more than 150 characters in the comment field.
 		commentField.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) 
 			{
@@ -964,8 +966,9 @@ public class AddNewPatientsPanel extends JPanel
 			}
 		});
 		
-		// Set listeners for the buttons at the bottom of he frame.
+		//Listener to save demographic info
 		demoSaveButton.addActionListener(e -> demographicsFrame.setVisible(false));
+		//Listener for cancel button
 		demoCancelButton.addActionListener(e -> rebuildDemoFrame());
 		
 		
@@ -1104,7 +1107,7 @@ public class AddNewPatientsPanel extends JPanel
 		c.gridheight = 1;
 		demographicsFrame.add(demoSaveButton, c);
 		
-		// Set the rest of the JFrame stuff.
+		// Sets the rest of the JFrame settings.
 		demographicsFrame.setSize(new Dimension(600, 250));
 		demographicsFrame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1113,7 +1116,7 @@ public class AddNewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	getSaveButton Method
+	 * @title	getSaveButton
 	 * @return	JButton - The save button of the panel.
 	 */
 	protected JButton getSaveButton()
@@ -1122,7 +1125,7 @@ public class AddNewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @tite	getCancelButton Method
+	 * @tite	getCancelButton
 	 * @return	JButton - The cancel button of the panel.
 	 */
 	protected JButton getCancelButton()
