@@ -4,19 +4,20 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  * @title	PatientTableModel
- * @author 	Nick Fulton
- * @desc	Provides the table model for displaying patients in a JTable.
+ * @author 	Nick Fulton, Jack Fogerson
+ * @desc	Provides table model for displaying patients in a JTable.
  */
 public class PatientTableModel extends AbstractTableModel
 {
-	// Create the needed variables.
+	// Create the variables called in the class.
 	private static final long serialVersionUID = 1L;
 	final String[] columnNames = {"THC#", "Name", "Age", "Gender", "City", "State", "Date Added"};
 	private String[][] myData;
 	
 	/**
-	 * @title	PatientTableModel Constructor
-	 * @param 	data - The data to be put into the table.
+	 * @title	PatientTableModel
+	 * @desc 	Constructor
+	 * @param 	data - The data to be put into table.
 	 */
 	public PatientTableModel(String[][] data)
 	{
@@ -24,7 +25,8 @@ public class PatientTableModel extends AbstractTableModel
 	}
 	
 	/**
-	 * @title	setData Method
+	 * @title	setData
+	 * @desc	sets given data
 	 * @param 	data - The data to be put into the table.
 	 */
 	public void setData(String[][] data)
@@ -33,7 +35,7 @@ public class PatientTableModel extends AbstractTableModel
 	}
 	
 	/**
-	 * @title	getColumnName Method
+	 * @title	getColumnName
 	 * @param	col - Which column to get the name.
 	 * @return	The name of the given column
 	 */
@@ -43,8 +45,8 @@ public class PatientTableModel extends AbstractTableModel
 	}
 	
 	/**
-	 * @title	getData Method
-	 * @return	myData - The data of the table.
+	 * @title	getData
+	 * @desc	Returns data of the table.
 	 */
 	public String[][] getData()
 	{
@@ -52,7 +54,7 @@ public class PatientTableModel extends AbstractTableModel
 	}
 	
 	/**
-	 * @title 	getRowCount Method
+	 * @title 	getRowCount
 	 * @return	How many rows the table has.
 	 */
 	@Override
@@ -63,7 +65,7 @@ public class PatientTableModel extends AbstractTableModel
 
 	/**
 	 * @title	getColumnCount
-	 * @return	How many columns the table has.
+	 * @desc	Returns # of columns the table has
 	 */
 	@Override
 	public int getColumnCount() 
@@ -72,7 +74,7 @@ public class PatientTableModel extends AbstractTableModel
 	}
 
 	/**
-	 * @title	getValueAt Method
+	 * @title	getValueAt
 	 * @param	rowIndex - The row of the value
 	 * @param	columnIndex - The column of the value
 	 * @return	The data at the given position of the table.
@@ -82,5 +84,4 @@ public class PatientTableModel extends AbstractTableModel
 	{
 		return myData[rowIndex][columnIndex];
 	}
-
 }
