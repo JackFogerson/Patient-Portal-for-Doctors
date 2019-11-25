@@ -359,12 +359,14 @@ public class ViewPatientsPanel extends JPanel
 	    while (rset.next())
 	    {
 	    	patients.add(new Patient(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), 
-	    									 rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
-	    									 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12), 
-	    									 rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
-	    									 rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
-	    									 rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
-	    									 rset.getString(25)));
+					rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
+					rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12), 
+				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
+				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
+				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
+				 	rset.getString(25), rset.getString(26), rset.getString(27), rset.getString(28),
+				 	rset.getString(29), rset.getString(30), rset.getString(31), rset.getString(32),
+				 	rset.getString(33), rset.getString(34)));
 	    }
 		return patients;
 	}
@@ -412,7 +414,9 @@ public class ViewPatientsPanel extends JPanel
 				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
 				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
 				 	rset.getString(21), rset.getString(22), rset.getString(23), rset.getString(24), 
-				 	rset.getString(25)));
+				 	rset.getString(25), rset.getString(26), rset.getString(27), rset.getString(28),
+				 	rset.getString(29), rset.getString(30), rset.getString(31), rset.getString(32),
+				 	rset.getString(33), rset.getString(34)));
 	    }
 		
 		// Return the patients.
