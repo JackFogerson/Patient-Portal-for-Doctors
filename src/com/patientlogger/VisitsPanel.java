@@ -2,25 +2,25 @@ package com.patientlogger;
 
 import java.awt.CardLayout;
 import java.sql.Connection;
-
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 /**
  * @title	VisitsPanel Class
- * @author	Nick Fulton
- * @desc	Builds the VisitsPanel
+ * @author	Nick Fulton, Jack Fogerson
+ * @desc	Builds the VisitsPanel 
  */
 public class VisitsPanel extends JPanel
 {
-	// Declare the initial variables.
+	// Declare initial variables.
 	private static final long serialVersionUID = 1L;
 	Connection conn;
 	JTabbedPane mainPane;
 	
 	/**
-	 * @title	VisitsPanel Constructor
-	 * @param 	c - The connection to the database.
+	 * @title	VisitsPanel Method
+	 * @param 	c - Connection to the database.
+	 * @desc	Sets the connection then builds the panel.
 	 */
 	public VisitsPanel(Connection c)
 	{
@@ -30,24 +30,23 @@ public class VisitsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	buildPanel Method
-	 * @desc	Builds the VisitsPanel
+	 * @title	buildPanel
+	 * @desc	Builds visits panel.
 	 */
 	private void buildPanel()
 	{
-		// Create the main pane.
+		// Create the JTabbedPane.
 		mainPane = new JTabbedPane();
 		
-		// Create the needed tabs.
+		// Create the inner tabs.
 		AddNewVisitPanel addNewVisitPanel = new AddNewVisitPanel(conn);
 		ViewVisitsPanel viewVisitsPanel = new ViewVisitsPanel(conn);
 		
-		// Add the tabs to the pane.
+		// Add these tabs to the main pane.
 		mainPane.addTab("Add New Visit", null, addNewVisitPanel, "Add A New Visit");
 		mainPane.addTab("View/Edit Visits", null, viewVisitsPanel, "View/Edit Visits");
 		
-		//Add the pane to the viists panel.
+		//Add the pane to the vists panel.
 		add(mainPane);
 	}
-
 }
