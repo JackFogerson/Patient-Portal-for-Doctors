@@ -779,7 +779,7 @@ public class AddNewPatientsPanel extends JPanel
 	}
 	 
 	/**
-	 * @title	submitInformation method
+	 * @title	submitInformation
 	 * @throws 	SQLException - If there is an error when submitting to the database.
 	 */
 	private void submitInformation() throws SQLException
@@ -790,7 +790,7 @@ public class AddNewPatientsPanel extends JPanel
 			return;
 		}
 		
-		// Find the current date again, to make it easier for data submission.
+		// Finds current date again to make it easier for data submission.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.now();
 
@@ -803,7 +803,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + lastNameField.getText() + "', "
 								   		  + "'" + yearField.getText() + "-" + monthField.getSelectedItem() + "-" + dayField.getSelectedItem() + "', "
 								   		  + "'" + genderField.getSelectedItem() + "', "
-								   		  + "'" + phoneField.getText() + "', "
+								   		  + "'(" + areaCodeField.getText() + ")" + phone1Field.getText() + "-" + phone2Field.getText() + "', "
 								   		  + "'" + emailField.getText() + "', "
 								   		  + "'" + addressField.getText() + "', "
 								   		  + "'" + cityField.getSelectedItem() + "', "
@@ -811,18 +811,18 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + zipField.getText() + "', "
 								   		  + "'" + countryField.getSelectedItem() + "', "
 								   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
-								   		  + "'" + ssnField.getText() + "', "
+								   		  + "'" + ssn1Field.getText() + "-" + ssn2Field.getText() + "-" + ssn3Field.getText() + "', "
 								   		  + "'" + insuranceField.getText() + "', "
 								   		  + "'" + occupationField.getText() + "', "
-								   		  + "'" + workStatusField.getText() + "', "
-								   		  + "'" + educationField.getText() + "', "
+								   		  + "'" + workStatusField.getSelectedItem() + "', "
+								   		  + "'" + educationField.getSelectedItem() + "', "
 								   		  + "'" + tOnsetField.getText() + "', "
 								   		  + "'" + tEtioField.getText() + "', "
 								   		  + "'" + hOnsetField.getText() + "', "
 								   		  + "'" + hEtioField.getText() + "', "
 								   		  + "'" + commentField.getText() + "')";
 		
-		// Preform the query.
+		// Perform query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
 		
@@ -853,15 +853,14 @@ public class AddNewPatientsPanel extends JPanel
 		{
 			System.out.println("Couldn't get row count.");
 			e.printStackTrace();
-		}
-		
+		}		
 		// Return the highest THC number added to the table.
 		return rowCount;
 	}
 	
 	/**
-	 * @title	rebuildPanel Method
-	 * @desc	Destroys the panel and then rebuilds it to clear all data.
+	 * @title	rebuildPanel
+	 * @desc	Destroys and rebuilds panel to clear all data.
 	 */
 	protected void rebuildPanel()
 	{
@@ -912,8 +911,8 @@ public class AddNewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	rebuildDemoFrame Method
-	 * @desc	Destroys the demo frame and then rebuilds it to erase all inputted data.
+	 * @title	rebuildDemoFrame
+	 * @desc	Destroys and rebuilds demo frame to erase all inputed data.
 	 */
 	private void rebuildDemoFrame()
 	{
@@ -922,7 +921,7 @@ public class AddNewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	buildDemoFrame Method
+	 * @title	buildDemoFrame
 	 * @desc	Builds the demographic frame and makes it not visible.
 	 */
 	private void buildDemoFrame()
