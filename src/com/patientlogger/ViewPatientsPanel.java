@@ -20,8 +20,8 @@ import javax.swing.JTextField;
 
 /**
  * @title 	ViewPatientsPanel Class
- * @author 	Nick Fulton
- * @desc	Builds the panel to view patients.
+ * @author 	Nick Fulton, Jack Fogerson
+ * @desc	This class is an extension of JPanel. Builds panel to view patients.
  */
 public class ViewPatientsPanel extends JPanel
 {
@@ -30,26 +30,35 @@ public class ViewPatientsPanel extends JPanel
 
 	Connection conn;
 	
+	//Used for drop down menus
 	JComboBox<String> searchCriteria;
 	
+	//initializing buttons for use
 	JButton viewPatientButton, editPatientButton, deletePatientButton, addNewVisitButton, showCurrentVisitButton,
 			searchButton, refreshButton;
 	
+	//Used for fields with multiple entry boxes
 	JPanel patientsPaneButtons, patientsPanel;
 	
+	//Pane that can scroll
 	JScrollPane patientsScrollPane;
 	
+	//text fields to get raw input from entry	
 	JTextField searchBox;
 	
+	//Sets table w/ all patients
 	JTable patientTable;
 	
+	//Where list of patients is stored
 	ArrayList<Patient> patients;
 	
+	//Options for drop down menu
 	final String[] searchOptions = {"Filter Options", "THC Number", "Name", "City"};
 	
 	/**
-	 * @title	ViewPatientsPanel Constructor
-	 * @param 	c - Connection to the database.
+	 * @title	ViewPatientsPanel
+	 * @desc	constructor, builds panel
+	 * @param 	c - Is the connection to the database.
 	 */
 	public ViewPatientsPanel(Connection c)
 	{
@@ -58,16 +67,17 @@ public class ViewPatientsPanel extends JPanel
 	}
 
 	/**
-	 * @title	buildPanel Method
-	 * @desc	Builds the ViewPatientsPanel
+	 *	@title	buildPanel
+	 *	@desc	Local method used to build this panel, everything from assigning listeners to putting the
+	 *			components in the correct place.
 	 */
 	private void buildPanel()
 	{
-		// Set the layout and create the constraints of the panel.
+		// Sets the layout and creates the constraints of the panel.
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		// Create all of the needed components of the panel.
+		// Creates all of the needed components of the panel.
 		searchCriteria = new JComboBox<String>(searchOptions);
 		viewPatientButton = new JButton("View");
 		editPatientButton = new JButton("Edit");
@@ -79,7 +89,7 @@ public class ViewPatientsPanel extends JPanel
 		patientTable = new JTable();
 		searchBox = new JTextField(10);
 		
-		// Add the ability to refresh the table.
+		// Listener adds the ability to refresh the table.
 		refreshButton.addActionListener(e -> {
 			try 
 			{
@@ -91,7 +101,7 @@ public class ViewPatientsPanel extends JPanel
 			}
 		});
 		
-		// Add the ability to search for a patient.
+		//Listener adds ability to search for a patient.
 		searchButton.addActionListener(e -> {
 			try 
 			{
@@ -103,7 +113,7 @@ public class ViewPatientsPanel extends JPanel
 			}
 		});
 		
-		// Add the ability to delete a patient.
+		//Listener adds the ability to delete a patient.
 		deletePatientButton.addActionListener(e -> {
 			try 
 			{
@@ -115,7 +125,7 @@ public class ViewPatientsPanel extends JPanel
 			}
 		});
 		
-		// Add the ability to edit a patient.
+		// Listener adds the ability to edit a patient.
 		editPatientButton.addActionListener(e -> edit());
 		
 		// Populate the patient table.
@@ -128,10 +138,10 @@ public class ViewPatientsPanel extends JPanel
 			e.printStackTrace();
 		}
 		
-		// Create the scroll pane.
+		// Create the scrollable pane.
 		patientsScrollPane = new JScrollPane(patientTable);
 		
-		// The following is adding all of the components to the panel.
+		// The following adds all of the components to the panel.
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
