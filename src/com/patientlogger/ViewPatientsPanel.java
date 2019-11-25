@@ -225,19 +225,19 @@ public class ViewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	search Method
+	 * @title	search
 	 * @throws 	SQLException - If the database has problems pulling the patients.
 	 */
 	private void search() throws SQLException
 	{
-		// If there isnt a search query just refresh the table.
+		// If no search query, refresh the table.
 		if(searchBox.getText().equals(""))
 		{
 			populate();
 			return;
 		}
 		
-		// Find the patients from the database from pullSomePatients (this method handles the search)
+		// Finds patients from the database from pullSomePatients (this method handles the search)
 		patients = pullSomePatients();
 		String[][] patientData = new String[patients.size()][7];
 		
@@ -247,7 +247,7 @@ public class ViewPatientsPanel extends JPanel
 			patientData[x] = patients.get(x).getPatientInfo();
 		}
 		
-		// Set the table correctly.
+		// Sets the table
 		patientTable.setModel(new PatientTableModel(patientData));
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -256,29 +256,29 @@ public class ViewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	delete Method
+	 * @title	delete
 	 * @throws 	SQLException - If the database has problems deleting information.
 	 */
 	private void delete() throws SQLException
 	{
-		// Pull the THC number to be deleted.
+		// Pulls the THC number to be deleted.
 		String THCNumber = (String)patientTable.getValueAt(patientTable.getSelectedRow(), 0);
 		
-		// Delete the patient from the table.
+		// Deletes the patient from the table.
 		PreparedStatement preparedStmt = conn.prepareStatement("DELETE FROM PATIENTS WHERE THCNumber ='" + THCNumber + "';");
 		preparedStmt.execute();
 		
-		// Pull the new patient information.
+		// Pulls the new patient information.
 		patients = pullAllPatients();
 		String[][] patientData = new String[patients.size()][7];
 		
-		// Get the new patientdata after deleting.
+		// Get the new patient data after deleting.
 		for(int x = 0; x < patients.size(); x++)
 		{
 			patientData[x] = patients.get(x).getPatientInfo();
 		}
 		
-		// Redo the table after deletion.
+		// Reset the table after deletion.
 		patientTable.setModel(new PatientTableModel(patientData));
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -287,15 +287,15 @@ public class ViewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	edit Method
-	 * @desc	Allows functionality to edit a patient through an external frame.
+	 * @title	edit
+	 * @desc	Launches new JFrame to edit a patient
 	 */
 	private void edit()
 	{
-		// Declare the patient.
+		// Patient starts null
 		Patient patient = null;
 		
-		// Get the patient that was selected.
+		// Get patient that was selected.
 		for(int x = 0; x < patients.size(); x++)
 		{
 			if((String)patientTable.getValueAt(patientTable.getSelectedRow(), 0) == patients.get(x).getTHCNumber())
@@ -305,34 +305,36 @@ public class ViewPatientsPanel extends JPanel
 			}
 		}
 		
-		// Build a edit patient screen.
+		// Build a new edit patient screen.
 		JFrame frame = new JFrame("eTRT - Edit Patient");
 		frame.add(new EditPatientScreen(conn, patient));
 		frame.setSize(new Dimension(600, 450));
 		frame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		//Center the new frame
 		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
 	/**
-	 * @title	populate Method
-	 * @throws 	SQLException - If the database can't retreive information.
+	 * @title	populate
+	 * @desc	gets patient data and fills table
+	 * @throws 	SQLException - If the database can't retrieve information.
 	 */
 	private void populate() throws SQLException
 	{
-		// Get the patients from the database.
+		// Pull patients from the database.
 		patients = pullAllPatients();
 		String[][] patientData = new String[patients.size()][7];
 		
-		// Assign all of the patient data to patientData
+		// Assign all of the patient data to patientData[]
 		for(int x = 0; x < patients.size(); x++)
 		{
 			patientData[x] = patients.get(x).getPatientInfo();
 		}
 		
-		// Build the table.
+		// Build table.
 		patientTable.setModel(new PatientTableModel(patientData));
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -341,10 +343,10 @@ public class ViewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	pullAllPatients Method
+	 * @title	pullAllPatients
 	 * @return	Arraylist of patients from database
-	 * @throws 	SQLException - If the database cant get the information
-	 * @desc	Find all of the patients in the database.
+	 * @throws 	SQLException - If the database can't get the information
+	 * @desc	Find all the patients in the database.
 	 */
 	private ArrayList<Patient> pullAllPatients() throws SQLException
 	{
@@ -368,10 +370,10 @@ public class ViewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	pullSomePatients Method
-	 * @return	The patients requested
+	 * @title	pullSomePatients
+	 * @return	Patients requested
 	 * @throws 	SQLException - If the database can not return information.
-	 * @desc	Pulls patients as needed for the search query.
+	 * @desc	Pulls patients as needed for search query.
 	 */
 	private ArrayList<Patient> pullSomePatients() throws SQLException
 	{
@@ -380,25 +382,28 @@ public class ViewPatientsPanel extends JPanel
 		ArrayList<Patient> patients = new ArrayList<Patient>();
 		ResultSet rset = null;
 		
-		// Figure out what information to pull, and go off of that (from the searchbox)
+		// Figure out what information to pull, and go off of that (from the search box)
 		switch((String)searchCriteria.getSelectedItem())
 		{
 			// Default will be for THC and select search
 			default:
+				//looks in database for patient with inputed thc number
 				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE THCNumber ='" + searchBox.getText() + "';");
 				break;
 				
 			case "Name":
+				//looks in database for patient with inputed name
 				String[] name = searchBox.getText().split(" ");
 				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE FirstName = '" + name[0] + "' AND LastName = '" + name[1] + "';");
 				break;
 			
 			case "City":
+				//looks in database for patient with inputed SSN
 				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE City = '" + searchBox.getText() + "';");
 				break;
 		}
 		
-		// Pull the information.
+		// Pulls the information.
 		while (rset.next())
 	    {
 			patients.add(new Patient(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), 
