@@ -49,10 +49,12 @@ public class AddNewPatientsPanel extends JPanel
 	
 	GroupLayout layout;
 	
-	//These four variables are for demographic info collected from the patient to add to database
+	//These six variable fields are for drop down menu on Add New Patient tab
 	
+	//field to collect gender
 	final String[] genderList = {"Select One", "Male", "Female", "Other"};
 	
+	//field to collect current city they live in
 	final String[] cityList = {"Select One", "Albany", "Annapolis", "Atlanta", "Augusta", "Austin",
 							   "Baton Rouge", "Bismarck", "Boise", "Boston", "Carson City", 
 							   "Charleston", "Cheyenne", "Chicago","Columbia", "Columbus", "Concord", "Denver",
@@ -63,6 +65,8 @@ public class AddNewPatientsPanel extends JPanel
 							   "Pierre", "Providence", "Raleigh", "Richmond", "Sacramento", "Saint Paul", 
 							   "Salem", "Salt Lake City", "San Diego","San Jose", "Santa Fe", "Springfield", 
 							   "Tallahassee", "Tampa", "Topeka", "Trenton", "Tulsa", "Washington, D.C."};
+	
+	//field to collect current state they live in
 	final String[] stateList = {"Select One", "Alabama", "Arkansas", "Arizona", "Alaska", "California", 
 								"Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii",
 								"Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
@@ -73,32 +77,47 @@ public class AddNewPatientsPanel extends JPanel
 								"Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
 								"Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
 								"Washington, D.C.",	"West Virginia", "Wisconsin", "Wyoming" };
+	
+	//field to collect current country
 	final String[] countryList = {"Select One", "United States of America"};
 	
+	//field for dob month
 	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
 								"July", "August", "September", "October", "November", "December"};
 	
+	//field for dob day
 	final String[] dayList = {"Select One", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
 							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+	
+	//field for education
+	final String[] eduList = {"Select One", "Less than High School or GED", "High School or GED",
+							  "Some College", "Associate's Degree", "Bachelor's Degree",
+							  "Some Graduate School", "Graduate or Professional Degree"};
+	
+	//field for work status
+	final String[] statusList = {"Select One", "Unemployed", "Part-Time", "Full-Time",
+								 "Self-Employed", "Independent Contractor", "Other"};
 	
 	JFrame demographicsFrame;
 	
 	Connection conn;	
 	
-	//Contains all data fields needed from patient	
+	//text fields to get raw input from entry	
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField,
-	 		   yearField, phoneField, emailField, streetField, zipField, ssnField, insuranceField,
-	 		   occupationField, workStatusField, educationField, tOnsetField, tEtioField, hOnsetField,
-	 		   hEtioField;
+	 		   yearField, emailField, addressField, zipField, insuranceField,
+	 		   occupationField, tOnsetField, tEtioField, hOnsetField,
+	 		   hEtioField, ssn1Field, ssn2Field, ssn3Field, areaCodeField, phone1Field,
+	 		   phone2Field;
 	
+	//text area to get doctor comments on patient
 	JTextArea commentField;
 	
-	JComboBox<String> monthField, dayField, genderField, cityField, stateField, countryField;
+	JComboBox<String> monthField, dayField, genderField, cityField, stateField, countryField, educationField;
 	
 	JButton photoField;
 	
-	JPanel dobField;
+	JPanel dobField, ssnField, phoneField;
 	
 	JLabel THCNumberLabel, currentDateLabel, firstNameLabel, middleNameLabel, lastNameLabel, dobLabel,
 		   genderLabel, phoneLabel, emailLabel, streetLabel, cityLabel, stateLabel, zipLabel, countryLabel,
