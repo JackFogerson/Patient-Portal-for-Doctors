@@ -39,6 +39,7 @@ public class EditVisitScreen extends AddNewVisitPanel
 	 */
 	private void fillInfo()
 	{
+		//Import the data to all of the fields.
 		visitIDField.setText(myVisit.getVisitID());
 		visitDateField.setText(myVisit.getDate());
 		nameField.setText(getName());
@@ -51,15 +52,13 @@ public class EditVisitScreen extends AddNewVisitPanel
 		instrumentField.setSelectedItem(myVisit.getInstrument());
 		monthField.setSelectedItem(myVisit.getNextVisitMonth());
 		dayField.setSelectedItem(myVisit.getNextVisitDay());
-		yearField.setText(myVisit.getNextVisitYear());
-		
+		yearField.setText(myVisit.getNextVisitYear());		
 		remField.setSelected(myVisit.getREM());
 		commentField.setText(myVisit.getComments());
 		
-		// Remove the current action listeners of the save and cancel buttons. This is needed
-		// because they are still linked with the super's action listeners, which mess up the
-		// editing process. We need to change the action listeners to the edit version of the
-		// save and cancel button.
+		// Removes action listeners of the save and cancel buttons. This is needed
+		// because they are linked with the super's action listeners, which mess up the
+		// editing process
 		for(ActionListener al : super.getSaveButton().getActionListeners())
 		{
 			super.getSaveButton().removeActionListener(al);
@@ -81,27 +80,30 @@ public class EditVisitScreen extends AddNewVisitPanel
 			{
 				ex.printStackTrace();
 			}
-		});
-		
-		
+		});		
 	}
 	
+	/**
+	 * @title	newCancel
+	 * @desc	Closes the visit edit form
+	 */
 	private void newCancel()
 	{
 		SwingUtilities.windowForComponent(this).dispose();
 	}
 	
 	/**
-	 * @title	submitNewInformation Method
+	 * @title	submitNewInformation
 	 * @throws	SQLException - If the form has a problem with submitting data to the database.
-	 * @desc	Submits the newest information to the table by deleting the user, and reinputting it under the new data.
+	 * @desc	Submits newest information to the table by deleting the user, and inputting the new data.
 	 */
 	private void submitNewInformation() throws SQLException
 	{	
-		// Get the currnet date.
+		// Get current date.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.now();
 		
+		//For CheckBox
 		String rem = "";
 		
 		if(remField.isSelected())
@@ -113,24 +115,26 @@ public class EditVisitScreen extends AddNewVisitPanel
 			rem += "0";
 		}
 		
-		// Delete the current patient from the database.
+		// Delete the current patient from database.
 		PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM VISITS WHERE VisitID ='" + myVisit.getVisitID() + "';");
 		deleteStmt.execute();
 
-		// Reinput the user.
+		// Re-input the user.
 		String query = "INSERT INTO Visits(VisitID, Date, THCNumber, VisitSequence, ProblemRank, Category, Protocol, FU, Instrument, REM, Comments, NextVisit) "
 								   + "VALUES(" + visitIDField.getText() + ", "
-								   		  + "'" + dtf.format(localDate) + "', "
-								   		  + "'" + thcField.getText() + "', "
-								   		  + "'" + visitSequenceField.getText() + "', "
-								   		  + "'" + problemRankField.getSelectedItem() + "', "
-								   		  + "'" + categoryField.getSelectedItem() + "', "
-								   		  + "'" + protocolField.getSelectedItem() + "', "
-								   		  + "'" + fuField.getSelectedItem() + "', "
-								   		  + "'" + instrumentField.getSelectedItem() + "', "
-								   		  + "'" + rem + "', "
-								   		  + "'" + commentField.getText() + "', "
-								   		  + "'" + nextVisitField.getText() + "')";
+								   	  + "'" + dtf.format(localDate) + "', "
+							   		  + "'" + thcField.getText() + "', "
+							   		  + "'" + visitSequenceField.getText() + "', "
+							   		  + "'" + problemRankField.getSelectedItem() + "', "
+							   		  + "'" + categoryField.getSelectedItem() + "', "
+							   		  + "'" + protocolField.getSelectedItem() + "', "
+							   		  + "'" + fuField.getSelectedItem() + "', "
+							   		  + "'" + instrumentField.getSelectedItem() + "', "
+							   		  + "'" + rem + "', "
+							   		  + "'" + commentField.getText() + "', "
+									  + "'" + dayField.getSelectedItem() + "/" + monthField.getSelectedItem() + "/" + yearField.getText() + "')";
+
+		// Perform query
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
 		
