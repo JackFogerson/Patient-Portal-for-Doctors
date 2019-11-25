@@ -7,16 +7,19 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -130,6 +133,17 @@ public class AddNewVisitPanel extends JPanel
         }});
 		
 		cancelButton.addActionListener(e -> rebuildPanel());
+		// Add a listener for if the save button is clicked. Once clicked, submit the information provided.
+		saveButton.addActionListener(e -> {
+			try 
+			{
+				submitInformation();
+			} 
+			catch (SQLException ex) 
+			{
+				ex.printStackTrace();
+			}
+		});
 		
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -384,6 +398,97 @@ public class AddNewVisitPanel extends JPanel
 		c.gridwidth = 1;
 		add(cancelButton, c);
 	}
+
+	private boolean errorCheck()
+	{
+		boolean isError = false;
+		String errorLog = "";
+		
+		if(visitIDField.getText().equals(""))
+		{
+			errorLog += "Visit ID, ";
+			isError = true;
+		}
+		if(visitDateField.getText().equals(""))
+		{
+			errorLog += "Visit Date, ";
+			isError = true;
+		}
+		if(thcField.getText().equals(""))
+		{
+			errorLog += "THC Number. ";
+			isError = true;
+		}
+		if(visitSequenceField.getText().equals(""))
+		{
+			errorLog += "Visit Number, ";
+			isError = true;
+		}
+		if(nextVisitField.getText().equals("")) 
+		{
+			errorLog += "Next Visit, ";
+			isError = true;
+		}
+		
+		
+		// If there is an error, alert the user to everywhere it went wrong.
+		if(isError)
+		{
+			errorLog = errorLog.substring(0, errorLog.length() - 2) + ".";
+			JOptionPane.showMessageDialog(null, "The following fields can not be empty: " + errorLog, "eTRT - Decision Support System for Tinnitus Restraining Therapy", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(AddNewPatientsPanel.class.getResource("/images/eTRT_icon.png")));
+		}
+
+		return isError;
+	}
+	
+	/**
+	 * @title	submitNewInformation Method
+	 * @throws	SQLException - If the form has a problem with submitting data to the database.
+	 * @desc	Submits the newest information to the table by deleting the user, and reinputting it under the new data.
+	 */
+	private void submitInformation() throws SQLException
+	{	
+		if(errorCheck())
+		{
+			return;
+		}
+		
+		// Get the currnet date.
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate localDate = LocalDate.now();
+		
+		String rem = "";
+		
+		if(remField.isSelected())
+		{
+			rem += "1";
+		}
+		else
+		{
+			rem += "0";
+		}
+
+		// Reinput the user.
+		String query = "INSERT INTO Visits(VisitID, Date, THCNumber, VisitSequence, ProblemRank, Category, Protocol, FU, Instrument, REM, Comments, NextVisit) "
+								   + "VALUES(" + visitIDField.getText() + ", "
+								   		  + "'" + dtf.format(localDate) + "', "
+								   		  + "'" + thcField.getText() + "', "
+								   		  + "'" + visitSequenceField.getText() + "', "
+								   		  + "'" + problemRankField.getSelectedItem() + "', "
+								   		  + "'" + categoryField.getSelectedItem() + "', "
+								   		  + "'" + protocolField.getSelectedItem() + "', "
+								   		  + "'" + fuField.getSelectedItem() + "', "
+								   		  + "'" + instrumentField.getSelectedItem() + "', "
+								   		  + "'" + rem + "', "
+								   		  + "'" + commentField.getText() + "', "
+								   		  + "'" + nextVisitField.getText() + "')";
+		PreparedStatement preparedStmt = conn.prepareStatement(query);
+		preparedStmt.execute();
+		
+		rebuildPanel();
+		
+		return;
+	}
 	
 	public String getName()
 	{
@@ -501,5 +606,15 @@ public class AddNewVisitPanel extends JPanel
 		buildPanel();
 		repaint();
 		revalidate();
+	}
+	
+	public JButton getSaveButton()
+	{
+		return saveButton;
+	}
+	
+	public JButton getCancelButton()
+	{
+		return cancelButton;
 	}
 }

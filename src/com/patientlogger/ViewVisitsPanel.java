@@ -168,7 +168,7 @@ public class ViewVisitsPanel extends JPanel
 		c.gridwidth = 5;
 		c.gridheight = 20;
 		c.ipady = 250;
-		c.ipadx = 25;
+		c.ipadx = 50;
 		add(visitsScrollPane, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
