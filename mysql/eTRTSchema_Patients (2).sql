@@ -19,9 +19,11 @@
 -- Table structure for table `Patients`
 --
 
-DROP TABLE IF EXISTS `Patients`;
+/*DROP TABLE IF EXISTS `Patients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
+*/
+
 CREATE TABLE `Patients` (
   `THCNumber` int(11) NOT NULL,
   `Date` date NOT NULL,
