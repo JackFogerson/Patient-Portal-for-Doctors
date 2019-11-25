@@ -107,7 +107,7 @@ public class EditPatientScreen extends AddNewPatientsPanel
 	
 	/**
 	 * @title	newCancel
-	 * @desc	Closes the edit form for the patient.
+	 * @desc	Closes the patient edit form
 	 */
 	private void newCancel()
 	{
@@ -115,47 +115,49 @@ public class EditPatientScreen extends AddNewPatientsPanel
 	}
 	
 	/**
-	 * @title	submitNewInformation Method
+	 * @title	submitNewInformation
 	 * @throws	SQLException - If the form has a problem with submitting data to the database.
-	 * @desc	Submits the newest information to the table by deleting the user, and reinputting it under the new data.
+	 * @desc	Submits newest information to the table by deleting the user, and inputting the new data.
 	 */
 	private void submitNewInformation() throws SQLException
 	{	
-		// Get the currnet date.
+		// Get current date.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.now();
 		
-		// Delete the current patient from the database.
+		// Delete the current patient from database.
 		PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM PATIENTS WHERE THCNumber ='" + myPatient.getTHCNumber() + "';");
 		deleteStmt.execute();
 
-		// Reinput the user.
+		// Re-input the user.
 		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, City, State, Zip, Country, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
 								   + "VALUES(" + THCNumberField.getText() + ", "
-								   		  + "'" + dtf.format(localDate) + "', "
-								   		  + "'" + firstNameField.getText() + "', "
-								   		  + "'" + middleNameField.getText() + "', "
-								   		  + "'" + lastNameField.getText() + "', "
-								   		  + "'" + yearField.getText() + "-" + monthField.getText() + "-" + dayField.getText() + "', "
-								   		  + "'" + genderField.getSelectedItem() + "', "
-								   		  + "'" + phoneField.getText() + "', "
-								   		  + "'" + emailField.getText() + "', "
-								   		  + "'" + streetField.getText() + "', "
-								   		  + "'" + cityField.getSelectedItem() + "', "
-								   		  + "'" + stateField.getSelectedItem() + "', "
-								   		  + "'" + zipField.getText() + "', "
-								   		  + "'" + countryField.getSelectedItem() + "', "
-								   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
-								   		  + "'" + ssnField.getText() + "', "
-								   		  + "'" + insuranceField.getText() + "', "
-								   		  + "'" + occupationField.getText() + "', "
-								   		  + "'" + workStatusField.getText() + "', "
-								   		  + "'" + educationField.getText() + "', "
-								   		  + "'" + tOnsetField.getText() + "', "
-								   		  + "'" + tEtioField.getText() + "', "
-								   		  + "'" + hOnsetField.getText() + "', "
-								   		  + "'" + hEtioField.getText() + "', "
-								   		  + "'" + commentField.getText() + "')";
+								   	  + "'" + dtf.format(localDate) + "', "
+							   		  + "'" + firstNameField.getText() + "', "
+							   		  + "'" + middleNameField.getText() + "', "
+							   		  + "'" + lastNameField.getText() + "', "
+									  + "'" + dayField.getSelectedItem() + "/" + monthField.getSelectedItem() + "/" + yearField.getText() + "', "
+							   		  + "'" + genderField.getSelectedItem() + "', "
+							   		  + "'(" + areaCodeField.getText() + ")" + phone1Field.getText() + "-" + phone2Field.getText() + "', "
+							   		  + "'" + emailField.getText() + "', "
+							   		  + "'" + addressField.getText() + "', "
+							   		  + "'" + cityField.getSelectedItem() + "', "
+							   		  + "'" + stateField.getSelectedItem() + "', "
+							   		  + "'" + zipField.getText() + "', "
+							   		  + "'" + countryField.getSelectedItem() + "', "
+							   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
+							   		  + "'" + ssn1Field.getText() + "-" + ssn2Field.getText() + "-" + ssn3Field.getText() + "', "
+							   		  + "'" + insuranceField.getText() + "', "
+							   		  + "'" + occupationField.getText() + "', "
+							   		  + "'" + workStatusField.getSelectedItem() + "', "
+							   		  + "'" + educationField.getSelectedItem() + "', "
+							   		  + "'" + tOnsetField.getText() + "', "
+							   		  + "'" + tEtioField.getText() + "', "
+							   		  + "'" + hOnsetField.getText() + "', "
+							   		  + "'" + hEtioField.getText() + "', "
+							   		  + "'" + commentField.getText() + "')";
+		
+		// Perform query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
 		
