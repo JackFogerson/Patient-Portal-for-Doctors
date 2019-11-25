@@ -186,14 +186,18 @@ public class AddNewVisitPanel extends JPanel
 		visitDateField.setText(dtf.format(localDate));
 		visitDateField.setBackground(Color.GRAY);
 		
+		//Listener to get name from thc field
+		//also sets visit #
 		thcField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	nameField.setText(getName());
             	visitSequenceField.setText(Integer.toString(getVisitSequence()));
         }});
 		
+		//Listener for cancel button click
 		cancelButton.addActionListener(e -> rebuildPanel());
-		// Add a listener for if the save button is clicked. Once clicked, submit the information provided.
+		
+		// Listener for save button click. Once clicked, submit the information provided.
 		saveButton.addActionListener(e -> {
 			try 
 			{
@@ -204,59 +208,58 @@ public class AddNewVisitPanel extends JPanel
 				ex.printStackTrace();
 			}
 		});
-		
-		
+			
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
+		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(visitIDLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 3;
+		c.gridx = 2;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(visitIDField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 4;
+		c.gridx = 3;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(visitDateLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 5;
+		c.gridx = 4;
 		c.gridy = 0;
 		c.gridheight = 1;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		add(visitDateField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		add(nameLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 2;
 		c.gridy = 1;
 		c.gridheight = 1;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		add(nameField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 4;
+		c.gridx = 3;
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		add(thcLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 5;
+		c.gridx = 4;
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
@@ -413,7 +416,7 @@ public class AddNewVisitPanel extends JPanel
 		c.gridx = 1;
 		c.gridy = 7;
 		c.gridheight = 1;
-		c.gridwidth = 2;
+		c.gridwidth = 5;
 		add(nextVisitField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
