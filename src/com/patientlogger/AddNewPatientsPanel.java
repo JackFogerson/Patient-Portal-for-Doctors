@@ -190,9 +190,9 @@ public class AddNewPatientsPanel extends JPanel
 		ssn1Field = new JTextField("XXX");
 		ssn2Field = new JTextField("XX");
 		ssn3Field = new JTextField("XXXX");
-		phoneField.add(ssn1Field);
-		phoneField.add(ssn2Field);
-		phoneField.add(ssn3Field);		
+		ssnField.add(ssn1Field);
+		ssnField.add(ssn2Field);
+		ssnField.add(ssn3Field);		
 		insuranceField = new JTextField(30);
 		THCNumberLabel = new JLabel("THC Number");
 		currentDateLabel = new JLabel("Current Date");
@@ -233,7 +233,7 @@ public class AddNewPatientsPanel extends JPanel
 		areaCodeField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				yearField.setText("");
+				areaCodeField.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -244,7 +244,7 @@ public class AddNewPatientsPanel extends JPanel
 		phone1Field.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				yearField.setText("");
+				phone1Field.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -255,7 +255,7 @@ public class AddNewPatientsPanel extends JPanel
 		phone2Field.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				yearField.setText("");
+				phone2Field.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -266,7 +266,7 @@ public class AddNewPatientsPanel extends JPanel
 		addressField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				yearField.setText("");
+				addressField.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -277,7 +277,7 @@ public class AddNewPatientsPanel extends JPanel
 		ssn1Field.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				yearField.setText("");
+				ssn1Field.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -288,7 +288,7 @@ public class AddNewPatientsPanel extends JPanel
 		ssn2Field.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				yearField.setText("");
+				ssn2Field.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -299,7 +299,7 @@ public class AddNewPatientsPanel extends JPanel
 		ssn3Field.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				yearField.setText("");
+				ssn3Field.setText("");
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -1108,7 +1108,7 @@ public class AddNewPatientsPanel extends JPanel
 		demographicsFrame.add(demoSaveButton, c);
 		
 		// Sets the rest of the JFrame settings.
-		demographicsFrame.setSize(new Dimension(600, 250));
+		demographicsFrame.setSize(new Dimension(700, 300));
 		demographicsFrame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		demographicsFrame.setLocation(d.width/2-demographicsFrame.getSize().width/2, d.height/2-demographicsFrame.getSize().height/2);
