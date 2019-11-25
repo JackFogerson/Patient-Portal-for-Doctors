@@ -20,8 +20,8 @@ import javax.swing.JTextField;
 
 /**
  * @title 	ViewVisitsPanel Class
- * @author 	Nick Fulton
- * @desc	Builds the panel to view patients.
+ * @author 	Nick Fulton, Jack Fogerson
+ * @desc	This class is an extension of JPanel. Builds the panel to view visits.
  */
 public class ViewVisitsPanel extends JPanel
 {
@@ -30,26 +30,35 @@ public class ViewVisitsPanel extends JPanel
 
 	Connection conn;
 	
+	//Used for drop down menus
 	JComboBox<String> searchCriteria;
 	
+	//initializing buttons for use
 	JButton viewVisitButton, deleteVisitButton, analyzeVisitButton,
 			searchButton, refreshButton;
 	
+	//Used for fields with multiple entry boxes
 	JPanel visitsPaneButtons, visitsPanel;
 	
+	//Pane that can scroll
 	JScrollPane visitsScrollPane;
 	
+	//text fields to get raw input from entry	
 	JTextField searchBox;
 	
+	//Sets table w/ all visits
 	JTable visitTable;
 	
+	//Where list of visits is stored
 	ArrayList<Visit> visits;
 	
+	//Options for search menu
 	final String[] searchOptions = {"Filter Options", "Name", "Date"};
 	
 	/**
-	 * @title	ViewVisitsPanel Constructor
-	 * @param 	c - Connection to the database.
+	 * @title	ViewVisitsPanel
+	 * @desc	constructor, builds panel
+	 * @param 	c - Is the connection to the database.
 	 */
 	public ViewVisitsPanel(Connection c)
 	{
@@ -58,8 +67,9 @@ public class ViewVisitsPanel extends JPanel
 	}
 
 	/**
-	 * @title	buildPanel Method
-	 * @desc	Builds the ViewPatientsPanel
+	 *	@title	buildPanel
+	 *	@desc	Local method used to build this panel, everything from assigning listeners to putting the
+	 *			components in the correct place.
 	 */
 	private void buildPanel()
 	{
@@ -77,7 +87,7 @@ public class ViewVisitsPanel extends JPanel
 		visitTable = new JTable();
 		searchBox = new JTextField(10);
 		
-		// Add the ability to refresh the table.
+		// Listener adds the ability to refresh the table.
 		refreshButton.addActionListener(e -> {
 			try 
 			{
@@ -89,7 +99,7 @@ public class ViewVisitsPanel extends JPanel
 			}
 		});
 		
-		// Add the ability to search for a patient.
+		//Listener adds ability to search for a visit.
 		searchButton.addActionListener(e -> {
 			try 
 			{
@@ -101,7 +111,7 @@ public class ViewVisitsPanel extends JPanel
 			}
 		});
 		
-		// Add the ability to delete a patient.
+		//Listener adds the ability to delete a visit.
 		deleteVisitButton.addActionListener(e -> {
 			try 
 			{
@@ -113,10 +123,10 @@ public class ViewVisitsPanel extends JPanel
 			}
 		});
 		
-		// Add the ability to edit a patient.
+		// Listener adds the ability to edit a visit.
 		viewVisitButton.addActionListener(e -> edit());
 		
-		// Populate the patient table.
+		// Populate the visit table.
 		try 
 		{
 			populate();
@@ -126,10 +136,10 @@ public class ViewVisitsPanel extends JPanel
 			e.printStackTrace();
 		}
 		
-		// Create the scroll pane.
+		// Create the scrollable pane.
 		visitsScrollPane = new JScrollPane(visitTable);
 		
-		// The following is adding all of the components to the panel.
+		// The following adds all of the components to the panel.
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -199,29 +209,29 @@ public class ViewVisitsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	search Method
+	 * @title	search
 	 * @throws 	SQLException - If the database has problems pulling the patients.
 	 */
 	private void search() throws SQLException
 	{
-		// If there isnt a search query just refresh the table.
+		// If no search query, refresh the table.
 		if(searchBox.getText().equals(""))
 		{
 			populate();
 			return;
 		}
 		
-		// Find the patients from the database from pullSomePatients (this method handles the search)
+		// Finds patients from the database from pullSomePatients (this method handles the search)
 		visits = pullSomeVisits();
 		String[][] visitData = new String[visits.size()][11];
 		
-		// Assign the patient's data to the table's data.
+		// Assigns the patient's data to the table's data.
 		for(int x = 0; x < visits.size(); x++)
 		{
 			visitData[x] = visits.get(x).getVisitInfo();
 		}
 		
-		// Set the table correctly.
+		// Sets the table
 		visitTable.setModel(new VisitDataModel(visitData));
 		visitTable.setAutoCreateRowSorter(true);
 		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -235,29 +245,29 @@ public class ViewVisitsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	delete Method
+	 * @title	delete
 	 * @throws 	SQLException - If the database has problems deleting information.
 	 */
 	private void delete() throws SQLException
 	{
-		// Pull the THC number to be deleted.
+		// Pulls the ID number to be deleted.
 		String IDNumber = (String)visitTable.getValueAt(visitTable.getSelectedRow(), 0);
 		
-		// Delete the patient from the table.
+		// Deletes the visit from the table.
 		PreparedStatement preparedStmt = conn.prepareStatement("DELETE FROM Visits WHERE VisitID ='" + IDNumber + "';");
 		preparedStmt.execute();
 		
-		// Pull the new patient information.
+		// Pulls the new visit information.
 		visits = pullAllVisits();
 		String[][] visitData = new String[visits.size()][7];
 		
-		// Get the new patientdata after deleting.
+		// Get the new visit data after deleting.
 		for(int x = 0; x < visits.size(); x++)
 		{
 			visitData[x] = visits.get(x).getVisitInfo();
 		}
 		
-		// Redo the table after deletion.
+		// Reset the table after deletion.
 		visitTable.setModel(new VisitDataModel(visitData));
 		visitTable.setAutoCreateRowSorter(true);
 		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -271,15 +281,15 @@ public class ViewVisitsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	edit Method
-	 * @desc	Allows functionality to edit a patient through an external frame.
+	 * @title	edit
+	 * @desc	Launches new JFrame to edit a visit
 	 */
 	private void edit()
 	{
-		// Declare the patient.
+		// visit starts null
 		Visit visit = null;
 		
-		// Get the patient that was selected.
+		// Get visit that was selected.
 		for(int x = 0; x < visits.size(); x++)
 		{
 			if((String)visitTable.getValueAt(visitTable.getSelectedRow(), 0) == visits.get(x).getVisitID())
@@ -289,27 +299,29 @@ public class ViewVisitsPanel extends JPanel
 			}
 		}
 		
-		// Build a edit patient screen.
+		// Build a new edit visit screen.
 		JFrame frame = new JFrame("eTRT - Edit Patient");
 		frame.add(new EditVisitScreen(conn, visit));
 		frame.setSize(new Dimension(600, 450));
 		frame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		//Center the new frame
 		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
 		frame.setVisible(true);
 	}
 	
 	/**
-	 * @title	populate Method
-	 * @throws 	SQLException - If the database can't retreive information.
+	 * @title	populate
+	 * @desc	gets visit data and fills table
+	 * @throws 	SQLException - If the database can't retrieve information.
 	 */
 	private void populate() throws SQLException
 	{
-		// Get the patients from the database.
+		// Pull visits from the database.
 		visits = pullAllVisits();
 		String[][] visitData = new String[visits.size()][11];
 		
-		// Assign all of the patient data to patientData
+		// Assign all of the visit data to visitData[]
 		for(int x = 0; x < visits.size(); x++)
 		{
 			visitData[x] = visits.get(x).getVisitInfo();
@@ -329,10 +341,10 @@ public class ViewVisitsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	pullAllPatients Method
-	 * @return	Arraylist of patients from database
-	 * @throws 	SQLException - If the database cant get the information
-	 * @desc	Find all of the patients in the database.
+	 * @title	pullAllVisits
+	 * @return	Arraylist of visits from database
+	 * @throws 	SQLException - If the database can't get the information
+	 * @desc	Find all the visits in the database.
 	 */
 	private ArrayList<Visit> pullAllVisits() throws SQLException
 	{
@@ -352,10 +364,10 @@ public class ViewVisitsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	pullSomePatients Method
-	 * @return	The patients requested
+	 * @title	pullSomeVisits
+	 * @return	visits requested
 	 * @throws 	SQLException - If the database can not return information.
-	 * @desc	Pulls patients as needed for the search query.
+	 * @desc	Pulls visits as needed for search query.
 	 */
 	private ArrayList<Visit> pullSomeVisits() throws SQLException
 	{
@@ -364,21 +376,23 @@ public class ViewVisitsPanel extends JPanel
 		ArrayList<Visit> visits = new ArrayList<Visit>();
 		ResultSet rset = null;
 		
-		// Figure out what information to pull, and go off of that (from the searchbox)
+		// Figure out what information to pull, and go off of that (from the search box)
 		switch((String)searchCriteria.getSelectedItem())
 		{
 			// Name and default
 			default:
+				//looks in database for visit with patient with inputed name
 				String[] name = searchBox.getText().split(" ");
 				rset = stmt.executeQuery("SELECT visits.* FROM visits,patients WHERE patients.FirstName = '" + name[0] + "' AND patients.LastName = '" + name[1] + "' AND patients.THCNumber = visits.THCNumber;");
 				break;
 			
 			case "Date":
+				//looks in database for visit with inputed date
 				rset = stmt.executeQuery("SELECT * FROM VISITS WHERE DATE = '" + searchBox.getText() + "';");
 				break;
 		}
 		
-		// Pull the information.
+		// Pulls the information.
 		while (rset.next())
 		{
 	    	visits.add(new Visit(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
@@ -386,7 +400,7 @@ public class ViewVisitsPanel extends JPanel
 	    						 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12)));
 	    }
 		
-		// Return the patients.
+		// Return the visits.
 		return visits;
 	}
 }
