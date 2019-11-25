@@ -2,13 +2,12 @@ package com.patientlogger;
 
 import java.awt.CardLayout;
 import java.sql.Connection;
-
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 /**
  * @title	PatientsPanel Class
- * @author 	Nick Fulton
+ * @author 	Nick Fulton, Jack Fogerson
  * @desc	Builds the patients panel.
  */
 public class PatientsPanel extends JPanel
@@ -31,20 +30,20 @@ public class PatientsPanel extends JPanel
 	}
 	
 	/**
-	 * @title	buildPanel Method
-	 * @desc	Builds the patients panel.
+	 * @title	buildPanel
+	 * @desc	Builds patients panel.
 	 */
 	private void buildPanel()
 	{
-		// Create the tabbed pane.
+		// Create the JTabbedPane.
 		mainPane = new JTabbedPane();
 		
-		// Create the needed panels.
+		// Create the inner panels.
 		AddNewPatientsPanel addNewPatientsPanel = new AddNewPatientsPanel(conn);
 		ViewPatientsPanel viewPatientsPanel = new ViewPatientsPanel(conn);
 		LookupPatientPanel lookupPatientsPanel = new LookupPatientPanel(conn);
 		
-		// Add the panels to the pane.
+		// Add these panels to the main pane.
 		mainPane.addTab("Add New Patient", null, addNewPatientsPanel, "Add A New Patient");
 		mainPane.addTab("View/Edit Patients", null, viewPatientsPanel, "View/Edit Patients");
 		mainPane.addTab("Lookup Patients", null, lookupPatientsPanel, "Lookup Patients");
