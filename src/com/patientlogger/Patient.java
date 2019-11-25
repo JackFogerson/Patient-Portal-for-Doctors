@@ -394,7 +394,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getEmail method
+	 * @title	getEmail
 	 * @return	myEmail
 	 */
 	public String getEmail()
@@ -403,7 +403,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setEmail method
+	 * @title setEmail
 	 * @param t - myEmail
 	 */
 	public void setEmail(String t)
@@ -412,7 +412,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getStreetAddress method
+	 * @title	getStreetAddress
 	 * @return	myStreetAddress
 	 */
 	public String getStreetAddress()
@@ -421,7 +421,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setStreetAddress method
+	 * @title setStreetAddress
 	 * @param t - myStreetAddress
 	 */
 	public void setStreetAddress(String t)
@@ -430,7 +430,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getCity method
+	 * @title	getCity
 	 * @return	myCity
 	 */
 	public String getCity()
@@ -439,7 +439,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setCity method
+	 * @title setCity
 	 * @param t - myCity
 	 */
 	public void setCity(String t)
@@ -448,7 +448,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getState method
+	 * @title	getState
 	 * @return	myState
 	 */
 	public String getState()
@@ -457,7 +457,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title setState method
+	 * @title setState
 	 * @param t - myState
 	 */
 	public void setState(String t)
@@ -466,7 +466,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getZip method
+	 * @title	getZip
 	 * @return	myZip
 	 */
 	public String getZip()
@@ -475,7 +475,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title setZip method
+	 * @title setZip
 	 * @param t - myZip
 	 */
 	public void setZip(String t)
@@ -484,7 +484,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getCountry method
+	 * @title	getCountry
 	 * @return	myCountry
 	 */
 	public String getCountry()
@@ -493,7 +493,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setCountry method
+	 * @title setCountry
 	 * @param t - myCountry
 	 */
 	public void setCountry(String t)
@@ -502,7 +502,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getPhoto method
+	 * @title	getPhoto
 	 * @return	myPhoto
 	 */
 	public String getPhoto()
@@ -511,7 +511,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setPhoto method
+	 * @title setPhoto
 	 * @param t - myPhoto
 	 */
 	public void setPhoto(String t)
@@ -520,7 +520,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getSsid method
+	 * @title	getSsid
 	 * @return	mySsid
 	 */
 	public String getSsid()
@@ -529,7 +529,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setSsid method
+	 * @title setSsid
 	 * @param t - mySsid
 	 */
 	public void setSsid(String t)
@@ -537,24 +537,62 @@ public class Patient
 		mySsid = t;
 	}
 	
-	public void getssn1()
+	/**
+	 * @title	getSSN1
+	 * @return	mySSN1
+	 */
+	public String getSSN1()
 	{
-		//TODO
-		return;
+		return mySSN1;
 	}
-	public void getssn2()
+
+	/**
+	 * @title setSSN1
+	 * @param t - mySSN1
+	 */
+	public void setSSN1(String t)
 	{
-		//TODO
-		return;
-	}
-	public void getssn3()
-	{
-		//TODO
-		return;
+		mySSN1 = t;
 	}
 	
 	/**
-	 * @title	getInsurance method
+	 * @title	getSSN2
+	 * @return	mySSN2
+	 */
+	public String getSSN2()
+	{
+		return mySSN2;
+	}
+
+	/**
+	 * @title setSSN2
+	 * @param t - mySSN2
+	 */
+	public void setSSN2(String t)
+	{
+		mySSN2 = t;
+	}
+	
+	/**
+	 * @title	getSSN3
+	 * @return	mySSN3
+	 */
+	public String getSSN3()
+	{
+		return mySSN3;
+	}
+
+	/**
+	 * @title setSSN3
+	 * @param t - mySSN3
+	 */
+	public void setSSN3(String t)
+	{
+		mySSN3 = t;
+	}
+	
+	/**
+	 * @title	getInsurance
 	 * @return	myInsurance
 	 */
 	public String getInsurance()
@@ -563,7 +601,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setInsurance method
+	 * @title setInsurance
 	 * @param t - myInsurance
 	 */
 	public void setInsurance(String t)
@@ -572,17 +610,16 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getOccupation method
+	 * @title	getOccupation
 	 * @return	myOccupation
 	 */
 	public String getOccupation()
 	{
 		return myOccupation;
-	}
-	
+	}	
 
 	/**
-	 * @title setOccupation method
+	 * @title setOccupation
 	 * @param t - myOccupation
 	 */
 	public void setOccupation(String t)
@@ -591,7 +628,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getWorkStatus method
+	 * @title	getWorkStatus
 	 * @return	myWorkStatus
 	 */
 	public String getWorkStatus()
@@ -600,7 +637,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setWorkStatus method
+	 * @title setWorkStatus
 	 * @param t - myWorkStatus
 	 */
 	public void setWorkStatus(String t)
@@ -609,7 +646,7 @@ public class Patient
 	}
 
 	/**
-	 * @title	getEducationalDegree method
+	 * @title	getEducationalDegree
 	 * @return	myEducationalDegree
 	 */
 	public String getEducationalDegree()
@@ -618,7 +655,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setEducationalDegree method
+	 * @title setEducationalDegree
 	 * @param t - myEducationalDegree
 	 */
 	public void setEducationalDegree(String t)
@@ -627,7 +664,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getTOnset method
+	 * @title	getTOnset
 	 * @return	myTOnset
 	 */
 	public String getTOnset()
@@ -636,7 +673,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setTOnset method
+	 * @title setTOnset
 	 * @param t - myTOnset
 	 */
 	public void setTOnset(String t)
@@ -645,7 +682,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getTEtio method
+	 * @title	getTEtio
 	 * @return	myTEtio
 	 */
 	public String getTEtio()
@@ -654,7 +691,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setTEtio method
+	 * @title setTEtio
 	 * @param t - myTEtio
 	 */
 	public void setTEtio(String t)
@@ -663,7 +700,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getHOnset method
+	 * @title	getHOnset
 	 * @return	myHonset
 	 */
 	public String getHOnset()
@@ -672,7 +709,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setHOnset method
+	 * @title setHOnset
 	 * @param t - myHOnset
 	 */
 	public void setHOnset(String t)
@@ -681,7 +718,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getHEtio method
+	 * @title	getHEtio
 	 * @return	myHEtio
 	 */
 	public String getHEtio()
@@ -690,7 +727,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setHEtio method
+	 * @title setHEtio
 	 * @param t - myHEtio
 	 */
 	public void setHEtio(String t)
@@ -699,7 +736,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getComments method
+	 * @title	getComments
 	 * @return	myComments
 	 */
 	public String getComments()
@@ -708,7 +745,7 @@ public class Patient
 	}
 
 	/**
-	 * @title setComments method
+	 * @title setComments
 	 * @param t - myComments
 	 */
 	public void setComments(String t)
@@ -717,7 +754,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getAge Method
+	 * @title	getAge
 	 * @return	Computes how old the patient is.
 	 */
 	public String getAge()
@@ -726,11 +763,11 @@ public class Patient
 		int month, day, year, age;
 		
 		// Pull the birthday of the patient.
-		month = Integer.parseInt(myDob.substring(5,7));
-		day = Integer.parseInt(myDob.substring(8,10));
-		year = Integer.parseInt(myDob.substring(0,4));
+		month = Integer.parseInt(myDOBMonth);
+		day = Integer.parseInt(myDOBDay);
+		year = Integer.parseInt(myDOBYear);
 		
-		// Find today's date.
+		// Get today's date.
 		LocalDate today = LocalDate.now();
 		
 		// Find the age in years.
@@ -758,15 +795,15 @@ public class Patient
 	{
 		int month, day, year;
 
-		month = Integer.parseInt(myDate.substring(5,7));
-		day = Integer.parseInt(myDate.substring(8,10));
-		year = Integer.parseInt(myDate.substring(0,4));
+		month = Integer.parseInt(myDOBMonth);
+		day = Integer.parseInt(myDOBDay);
+		year = Integer.parseInt(myDOBYear);
 		
 		return month + "-" + day + "-" + year;
 	}
 	
 	/**
-	 * @title	getPatientInfo method
+	 * @title	getPatientInfo
 	 * @return	Info for the patient
 	 * @desc	Finds the information for the patient that is to be displayed in the table.
 	 */
