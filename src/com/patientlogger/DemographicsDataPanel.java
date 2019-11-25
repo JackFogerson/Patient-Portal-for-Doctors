@@ -3,6 +3,9 @@ package com.patientlogger;
 import java.sql.Connection;
 import javax.swing.JPanel;
 
+//TODO: Should we add to this panel? Unsure of
+//		use since it is blank
+
 /**
  * @title	AddNewVisitPanel
  * @author	Nick Fulton, Jack Fogerson
