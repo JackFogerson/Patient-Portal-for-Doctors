@@ -209,17 +209,18 @@ public class AddNewVisitPanel extends JPanel
 			}
 		});
 			
+		// The following designs the panel and puts all the components in the correct place.
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(visitIDLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
+		c.gridx = 1;
 		c.gridy = 0;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		c.gridheight = 1;
 		add(visitIDField, c);
 		
@@ -234,21 +235,21 @@ public class AddNewVisitPanel extends JPanel
 		c.gridx = 4;
 		c.gridy = 0;
 		c.gridheight = 1;
-		c.gridwidth = 2;
+		c.gridwidth = 1;
 		add(visitDateField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		add(nameLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
+		c.gridx = 1;
 		c.gridy = 1;
 		c.gridheight = 1;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		add(nameField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -266,14 +267,14 @@ public class AddNewVisitPanel extends JPanel
 		add(thcField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 6;
+		c.gridx = 5;
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		add(visitSequenceLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 7;
+		c.gridx = 6;
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
@@ -308,14 +309,14 @@ public class AddNewVisitPanel extends JPanel
 		add(diagnoseButton, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(problemRankLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
+		c.gridx = 1;
 		c.gridy = 3;
 		c.gridwidth = 1;
 		c.gridheight = 1;
@@ -336,28 +337,28 @@ public class AddNewVisitPanel extends JPanel
 		add(categoryField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 5;
+		c.gridx = 6;
 		c.gridy = 3;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(protocolLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 6;
+		c.gridx = 7;
 		c.gridy = 3;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(protocolField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(fuLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
+		c.gridx = 1;
 		c.gridy = 4;
 		c.gridwidth = 1;
 		c.gridheight = 1;
@@ -378,14 +379,14 @@ public class AddNewVisitPanel extends JPanel
 		add(instrumentField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 5;
+		c.gridx = 6;
 		c.gridy = 4;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		add(remLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 6;
+		c.gridx = 7;
 		c.gridy = 4;
 		c.gridwidth = 1;
 		c.gridheight = 1;
@@ -416,7 +417,7 @@ public class AddNewVisitPanel extends JPanel
 		c.gridx = 1;
 		c.gridy = 7;
 		c.gridheight = 1;
-		c.gridwidth = 5;
+		c.gridwidth = 7;
 		add(nextVisitField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -461,7 +462,13 @@ public class AddNewVisitPanel extends JPanel
 		c.gridwidth = 1;
 		add(cancelButton, c);
 	}
-
+	
+	/**
+	 * @title	errorCheck
+	 * @return	Boolean on whether or not there is an error.
+	 * @desc	Method is called to check if all necessary fields are
+	 * 			completed before submission to database.
+	 */
 	private boolean errorCheck()
 	{
 		boolean isError = false;
@@ -475,6 +482,11 @@ public class AddNewVisitPanel extends JPanel
 		if(visitDateField.getText().equals(""))
 		{
 			errorLog += "Visit Date, ";
+			isError = true;
+		}
+		if(nameField.getText().equals(""))
+		{
+			errorLog += "Name, ";
 			isError = true;
 		}
 		if(thcField.getText().equals(""))
@@ -521,17 +533,18 @@ public class AddNewVisitPanel extends JPanel
 	 */
 	private void submitInformation() throws SQLException
 	{	
+		// If there is an error, don't submit the information.
 		if(errorCheck())
 		{
 			return;
 		}
 		
-		// Get the currnet date.
+		// Get the current date.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.now();
 		
-		String rem = "";
-		
+		//For checkBox
+		String rem = "";	
 		if(remField.isSelected())
 		{
 			rem += "1";
@@ -541,7 +554,7 @@ public class AddNewVisitPanel extends JPanel
 			rem += "0";
 		}
 
-		// Reinput the user.
+		// Create the query for submitting all the information into the Visit table.
 		String query = "INSERT INTO Visits(VisitID, Date, THCNumber, VisitSequence, ProblemRank, Category, Protocol, FU, Instrument, REM, Comments, NextVisit) "
 								   + "VALUES(" + visitIDField.getText() + ", "
 								   		  + "'" + dtf.format(localDate) + "', "
@@ -556,14 +569,20 @@ public class AddNewVisitPanel extends JPanel
 								   		  + "'" + commentField.getText() + "', "
 										  + "'" + dayField.getSelectedItem() + "/" + monthField.getSelectedItem() + "/" + yearField.getText() + "')";
 
+		// Perform query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
 		
+		// Rebuild the panel once it is submitted so it is blank for the next data entry.
 		rebuildPanel();
 		
 		return;
 	}
 	
+	/**
+	 * @title	getName
+	 * @desc	Gets patient name from thc number
+	 */
 	public String getName()
 	{
 		String name = null;
@@ -613,6 +632,10 @@ public class AddNewVisitPanel extends JPanel
 		return rowCount;
 	}
 	
+	/**
+	 * @title	getVisitSequence Method
+	 * @return	The sequence of this particular visit
+	 */
 	private int getVisitSequence()
 	{
 		int visitSequence = 0;
@@ -638,6 +661,10 @@ public class AddNewVisitPanel extends JPanel
 		return visitSequence;
 	}
 	
+	/**
+	 * @title	rebuildPanel
+	 * @desc	Destroys and rebuilds panel to clear all data.
+	 */
 	private void rebuildPanel()
 	{
 		remove(visitIDLabel);
@@ -682,11 +709,19 @@ public class AddNewVisitPanel extends JPanel
 		revalidate();
 	}
 	
+	/**
+	 * @title	getSaveButton
+	 * @return	JButton - The save button of the panel.
+	 */
 	public JButton getSaveButton()
 	{
 		return saveButton;
 	}
 	
+	/**
+	 * @tite	getCancelButton
+	 * @return	JButton - The cancel button of the panel.
+	 */
 	public JButton getCancelButton()
 	{
 		return cancelButton;
