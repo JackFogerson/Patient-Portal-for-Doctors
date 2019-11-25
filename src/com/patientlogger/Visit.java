@@ -71,54 +71,234 @@ public class Visit
 		return myVisitID;
 	}
 	
+	/**
+	 * @title setVisitID
+	 * @param t - myVisitID
+	 */
 	public void setVisitID(String v)
 	{
 		this.myVisitID = v;
 	}
 	
+	/**
+	 * @title	getDate
+	 * @return	myDate
+	 */
 	public String getDate()
 	{
 		return myDate;
 	}
 	
+	/**
+	 * @title setDate
+	 * @param t - myDate
+	 */
 	public void setDate(String d)
 	{
 		this.myDate = d;
 	}
 	
+	/**
+	 * @title	getTHCNumber
+	 * @return	myTHCNumber
+	 */
 	public String getTHCNumber()
 	{
 		return myTHCNumber;
 	}
 	
+	/**
+	 * @title setTHCNumber
+	 * @param t - myTHCNumber
+	 */
 	public void setTHCNumber(String t)
 	{
 		this.myTHCNumber = t;
 	}
 	
+	/**
+	 * @title	getVisitSequence
+	 * @return	myVisitSequence
+	 */
 	public String getVisitSequence()
 	{
 		return myVisitSequence;
 	}
 	
+	/**
+	 * @title setVisitSequence
+	 * @param v - myVisitSequence
+	 */
 	public void setVisitSequence(String v)
 	{
-		myVisitSequence = v;
+		this.myVisitSequence = v;
 	}
 	
+	/**
+	 * @title	getProblemRank
+	 * @return	myProblemRank
+	 */
 	public String getProblemRank()
 	{
 		return myProblemRank;
 	}
 	
+	/**
+	 * @title setProblemRank
+	 * @param p - myProblemRank
+	 */
 	public void setProblemRank(String p)
 	{
-		myProblemRank = p;
+		this.myProblemRank = p;
 	}
 	
+	/**
+	 * @title	getCategory
+	 * @return	myCategory
+	 */
 	public String getCategory()
 	{
 		return myCategory;
+	}
+	
+	/**
+	 * @title setCategory
+	 * @param c - myCategory
+	 */
+	public void setCategory(String c)
+	{
+		this.myCategory = c;
+	}
+	
+	/**
+	 * @title	getFU
+	 * @return	myFU
+	 */
+	public String getFU()
+	{
+		return myFU;
+	}
+	
+	/**
+	 * @title setFU
+	 * @param f - myFU
+	 */
+	public void setFU(String f)
+	{
+		this.myFU = f;
+	}
+	
+	/**
+	 * @title	getProtocol
+	 * @return	myProtocol
+	 */
+	public String getProtocol()
+	{
+		return myProtocol;
+	}
+	
+	/**
+	 * @title setProtocol
+	 * @param p - myProtocol
+	 */
+	public void setProtocol(String p)
+	{
+		this.myProtocol = p;
+	}
+	
+	/**
+	 * @title	getInstrument
+	 * @return	myInstrument
+	 */
+	public String getInstrument()
+	{
+		return myInstrument;
+	}
+	
+	/**
+	 * @title setInstrument
+	 * @param i - myInstrument
+	 */
+	public void setInstrument(String i)
+	{
+		this.myInstrument = i;
+	}
+	
+	/**
+	 * @title	getREM
+	 * @return	myREM
+	 */
+	public boolean getREM()
+	{
+		boolean r = false;
+		
+		switch(myREM)
+		{
+			case "1":
+				r = true;
+				break;
+			case "0":
+				r = false;
+				break;
+		}
+		return r;
+	}
+	
+	/**
+	 * @title setREM
+	 * @param r - myREM
+	 */
+	public void setREM(String r)
+	{
+		this.myREM = r;
+	}
+	
+	/**
+	 * @title setREM
+	 * @param b - myREM
+	 */
+	public void setREM(boolean b)
+	{
+		if(b)
+			this.myREM = "1";
+		else
+			this.myREM = "0";
+	}
+	
+	/**
+	 * @title	getComments
+	 * @return	myComments
+	 */
+	public String getComments()
+	{
+		return myComments;
+	}
+	
+	/**
+	 * @title setComments
+	 * @param c - myComments
+	 */
+	public void setComments(String c)
+	{
+		myComments = c;
+	}
+	
+	/**
+	 * @title	getNextVisit
+	 * @return	myNextVisit
+	 */
+	public String getNextVisit()
+	{
+		return myNextVisit;
+	}
+	
+	/**
+	 * @title setNextVisit
+	 * @param n - myNextVisit
+	 */
+	public void setNextVisit(String n)
+	{
+		myNextVisit = n;
 	}
 	
 	public void getNextVisitMonth()
@@ -137,93 +317,11 @@ public class Visit
 		return;
 	}
 	
-	
-	
-	
-	public void setCategory(String c)
-	{
-		myCategory = c;
-	}
-	
-	public String getFU()
-	{
-		return myFU;
-	}
-	
-	public void setFU(String f)
-	{
-		myFU = f;
-	}
-	
-	public String getProtocol()
-	{
-		return myProtocol;
-	}
-	
-	public void setProtocol(String p)
-	{
-		myProtocol = p;
-	}
-	
-	public String getInstrument()
-	{
-		return myInstrument;
-	}
-	
-	public void setInstrument(String i)
-	{
-		myInstrument = i;
-	}
-	
-	public boolean getREM()
-	{
-		boolean r = false;
-		
-		switch(myREM)
-		{
-			case "1":
-				r = true;
-				break;
-			case "0":
-				r = false;
-				break;
-		}
-		return r;
-	}
-	
-	public void setREM(String r)
-	{
-		myREM = r;
-	}
-	
-	public void setREM(boolean b)
-	{
-		if(b)
-			myREM = "1";
-		else
-			myREM = "0";
-	}
-	
-	public String getComments()
-	{
-		return myComments;
-	}
-	
-	public void setComments(String c)
-	{
-		myComments = c;
-	}
-	
-	public String getNextVisit()
-	{
-		return myNextVisit;
-	}
-	
-	public void setNextVisit(String n)
-	{
-		myNextVisit = n;
-	}
-	
+	/**
+	 * @title	getVisitInfo
+	 * @return	Info for the visit
+	 * @desc	Finds the information for the visit that is to be displayed in the table.
+	 */
 	public String[] getVisitInfo()
 	{
 		String[] visitInfo = {myVisitID, myDate, myTHCNumber, myVisitSequence,
