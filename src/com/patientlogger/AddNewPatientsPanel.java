@@ -82,11 +82,11 @@ public class AddNewPatientsPanel extends JPanel
 	final String[] countryList = {"Select One", "United States of America"};
 	
 	//field for dob month
-	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
-								"July", "August", "September", "October", "November", "December"};
+	final String[] monthList = {"--", "1", "2", "3", "4", "5", "6",
+								"7", "8", "9", "10", "12", "12"};
 	
 	//field for dob day
-	final String[] dayList = {"Select One", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+	final String[] dayList = {"--", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
 							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 	
