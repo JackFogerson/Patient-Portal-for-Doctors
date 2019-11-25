@@ -113,21 +113,27 @@ public class AddNewPatientsPanel extends JPanel
 	//text area to get doctor comments on patient
 	JTextArea commentField;
 	
-	JComboBox<String> monthField, dayField, genderField, cityField, stateField, countryField, educationField;
+	//Used for drop down menus
+	JComboBox<String> monthField, dayField, genderField, cityField, stateField, countryField, educationField, workStatusField;
 	
+	//Add photo button
 	JButton photoField;
 	
+	//Used for fields with multiple entry boxes
 	JPanel dobField, ssnField, phoneField;
 	
+	//labels to be used in gathering of patient data
 	JLabel THCNumberLabel, currentDateLabel, firstNameLabel, middleNameLabel, lastNameLabel, dobLabel,
-		   genderLabel, phoneLabel, emailLabel, streetLabel, cityLabel, stateLabel, zipLabel, countryLabel,
+		   genderLabel, phoneLabel, emailLabel, addressLabel, cityLabel, stateLabel, zipLabel, countryLabel,
 		   photoLabel, ssnLabel, insuranceLabel, blankSpace1, blankSpace2, demographicsLabel, occupationLabel,
 		   workStatusLabel, educationLabel, tOnsetLabel, tEtioLabel, hOnsetLabel, hEtioLabel, commentLabel;
 	
+	//initializing buttons for use
 	JButton saveButton, addDemoButton, newVisitButton, cancelButton, demoSaveButton, demoCancelButton;
 	
 	/**
-	 * @title	AddNewPatientsPanel Constructor
+	 * @title	AddNewPatientsPanel
+	 * @desc	constructor, builds panel
 	 * @param 	c - Is the connection to the database.
 	 */
 	public AddNewPatientsPanel(Connection c)
@@ -137,8 +143,8 @@ public class AddNewPatientsPanel extends JPanel
 	}
 	
 	/**
-	 *	@title	buildPanel method
-	 *	@desc	Is the local method used to build this panel, everything from assigning listeners to putting the
+	 *	@title	buildPanel
+	 *	@desc	Local method used to build this panel, everything from assigning listeners to putting the
 	 *			components in the correct place.
 	 */
 	private void buildPanel()
@@ -156,8 +162,8 @@ public class AddNewPatientsPanel extends JPanel
 		THCNumberField = new JTextField(10);
 		currentDateField = new JTextField(10);
 		firstNameField = new JTextField(10);
-		middleNameField = new JTextField(10);
-		lastNameField = new JTextField(10);
+		middleNameField = new JTextField(15);
+		lastNameField = new JTextField(15);
 		dobField = new JPanel(new GridLayout(1, 3));
 		monthField = new JComboBox<String>(monthList);
 		dayField = new JComboBox<String>(dayList);
@@ -166,16 +172,28 @@ public class AddNewPatientsPanel extends JPanel
 		dobField.add(dayField);
 		dobField.add(yearField);
 		genderField = new JComboBox<String>(genderList);
-		phoneField = new JTextField(10);
+		phoneField = new JPanel(new GridLayout(1, 3));
+		areaCodeField = new JTextField("(XXX)");
+		phone1Field = new JTextField("XXX");
+		phone2Field = new JTextField("XXXX");
+		phoneField.add(areaCodeField);
+		phoneField.add(phone1Field);
+		phoneField.add(phone2Field);
 		emailField = new JTextField(30);
-		streetField = new JTextField(10);
+		addressField = new JTextField("House Number and Street");
 		cityField = new JComboBox<String>(cityList);
 		stateField = new JComboBox<String>(stateList);
 		zipField = new JTextField(9);
 		countryField = new JComboBox<String>(countryList);
 		photoField = new JButton(unknownPicture);
-		ssnField = new JTextField(9);
-		insuranceField = new JTextField(10);
+		ssnField = new JPanel(new GridLayout(1, 3));
+		ssn1Field = new JTextField("XXX");
+		ssn2Field = new JTextField("XX");
+		ssn3Field = new JTextField("XXXX");
+		phoneField.add(ssn1Field);
+		phoneField.add(ssn2Field);
+		phoneField.add(ssn3Field);		
+		insuranceField = new JTextField(30);
 		THCNumberLabel = new JLabel("THC Number");
 		currentDateLabel = new JLabel("Current Date");
 		firstNameLabel = new JLabel("First Name");
@@ -185,14 +203,14 @@ public class AddNewPatientsPanel extends JPanel
 		genderLabel = new JLabel("Gender");
 		phoneLabel = new JLabel("Phone");
 		emailLabel = new JLabel("Email");
-		streetLabel = new JLabel("Street");
+		addressLabel = new JLabel("Street Address");
 		cityLabel = new JLabel("City");
 		stateLabel = new JLabel("State");
 		zipLabel = new JLabel("Zipcode");
 		countryLabel = new JLabel("Country");
 		photoLabel = new JLabel("Photo");
 		ssnLabel = new JLabel("SSN");
-		insuranceLabel = new JLabel("Insurance");	
+		insuranceLabel = new JLabel("Insurance Provider");	
 		blankSpace1 = new JLabel();
 		blankSpace2 = new JLabel();
 		saveButton = new JButton("Save");
@@ -200,13 +218,89 @@ public class AddNewPatientsPanel extends JPanel
 		newVisitButton = new JButton("New Visit");
 		cancelButton = new JButton("Cancel");	
 
+		// Listeners to revert the box to empty once clicked.
 		yearField.addFocusListener(new FocusListener() {
-
 			@Override
 			public void focusGained(FocusEvent e) {
 				yearField.setText("");
 			}
-
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+		
+		areaCodeField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				yearField.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+		
+		phone1Field.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				yearField.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+		
+		phone2Field.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				yearField.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+		
+		addressField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				yearField.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+		
+		ssn1Field.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				yearField.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+		
+		ssn2Field.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				yearField.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+		
+		ssn3Field.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				yearField.setText("");
+			}
 			@Override
 			public void focusLost(FocusEvent e) {
 				// Do Nothing	
@@ -400,14 +494,14 @@ public class AddNewPatientsPanel extends JPanel
 		c.gridy = 7;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		add(streetLabel, c);
+		add(addressLabel, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 7;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		add(streetField, c);
+		add(addressField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -617,7 +711,7 @@ public class AddNewPatientsPanel extends JPanel
 			errorLog += "Phone, ";
 			isError = true;
 		}
-		if(streetField.getText().equals(""))
+		if(addressField.getText().equals(""))
 		{
 			errorLog += "Street, ";
 			isError = true;
@@ -675,7 +769,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + genderField.getSelectedItem() + "', "
 								   		  + "'" + phoneField.getText() + "', "
 								   		  + "'" + emailField.getText() + "', "
-								   		  + "'" + streetField.getText() + "', "
+								   		  + "'" + addressField.getText() + "', "
 								   		  + "'" + cityField.getSelectedItem() + "', "
 								   		  + "'" + stateField.getSelectedItem() + "', "
 								   		  + "'" + zipField.getText() + "', "
@@ -753,8 +847,8 @@ public class AddNewPatientsPanel extends JPanel
 		remove(phoneField);
 		remove(emailLabel);
 		remove(emailField);
-		remove(streetLabel);
-		remove(streetField);
+		remove(addressLabel);
+		remove(addressField);
 		remove(cityLabel);
 		remove(cityField);
 		remove(stateLabel);
