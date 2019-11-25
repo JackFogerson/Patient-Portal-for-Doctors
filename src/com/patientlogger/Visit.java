@@ -301,20 +301,58 @@ public class Visit
 		myNextVisit = n;
 	}
 	
-	public void getNextVisitMonth()
+	/**
+	 * @title	getNextVisitMonth
+	 * @return	myNextVisitMonth
+	 */
+	public String getNextVisitMonth()
 	{
-		//TODO
-		return;
+		return myNextVisitMonth;
 	}
-	public void getNextVisitDay()
+	
+	/**
+	 * @title setNextVisitMonth
+	 * @param n - myNextVisitMonth
+	 */
+	public void setNextVisitMonth(String n)
 	{
-		//TODO
-		return;
+		myNextVisitMonth = n;
 	}
-	public void getNextVisitYear()
+	
+	/**
+	 * @title	getNextVisitDay
+	 * @return	myNextVisitDay
+	 */
+	public String getNextVisitDay()
 	{
-		//TODO
-		return;
+		return myNextVisitDay;
+	}
+	
+	/**
+	 * @title setNextVisitDay
+	 * @param n - myNextVisitDay
+	 */
+	public void setNextVisitDay(String n)
+	{
+		myNextVisitDay = n;
+	}
+	
+	/**
+	 * @title	getNextVisitYear
+	 * @return	myNextVisitYear
+	 */
+	public String getNextVisitYear()
+	{
+		return myNextVisitYear;
+	}
+	
+	/**
+	 * @title setNextVisitYear
+	 * @param n - myNextVisitYear
+	 */
+	public void setNextVisitYear(String n)
+	{
+		myNextVisitYear = n;
 	}
 	
 	/**
