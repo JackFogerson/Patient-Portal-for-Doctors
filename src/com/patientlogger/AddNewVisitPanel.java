@@ -353,7 +353,7 @@ public class AddNewVisitPanel extends JPanel
 		c.gridx = 1;
 		c.gridy = 7;
 		c.gridheight = 1;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		add(nextVisitField, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
