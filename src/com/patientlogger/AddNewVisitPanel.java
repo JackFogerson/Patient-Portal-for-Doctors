@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,21 +27,40 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * @title	AddNewVisitPanel
+ * @author	Nick Fulton, Jack Fogerson
+ * @desc	This class is an extension of JPanel which allows the user to add a new visit to 
+ * 			the database.
+ */
 public class AddNewVisitPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	Connection conn;
+	
+	//field for next visit month
+	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
+								"July", "August", "September", "October", "November", "December"};
+	
+	//field for next visit day
+	final String[] dayList = {"Select One", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+	
 	
 	JLabel visitIDLabel, visitDateLabel, thcLabel, nameLabel, visitSequenceLabel,
 		   problemRankLabel, categoryLabel, protocolLabel, instrumentLabel, remLabel,
 		   fuLabel, commentsLabel, nextVisitLabel;
 	
 	JTextField visitIDField, visitDateField, thcField, nameField, visitSequenceField,
-			   nextVisitField;
+			   yearField;
 	
-	JComboBox<String> problemRankField, categoryField, protocolField, instrumentField, fuField;
+	JComboBox<String> problemRankField, categoryField, protocolField, instrumentField,
+					  fuField, monthField, dayField;
 	
 	JCheckBox remField;
+	
+	JPanel nextVisitField;
 	
 	JTextArea commentField;
 	
@@ -84,8 +106,26 @@ public class AddNewVisitPanel extends JPanel
 		protocolField = new JComboBox<String>(categories);
 		fuField = new JComboBox<String>(fu);
 		instrumentField = new JComboBox<String>(instruments);
-		nextVisitField = new JTextField();
+		nextVisitField = new JPanel(new GridLayout(1, 3));
+		monthField = new JComboBox<String>(monthList);
+		dayField = new JComboBox<String>(dayList);
+		yearField = new JTextField("YYYY");
+		nextVisitField.add(monthField);
+		nextVisitField.add(dayField);
+		nextVisitField.add(yearField);
 		
+		// Listeners to revert the box to empty once clicked.
+		yearField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				yearField.setText("");
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do Nothing	
+			}
+		});
+				
 		remField = new JCheckBox();
 		commentField = new JTextArea(4, 30);
 		
@@ -424,9 +464,19 @@ public class AddNewVisitPanel extends JPanel
 			errorLog += "Visit Number, ";
 			isError = true;
 		}
-		if(nextVisitField.getText().equals("")) 
+		if(monthField.getSelectedItem().equals("Select One"))
 		{
-			errorLog += "Next Visit, ";
+			errorLog += "Month of Next Visit, ";
+			isError = true;
+		}
+		if(dayField.getSelectedItem().equals("Select One"))
+		{
+			errorLog += "Day of Next Visit, ";
+			isError = true;
+		}
+		if(yearField.getText().equals("YYYY") || yearField.getText().equals(""))
+		{
+			errorLog += "Year of Next Visit,";
 			isError = true;
 		}
 		
@@ -481,7 +531,8 @@ public class AddNewVisitPanel extends JPanel
 								   		  + "'" + instrumentField.getSelectedItem() + "', "
 								   		  + "'" + rem + "', "
 								   		  + "'" + commentField.getText() + "', "
-								   		  + "'" + nextVisitField.getText() + "')";
+										  + "'" + dayField.getSelectedItem() + "/" + monthField.getSelectedItem() + "/" + yearField.getText() + "')";
+
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
 		
