@@ -242,7 +242,7 @@ public class Patient
 
 	/**
 	 * @title setDob
-	 * @param t - Dob
+	 * @param t - myDob
 	 */
 	public void setDob(String t)
 	{
@@ -251,7 +251,7 @@ public class Patient
 	
 	/**
 	 * @title	getDOBMonth
-	 * @return	myDobMonth
+	 * @return	myDOBMonth
 	 */
 	public String getDOBMonth()
 	{
@@ -260,7 +260,7 @@ public class Patient
 	
 	/**
 	 * @title setDobMonth
-	 * @param t - DobMonth
+	 * @param t - myDOBMonth
 	 */
 	public void setDobMonth(String t)
 	{
@@ -278,7 +278,7 @@ public class Patient
 	
 	/**
 	 * @title setDobDay
-	 * @param t - DobDay
+	 * @param t - myDobDay
 	 */
 	public void setDobDay(String t)
 	{
@@ -296,7 +296,7 @@ public class Patient
 	
 	/**
 	 * @title setDobYear
-	 * @param t - DobYear
+	 * @param t - myDobYear
 	 */
 	public void setDobYear(String t)
 	{
@@ -313,7 +313,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title setGender method
+	 * @title setGender 
 	 * @param t - myGender
 	 */
 	public void setGender(String t)
@@ -322,7 +322,7 @@ public class Patient
 	}
 	
 	/**
-	 * @title	getPhone method
+	 * @title	getPhone
 	 * @return	myPhone
 	 */
 	public String getPhone()
@@ -330,47 +330,67 @@ public class Patient
 		return myPhone;
 	}
 	
-	
-	public void getareaCode()
-	{
-		//TODO
-		return;
-	}
-	public void getphone1()
-	{
-		//TODO
-		return;
-	}
-	public void getphone2()
-	{
-		//TODO
-		return;
-	}
-	public void getssn1()
-	{
-		//TODO
-		return;
-	}
-	public void getssn2()
-	{
-		//TODO
-		return;
-	}
-	public void getssn3()
-	{
-		//TODO
-		return;
-	}
-
-	
-
 	/**
-	 * @title setPhone method
+	 * @title setPhone
 	 * @param t - myPhone
 	 */
 	public void setPhone(String t)
 	{
 		myPhone = t;
+	}
+	
+	/**
+	 * @title	getAreaCode
+	 * @return	myAreaCode
+	 */
+	public String getAreaCode()
+	{
+		return myAreaCode;
+	}
+	
+	/**
+	 * @title setAreaCode
+	 * @param t - myAreaCode
+	 */
+	public void setAreaCode(String t)
+	{
+		myAreaCode = t;
+	}
+	
+	/**
+	 * @title	getPhone1
+	 * @return	myPhone1
+	 */
+	public String getPhone1()
+	{
+		return myPhone1;
+	}
+	
+	/**
+	 * @title setPhone1
+	 * @param t - myPhone1
+	 */
+	public void setPhone1(String t)
+	{
+		myPhone1 = t;
+	}
+	
+	/**
+	 * @title	getPhone2
+	 * @return	myPhone2
+	 */
+	public String getPhone2()
+	{
+		return myPhone2;
+	}
+	
+	/**
+	 * @title setPhone2
+	 * @param t - myPhone2
+	 */
+	public void setPhone2(String t)
+	{
+		myPhone2 = t;
 	}
 	
 	/**
@@ -515,6 +535,22 @@ public class Patient
 	public void setSsid(String t)
 	{
 		mySsid = t;
+	}
+	
+	public void getssn1()
+	{
+		//TODO
+		return;
+	}
+	public void getssn2()
+	{
+		//TODO
+		return;
+	}
+	public void getssn3()
+	{
+		//TODO
+		return;
 	}
 	
 	/**
