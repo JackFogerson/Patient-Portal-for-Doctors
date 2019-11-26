@@ -40,11 +40,11 @@ public class AddNewVisitPanel extends JPanel
 	GroupLayout layout;
 	
 	//field for next visit month
-	final String[] monthList = {"Select One", "January", "February", "March", "April", "May", "June",
-								"July", "August", "September", "October", "November", "December"};
+	final String[] monthList = {"MM", "1", "2", "3", "4", "5", "6",
+								"7", "8", "9", "10", "11", "12"};
 	
 	//field for next visit day
-	final String[] dayList = {"Select One", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+	final String[] dayList = {"DD", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 							  "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
 							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 	
@@ -567,7 +567,7 @@ public class AddNewVisitPanel extends JPanel
 								   		  + "'" + instrumentField.getSelectedItem() + "', "
 								   		  + "'" + rem + "', "
 								   		  + "'" + commentField.getText() + "', "
-										  + "'" + yearField.getText() + "/" + monthField.getSelectedItem() + "/" + dayField.getSelectedItem() + "')";
+										  + "'" + yearField.getText() + "-" + monthField.getSelectedItem() + "-" + dayField.getSelectedItem() + "')";
 
 		// Perform query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);

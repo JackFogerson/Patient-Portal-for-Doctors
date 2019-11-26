@@ -159,6 +159,22 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		deleteStmt.execute();
 
 		insertZip();
+		
+		String occupation = null;
+		String workstatus = null;
+		String education = null;
+		if(!occupationField.getSelectedItem().equals("Select One"))
+		{
+			occupation = (String)occupationField.getSelectedItem();
+		}
+		if(!workStatusField.getSelectedItem().equals("Select One"))
+		{
+			workstatus = (String)workStatusField.getSelectedItem();
+		}
+		if(!educationField.getSelectedItem().equals("Select One"))
+		{
+			education = (String)educationField.getSelectedItem();
+		}
 
 		// Create the query for submitting all the information into the patients table.
 		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, Zip, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
@@ -176,9 +192,9 @@ public class EditPatientScreen extends AddNewPatientsPanel
 								   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
 								   		  + "'" + ssn1Field.getText() + ssn2Field.getText() + ssn3Field.getText() + "', "
 								   		  + "'" + insuranceField.getText() + "', "
-								   		  + "'" + occupationField.getSelectedItem() + "', "
-								   		  + "'" + workStatusField.getSelectedItem() + "', "
-								   		  + "'" + educationField.getSelectedItem() + "', "
+								   		  + "(SELECT id FROM occupations WHERE name = '" + occupation + "'), "
+								   		  + "(SELECT id FROM work_statuses WHERE name = '" + workstatus + "'), "
+										  + "(SELECT id FROM educational_degrees WHERE name = '" + education + "'), "
 								   		  + "'" + tOnsetField.getText() + "', "
 								   		  + "'" + tEtioField.getText() + "', "
 								   		  + "'" + hOnsetField.getText() + "', "

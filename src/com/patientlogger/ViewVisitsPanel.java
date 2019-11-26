@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @title 	ViewVisitsPanel Class
@@ -48,9 +49,6 @@ public class ViewVisitsPanel extends JPanel
 	
 	//Sets table w/ all visits
 	JTable visitTable;
-	
-	//Where list of visits is stored
-	ArrayList<Visit> visits;
 	
 	//Options for search menu
 	final String[] searchOptions = {"Filter Options", "Name", "Date"};
@@ -221,18 +219,43 @@ public class ViewVisitsPanel extends JPanel
 			return;
 		}
 		
-		// Finds patients from the database from pullSomePatients (this method handles the search)
-		visits = pullSomeVisits();
-		String[][] visitData = new String[visits.size()][11];
+		String query = "";
 		
-		// Assigns the patient's data to the table's data.
-		for(int x = 0; x < visits.size(); x++)
+		switch((String)searchCriteria.getSelectedItem())
 		{
-			visitData[x] = visits.get(x).getVisitInfo();
+			// Name and default
+			default:
+				//looks in database for visit with patient with inputed name
+				String[] name = searchBox.getText().split(" ");
+				query = "SELECT visits.visitid AS 'ID', visits.date AS 'DATE', CONCAT(visits.thcnumber, '-', patients.firstname, ' ', patients.lastname) AS NAME, visits.visitsequence AS 'VISIT', visits.problemrank AS 'PROB', visits.category AS 'C', visits.protocol AS 'CC', visits.instrument AS 'INST', visits.rem AS 'REM', visits.fu AS 'FU', visits.comments AS 'COMMENTS' " +
+						   "FROM visits, patients " +
+						   "WHERE visits.thcnumber = patients.thcnumber AND patients.firstname = '" + name[0] + "' AND patients.lastname = '" + name[1] + "';";
+				break;
+			
+			case "Date":
+				//looks in database for visit with inputed date
+				query = "SELECT visits.visitid AS 'ID', visits.date AS 'DATE', CONCAT(visits.thcnumber, '-', patients.firstname, ' ', patients.lastname) AS NAME, visits.visitsequence AS 'VISIT', visits.problemrank AS 'PROB', visits.category AS 'C', visits.protocol AS 'CC', visits.instrument AS 'INST', visits.rem AS 'REM', visits.fu AS 'FU', visits.comments AS 'COMMENTS' " +
+						   "FROM visits, patients " +
+						   "WHERE visits.thcnumber = patients.thcnumber AND DATE = '" + searchBox.getText() + "';";
+				break;
 		}
 		
-		// Sets the table
-		visitTable.setModel(new VisitDataModel(visitData));
+		
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(query);
+		
+		String[] columnNames = {"ID", "Date", "Patient", "Visit", "Prob", "C", "CC", "Instr", "REM", "FU", "Comments"};
+		DefaultTableModel dtm = new DefaultTableModel(columnNames, 0);
+		
+		while(rset.next())
+		{
+			String[] data = {rset.getString("ID"), rset.getString("DATE"), rset.getString("NAME"), rset.getString("VISIT"), rset.getString("PROB"), rset.getString("C"), rset.getString("CC"), rset.getString("INST"), rset.getString("REM"), rset.getString("FU"), rset.getString("COMMENTS")};
+			dtm.addRow(data);
+		}
+		
+		// Build the table.
+		visitTable.setModel(dtm);
 		visitTable.setAutoCreateRowSorter(true);
 		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		visitTable.getColumnModel().getColumn(3).setPreferredWidth(30);
@@ -257,27 +280,7 @@ public class ViewVisitsPanel extends JPanel
 		PreparedStatement preparedStmt = conn.prepareStatement("DELETE FROM Visits WHERE VisitID ='" + IDNumber + "';");
 		preparedStmt.execute();
 		
-		// Pulls the new visit information.
-		visits = pullAllVisits();
-		String[][] visitData = new String[visits.size()][7];
-		
-		// Get the new visit data after deleting.
-		for(int x = 0; x < visits.size(); x++)
-		{
-			visitData[x] = visits.get(x).getVisitInfo();
-		}
-		
-		// Reset the table after deletion.
-		visitTable.setModel(new VisitDataModel(visitData));
-		visitTable.setAutoCreateRowSorter(true);
-		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-		visitTable.getColumnModel().getColumn(3).setPreferredWidth(30);
-		visitTable.getColumnModel().getColumn(4).setPreferredWidth(30);
-		visitTable.getColumnModel().getColumn(5).setPreferredWidth(30);
-		visitTable.getColumnModel().getColumn(6).setPreferredWidth(30);
-		visitTable.getColumnModel().getColumn(7).setPreferredWidth(30);
-		visitTable.getColumnModel().getColumn(8).setPreferredWidth(30);
-		visitTable.getColumnModel().getColumn(9).setPreferredWidth(30);
+		populate();
 	}
 	
 	/**
@@ -285,23 +288,10 @@ public class ViewVisitsPanel extends JPanel
 	 * @desc	Launches new JFrame to edit a visit
 	 */
 	private void edit()
-	{
-		// visit starts null
-		Visit visit = null;
-		
-		// Get visit that was selected.
-		for(int x = 0; x < visits.size(); x++)
-		{
-			if((String)visitTable.getValueAt(visitTable.getSelectedRow(), 0) == visits.get(x).getVisitID())
-			{
-				visit = visits.get(x);
-				break;
-			}
-		}
-		
+	{	
 		// Build a new edit visit screen.
 		JFrame frame = new JFrame("eTRT - Edit Patient");
-		frame.add(new EditVisitScreen(conn, visit));
+		frame.add(new EditVisitScreen(conn, (String)visitTable.getValueAt(visitTable.getSelectedRow(), 0)));
 		frame.setSize(new Dimension(600, 450));
 		frame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -317,18 +307,24 @@ public class ViewVisitsPanel extends JPanel
 	 */
 	private void populate() throws SQLException
 	{
-		// Pull visits from the database.
-		visits = pullAllVisits();
-		String[][] visitData = new String[visits.size()][11];
+		String query = "SELECT visits.visitid AS 'ID', visits.date AS 'DATE', CONCAT(visits.thcnumber, '-', patients.firstname, ' ', patients.lastname) AS NAME, visits.visitsequence AS 'VISIT', visits.problemrank AS 'PROB', visits.category AS 'C', visits.protocol AS 'CC', visits.instrument AS 'INST', visits.rem AS 'REM', visits.fu AS 'FU', visits.comments AS 'COMMENTS' " +
+					   "FROM visits, patients " +
+					   "WHERE visits.thcnumber = patients.thcnumber";
 		
-		// Assign all of the visit data to visitData[]
-		for(int x = 0; x < visits.size(); x++)
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(query);
+		
+		String[] columnNames = {"ID", "Date", "Patient", "Visit", "Prob", "C", "CC", "Instr", "REM", "FU", "Comments"};
+		DefaultTableModel dtm = new DefaultTableModel(columnNames, 0);
+		
+		while(rset.next())
 		{
-			visitData[x] = visits.get(x).getVisitInfo();
+			String[] data = {rset.getString("ID"), rset.getString("DATE"), rset.getString("NAME"), rset.getString("VISIT"), rset.getString("PROB"), rset.getString("C"), rset.getString("CC"), rset.getString("INST"), rset.getString("REM"), rset.getString("FU"), rset.getString("COMMENTS")};
+			dtm.addRow(data);
 		}
 		
 		// Build the table.
-		visitTable.setModel(new VisitDataModel(visitData));
+		visitTable.setModel(dtm);
 		visitTable.setAutoCreateRowSorter(true);
 		visitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		visitTable.getColumnModel().getColumn(3).setPreferredWidth(30);
@@ -340,67 +336,5 @@ public class ViewVisitsPanel extends JPanel
 		visitTable.getColumnModel().getColumn(9).setPreferredWidth(30);
 	}
 	
-	/**
-	 * @title	pullAllVisits
-	 * @return	Arraylist of visits from database
-	 * @throws 	SQLException - If the database can't get the information
-	 * @desc	Find all the visits in the database.
-	 */
-	private ArrayList<Visit> pullAllVisits() throws SQLException
-	{
-		// Tell the database what you want.
-	    Statement stmt = conn.createStatement ();
-	    ResultSet rset = stmt.executeQuery ("SELECT * FROM Visits;");
-	    ArrayList<Visit> visits = new ArrayList<Visit>();
 
-	    // Iterate through the result and print out the table names
-	    while (rset.next())
-	    {
-	    	visits.add(new Visit(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-	    						 rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
-	    						 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12)));
-	    }
-		return visits;
-	}
-	
-	/**
-	 * @title	pullSomeVisits
-	 * @return	visits requested
-	 * @throws 	SQLException - If the database can not return information.
-	 * @desc	Pulls visits as needed for search query.
-	 */
-	private ArrayList<Visit> pullSomeVisits() throws SQLException
-	{
-		// Create the needed variables.
-		Statement stmt = conn.createStatement();
-		ArrayList<Visit> visits = new ArrayList<Visit>();
-		ResultSet rset = null;
-		
-		// Figure out what information to pull, and go off of that (from the search box)
-		switch((String)searchCriteria.getSelectedItem())
-		{
-			// Name and default
-			default:
-				//looks in database for visit with patient with inputed name
-				String[] name = searchBox.getText().split(" ");
-				rset = stmt.executeQuery("SELECT visits.* FROM visits,patients WHERE patients.FirstName = '" + name[0] + "' AND patients.LastName = '" + name[1] + "' AND patients.THCNumber = visits.THCNumber;");
-				break;
-			
-			case "Date":
-				//looks in database for visit with inputed date
-				rset = stmt.executeQuery("SELECT * FROM VISITS WHERE DATE = '" + searchBox.getText() + "';");
-				break;
-		}
-		
-		// Pulls the information.
-		while (rset.next())
-		{
-	    	visits.add(new Visit(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4),
-					 rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
-					 rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12)));
-	    }
-		
-		// Return the visits.
-		return visits;
-	}
 }
