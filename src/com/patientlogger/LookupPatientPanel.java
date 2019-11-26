@@ -45,9 +45,6 @@ public class LookupPatientPanel extends JPanel
 	//Initialize Search Button
 	JButton searchButton;
 	
-	//Patient being looked up
-	Patient myPatient;
-	
 	//text fields with patient data	
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField,
 			   yearField, emailField, addressField, zipField, insuranceField,
@@ -708,7 +705,7 @@ public class LookupPatientPanel extends JPanel
 		
 		// Build a edit patient screen.
 		JFrame frame = new JFrame("eTRT - Edit Patient");
-		frame.add(new EditPatientScreen(conn, myPatient));
+		frame.add(new EditPatientScreen(conn, THCNumberLabel.getText().substring(6)));
 		frame.setSize(new Dimension(600, 450));
 		frame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();

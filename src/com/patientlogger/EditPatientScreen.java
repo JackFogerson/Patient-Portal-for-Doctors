@@ -4,7 +4,9 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
@@ -20,7 +22,7 @@ public class EditPatientScreen extends AddNewPatientsPanel
 {
 	// Instantiate the needed variables.
 	private static final long serialVersionUID = 1L;
-	Patient myPatient;
+	String myTHC;
 	
 	/**
 	 * @title	EditPatientScreen
@@ -28,55 +30,82 @@ public class EditPatientScreen extends AddNewPatientsPanel
 	 * @param	account - The account to be edited.
 	 * @desc	Send the connection to super and then fill the info.
 	 */
-	public EditPatientScreen(Connection conn, Patient account)
+	public EditPatientScreen(Connection conn, String THCNUMBER)
 	{
 		super(conn);
-		myPatient = account;
-		fillInfo();
+		myTHC = THCNUMBER;
+		try 
+		{
+			fillInfo();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
+	 * @throws SQLException 
 	 * @title	fillInfo
 	 * @desc	Imports all of the Patient's info into the form.
 	 */
-	private void fillInfo()
-	{
-		// Set the picture to the patient's stored picture and scale it.
-		ImageIcon ogUnknownPicture = new ImageIcon(myPatient.getPhoto());
-		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+	private void fillInfo() throws SQLException
+	{	
+		//Connects with database
+		//Search begins empty
+		Statement stmt = conn.createStatement();
 		
-		//Import the data to all of the text fields.
-		THCNumberField.setText(myPatient.getTHCNumber());
-		currentDateField.setText(myPatient.getDate());
-		firstNameField.setText(myPatient.getFirstName());
-		middleNameField.setText(myPatient.getMiddleName());
-		lastNameField.setText(myPatient.getLastName());
-		monthField.setSelectedItem(myPatient.getDOBMonth());
-		dayField.setSelectedItem(myPatient.getDOBDay());
-		yearField.setText(myPatient.getDOBYear());
-		genderField.setSelectedItem(myPatient.getGender());	
-		areaCodeField.setText(myPatient.getAreaCode());
-		phone1Field.setText(myPatient.getPhone1());
-		phone2Field.setText(myPatient.getPhone2());		
-		emailField.setText(myPatient.getEmail());
-		addressField.setText(myPatient.getStreetAddress());
-		cityField.setSelectedItem(myPatient.getCity());
-		stateField.setSelectedItem(myPatient.getState());
-		zipField.setText(myPatient.getZip());
-		countryField.setSelectedItem(myPatient.getCountry());
-		photoField.setIcon(unknownPicture);
-		ssn1Field.setText(myPatient.getSSN1());
-		ssn2Field.setText(myPatient.getSSN2());
-		ssn3Field.setText(myPatient.getSSN3());	
-		insuranceField.setText(myPatient.getInsurance());
-		occupationField.setSelectedItem(myPatient.getOccupation());	
-		workStatusField.setSelectedItem(myPatient.getWorkStatus());
-		educationField.setSelectedItem(myPatient.getEducationalDegree());
-		tOnsetField.setText(myPatient.getTOnset());
-		tEtioField.setText(myPatient.getTEtio());
-		hOnsetField.setText(myPatient.getHOnset());
-		hEtioField.setText(myPatient.getHEtio());
-		commentField.setText(myPatient.getComments());
+		String query = "";
+		
+		// Set the picture to the patient's stored picture and scale it.
+		ImageIcon ogUnknownPicture = null;
+		ImageIcon unknownPicture = null;
+
+				//looks in database for patient with inputed thc number
+		query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', patients.firstname AS 'FIRSTNAME', patients.middlename AS 'MIDDLENAME', patients.lastname AS 'LASTNAME', patients.photo AS 'PHOTO', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', patients.phone AS 'PHONE', patients.email AS 'EMAIL', patients.streetaddress AS 'ADDRESS', cities.name AS 'CITY', states.name AS 'STATE', patients.zip AS 'ZIP', countries.name AS 'COUNTRY', patients.ssid AS 'SSID', patients.insurance AS 'INSURANCE', occupations.name AS 'OCCUPATION', work_statuses.name AS 'WORKSTATUS', educational_degrees.name AS 'EDUCATION', patients.tonset AS 'TONSET', patients.tetiology AS 'TETIO', patients.honset AS 'HONSET', patients.hetiology AS 'HETIO', patients.comments AS 'COMMENTS' " + 
+		   	    "FROM patients, zipcodes, cities, states, occupations, countries, educational_degrees, work_statuses " + 
+				"WHERE patients.THCNumber = '" + myTHC + "' AND patients.occupation = occupations.id AND patients.workstatus = work_statuses.id AND patients.educationaldegree = educational_degrees.id AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id;";		
+		
+		ResultSet rset = stmt.executeQuery(query); 
+		
+		while(rset.next())
+		{
+			THCNumberField.setText("THC#: " + rset.getString("THC"));
+			firstNameField.setText(rset.getString("FIRSTNAME"));
+			middleNameField.setText(rset.getString("MIDDLENAME"));
+			lastNameField.setText(rset.getString("LASTNAME"));
+			monthField.setSelectedItem(rset.getString("BIRTHDAY").substring(5,7));
+			dayField.setSelectedItem(rset.getString("BIRTHDAY").substring(8,10));
+			yearField.setText(rset.getString("BIRTHDAY").substring(0,4));
+			genderField.setSelectedItem(rset.getString("GENDER"));
+			areaCodeField.setText(rset.getString("PHONE").substring(0,3));
+			phone1Field.setText(rset.getString("PHONE").substring(3,6));
+			phone2Field.setText(rset.getString("PHONE").substring(6,10));	
+			emailField.setText(rset.getString("EMAIL"));
+			addressField.setText(rset.getString("ADDRESS"));
+			cityField.setSelectedItem(rset.getString("CITY"));
+			stateField.setSelectedItem(rset.getString("STATE"));
+			zipField.setText(rset.getString("ZIP"));
+			countryField.setSelectedItem(rset.getString("COUNTRY"));
+			
+			ogUnknownPicture = new ImageIcon("src/images/" + rset.getString("PHOTO"));
+			unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+			photoLabel.setIcon(unknownPicture);
+			photoLabel.repaint();
+			
+			ssn1Field.setText(rset.getString("SSID").substring(0,3));
+			ssn2Field.setText(rset.getString("SSID").substring(3,5));
+			ssn3Field.setText(rset.getString("SSID").substring(5,9));
+			insuranceField.setText(rset.getString("INSURANCE"));
+			occupationField.setSelectedItem(rset.getString("OCCUPATION"));
+			workStatusField.setSelectedItem(rset.getString("WORKSTATUS"));
+			educationField.setSelectedItem(rset.getString("EDUCATION"));
+			tOnsetField.setText(rset.getString("TONSET"));
+			tEtioField.setText(rset.getString("TETIO"));
+			hOnsetField.setText(rset.getString("HONSET"));
+			hEtioField.setText(rset.getString("HETIO"));
+			commentField.setText(rset.getString("COMMENTS"));
+		}
 		
 		// Removes action listeners of the save and cancel buttons. This is needed
 		// because they are linked with the super's action listeners, which mess up the
@@ -126,36 +155,35 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		LocalDate localDate = LocalDate.now();
 		
 		// Delete the current patient from database.
-		PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM PATIENTS WHERE THCNumber ='" + myPatient.getTHCNumber() + "';");
+		PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM PATIENTS WHERE THCNumber ='" + myTHC + "';");
 		deleteStmt.execute();
 
-		// Re-input the user.
-		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, City, State, Zip, Country, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
-				   + "VALUES(" + THCNumberField.getText() + ", "
-				   		  + "'" + dtf.format(localDate) + "', "
-				   		  + "'" + firstNameField.getText() + "', "
-				   		  + "'" + middleNameField.getText() + "', "
-				   		  + "'" + lastNameField.getText() + "', "
-						  + "'" + yearField.getText() + "/" + monthField.getSelectedItem() + "/" + dayField.getSelectedItem() + "', "
-				   		  + "'" + genderField.getSelectedItem() + "', "
-				   		  + "'" + areaCodeField.getText() + phone1Field.getText() + "-" + phone2Field.getText() + "', "
-				   		  + "'" + emailField.getText() + "', "
-				   		  + "'" + addressField.getText() + "', "
-				   		  + "'" + cityField.getSelectedItem() + "', "
-				   		  + "'" + stateField.getSelectedItem() + "', "
-				   		  + "'" + zipField.getText() + "', "
-				   		  + "'" + countryField.getSelectedItem() + "', "
-				   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
-				   		  + "'" + ssn1Field.getText() + ssn2Field.getText() + ssn3Field.getText() + "', "
-				   		  + "'" + insuranceField.getText() + "', "
-				   		  + "'" + occupationField.getSelectedItem() + "', "
-				   		  + "'" + workStatusField.getSelectedItem() + "', "
-				   		  + "'" + educationField.getSelectedItem() + "', "
-				   		  + "'" + tOnsetField.getText() + "', "
-				   		  + "'" + tEtioField.getText() + "', "
-				   		  + "'" + hOnsetField.getText() + "', "
-				   		  + "'" + hEtioField.getText() + "', "
-				   		  + "'" + commentField.getText() + "')";
+		insertZip();
+
+		// Create the query for submitting all the information into the patients table.
+		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, Zip, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
+								   + "VALUES(" + THCNumberField.getText() + ", "
+								   		  + "'" + dtf.format(localDate) + "', "
+								   		  + "'" + firstNameField.getText() + "', "
+								   		  + "'" + middleNameField.getText() + "', "
+								   		  + "'" + lastNameField.getText() + "', "
+										  + "'" + yearField.getText() + "/" + monthField.getSelectedItem() + "/" + dayField.getSelectedItem() + "', "
+								   		  + "'" + genderField.getSelectedItem() + "', "
+								   		  + "'" + areaCodeField.getText() + phone1Field.getText() + "-" + phone2Field.getText() + "', "
+								   		  + "'" + emailField.getText() + "', "
+								   		  + "'" + addressField.getText() + "', "
+								   		  + "'" + zipField.getText() + "', "
+								   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
+								   		  + "'" + ssn1Field.getText() + ssn2Field.getText() + ssn3Field.getText() + "', "
+								   		  + "'" + insuranceField.getText() + "', "
+								   		  + "'" + occupationField.getSelectedItem() + "', "
+								   		  + "'" + workStatusField.getSelectedItem() + "', "
+								   		  + "'" + educationField.getSelectedItem() + "', "
+								   		  + "'" + tOnsetField.getText() + "', "
+								   		  + "'" + tEtioField.getText() + "', "
+								   		  + "'" + hOnsetField.getText() + "', "
+								   		  + "'" + hEtioField.getText() + "', "
+								   		  + "'" + commentField.getText() + "')";
 		
 		// Perform query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -165,5 +193,51 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		SwingUtilities.windowForComponent(this).dispose();
 		
 		return;
+	}
+	
+	private void insertZip() throws SQLException
+	{
+		boolean isThere = false;
+		
+		String query = "SELECT * FROM Zipcodes WHERE Zipcode = '" + zipField.getText() + "';";
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(query);
+		
+		while(rset.next())
+		{
+			if(rset.getString(1) == null)
+			{
+				// No zip is here, continue.
+			}
+			else
+			{
+				if(rset.getString(2) == null)
+				{
+					// City and zip are both there so return.
+					return;
+				}
+				else
+				{
+					// This means we can input the city.
+					isThere = true;
+				}
+			}
+		}
+		
+		// This means we need to just put in the city.
+		if(isThere)
+		{
+			query = "UPDATE Zipcodes SET City = (SELECT id FROM Cities WHERE Name = '" + cityField.getSelectedItem() + "') where Zipcode = '" + zipField.getText() + "';";
+		}
+		// This means we need to put in the zipcode and the city.
+		else
+		{
+			query = "INSERT INTO Zipcodes(Zipcode, City) DATA('" + zipField.getText() + "', '" + stateField.getSelectedItem() + "');";
+		}
+		
+		stmt = conn.createStatement();
+		rset = stmt.executeQuery(query);
+		
 	}
 }

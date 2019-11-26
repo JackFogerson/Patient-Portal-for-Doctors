@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -50,9 +49,6 @@ public class ViewPatientsPanel extends JPanel
 	
 	//Sets table w/ all patients
 	JTable patientTable;
-	
-	//Where list of patients is stored
-	ArrayList<Patient> patients;
 	
 	//Options for drop down menu
 	final String[] searchOptions = {"Filter Options", "THC Number", "Name", "City"};
@@ -311,29 +307,15 @@ public class ViewPatientsPanel extends JPanel
 	 * @desc	Launches new JFrame to edit a patient
 	 */
 	private void edit()
-	{
-		// Patient starts null
-		Patient patient = null;
-		
-		// Get patient that was selected.
-		for(int x = 0; x < patients.size(); x++)
-		{
-			if((String)patientTable.getValueAt(patientTable.getSelectedRow(), 0) == patients.get(x).getTHCNumber())
-			{
-				patient = patients.get(x);
-				break;
-			}
-		}
-		
+	{		
 		// Build a new edit patient screen.
 		JFrame frame = new JFrame("eTRT - Edit Patient");
-		frame.add(new EditPatientScreen(conn, patient));
+		frame.add(new EditPatientScreen(conn, (String)patientTable.getValueAt(patientTable.getSelectedRow(), 0)));
 		frame.setSize(new Dimension(600, 450));
 		frame.setResizable(false);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		//Center the new frame
 		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
