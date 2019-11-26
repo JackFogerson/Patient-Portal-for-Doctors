@@ -911,7 +911,7 @@ public class AddNewPatientsPanel extends JPanel
 		// This means we need to put in the zipcode and the city.
 		else
 		{
-			query = "INSERT INTO Zipcodes(Zipcode, City) DATA('" + zipField.getText() + "', '" + stateField.getSelectedItem() + "');";
+			query = "INSERT INTO Zipcodes(Zipcode, City) VALUES('" + zipField.getText() + "', (SELECT id FROM cities WHERE name = '" + cityField.getSelectedItem() + "'));";
 		}
 		
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
