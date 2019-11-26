@@ -859,6 +859,52 @@ public class AddNewPatientsPanel extends JPanel
 		
 		return isError;
 	}
+	
+	private void insertZip() throws SQLException
+	{
+		boolean isThere = false;
+		
+		String query = "SELECT * FROM Zipcodes WHERE Zipcode = '" + zipField.getText() + "';";
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(query);
+		
+		while(rset.next())
+		{
+			if(rset.getString(1) == null)
+			{
+				// No zip is here, continue.
+			}
+			else
+			{
+				if(rset.getString(2) == null)
+				{
+					// City and zip are both there so return.
+					return;
+				}
+				else
+				{
+					// This means we can input the city.
+					isThere = true;
+				}
+			}
+		}
+		
+		// This means we need to just put in the city.
+		if(isThere)
+		{
+			query = "UPDATE Zipcodes SET City = (SELECT id FROM Cities WHERE Name = '" + cityField.getSelectedItem() + "') where Zipcode = '" + zipField.getText() + "';";
+		}
+		// This means we need to put in the zipcode and the city.
+		else
+		{
+			query = "INSERT INTO Zipcodes(Zipcode, City) DATA('" + zipField.getText() + "', '" + stateField.getSelectedItem() + "');";
+		}
+		
+		stmt = conn.createStatement();
+		rset = stmt.executeQuery(query);
+		
+	}
 	 
 	/**
 	 * @title	submitInformation
@@ -875,9 +921,11 @@ public class AddNewPatientsPanel extends JPanel
 		// Finds current date again to make it easier for data submission.
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.now();
+		
+		insertZip();
 
 		// Create the query for submitting all the information into the patients table.
-		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, City, State, Zip, Country, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
+		String query = "INSERT INTO Patients(THCNumber, Date, FirstName, MiddleName, LastName, DOB, Gender, Phone, Email, StreetAddress, Zip, Photo, SSID, Insurance, Occupation, WorkStatus, EducationalDegree, TOnset, TEtiology, HOnset, HEtiology, Comments) "
 								   + "VALUES(" + THCNumberField.getText() + ", "
 								   		  + "'" + dtf.format(localDate) + "', "
 								   		  + "'" + firstNameField.getText() + "', "
@@ -888,10 +936,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + areaCodeField.getText() + phone1Field.getText() + "-" + phone2Field.getText() + "', "
 								   		  + "'" + emailField.getText() + "', "
 								   		  + "'" + addressField.getText() + "', "
-								   		  + "'" + cityField.getSelectedItem() + "', "
-								   		  + "'" + stateField.getSelectedItem() + "', "
 								   		  + "'" + zipField.getText() + "', "
-								   		  + "'" + countryField.getSelectedItem() + "', "
 								   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
 								   		  + "'" + ssn1Field.getText() + ssn2Field.getText() + ssn3Field.getText() + "', "
 								   		  + "'" + insuranceField.getText() + "', "
