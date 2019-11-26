@@ -64,8 +64,8 @@ public class AddNewPatientsPanel extends JPanel
 	String[] countryList;
 	
 	//field for dob month
-	final String[] monthList = {"--", "1", "2", "3", "4", "5", "6",
-								"7", "8", "9", "10", "12", "12"};
+	final String[] monthList = {"--", "01", "02", "03", "04", "05", "06",
+								"07", "08", "09", "10", "12", "12"};
 	
 	//field for dob day
 	final String[] dayList = {"--", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
@@ -198,8 +198,12 @@ public class AddNewPatientsPanel extends JPanel
 		x = 1;
 		while(rset.next())
 		{
-			eduList[x] = rset.getString(1);
-			x++;
+			String edu = rset.getString(1);
+			if(!edu.equals("N/A"))
+			{
+				eduList[x] = rset.getString(1);
+				x++;
+			}
 		}
 		
 		stmt = conn.createStatement();
@@ -208,8 +212,12 @@ public class AddNewPatientsPanel extends JPanel
 		x = 1;
 		while(rset.next())
 		{
-			statusList[x] = rset.getString(1);
-			x++;
+			String status = rset.getString(1);
+			if(!status.equals("N/A"))
+			{
+				statusList[x] = rset.getString(1);
+				x++;
+			}
 		}
 		
 		stmt = conn.createStatement();
@@ -218,8 +226,12 @@ public class AddNewPatientsPanel extends JPanel
 		x = 1;
 		while(rset.next())
 		{
-			occupationList[x] = rset.getString(1);
-			x++;
+			String occ = rset.getString(1);
+			if(!occ.equals("N/A"))
+			{
+				occupationList[x] = rset.getString(1);
+				x++;
+			}
 		}
 	}
 	
@@ -879,13 +891,13 @@ public class AddNewPatientsPanel extends JPanel
 			{
 				if(rset.getString(2) == null)
 				{
-					// City and zip are both there so return.
-					return;
+					// This means we can input the city.
+					isThere = true;
 				}
 				else
 				{
-					// This means we can input the city.
-					isThere = true;
+					// City and zip are both there so return.
+					return;
 				}
 			}
 		}
@@ -894,6 +906,7 @@ public class AddNewPatientsPanel extends JPanel
 		if(isThere)
 		{
 			query = "UPDATE Zipcodes SET City = (SELECT id FROM Cities WHERE Name = '" + cityField.getSelectedItem() + "') where Zipcode = '" + zipField.getText() + "';";
+		
 		}
 		// This means we need to put in the zipcode and the city.
 		else
@@ -931,13 +944,25 @@ public class AddNewPatientsPanel extends JPanel
 		{
 			occupation = (String)occupationField.getSelectedItem();
 		}
+		else
+		{
+			occupation = "N/A";
+		}
 		if(!workStatusField.getSelectedItem().equals("Select One"))
 		{
 			workstatus = (String)workStatusField.getSelectedItem();
 		}
+		else
+		{
+			workstatus = "N/A";
+		}
 		if(!educationField.getSelectedItem().equals("Select One"))
 		{
 			education = (String)educationField.getSelectedItem();
+		}
+		else
+		{
+			education = "N/A";
 		}
 
 		// Create the query for submitting all the information into the patients table.

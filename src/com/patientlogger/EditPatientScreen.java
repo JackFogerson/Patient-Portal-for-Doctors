@@ -70,7 +70,7 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		
 		while(rset.next())
 		{
-			THCNumberField.setText("THC#: " + rset.getString("THC"));
+			THCNumberField.setText(rset.getString("THC"));
 			firstNameField.setText(rset.getString("FIRSTNAME"));
 			middleNameField.setText(rset.getString("MIDDLENAME"));
 			lastNameField.setText(rset.getString("LASTNAME"));
@@ -167,13 +167,25 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		{
 			occupation = (String)occupationField.getSelectedItem();
 		}
+		else
+		{
+			occupation = "N/A";
+		}
 		if(!workStatusField.getSelectedItem().equals("Select One"))
 		{
 			workstatus = (String)workStatusField.getSelectedItem();
 		}
+		else
+		{
+			workstatus = "N/A";
+		}
 		if(!educationField.getSelectedItem().equals("Select One"))
 		{
 			education = (String)educationField.getSelectedItem();
+		}
+		else
+		{
+			education = "N/A";
 		}
 
 		// Create the query for submitting all the information into the patients table.

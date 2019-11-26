@@ -40,8 +40,8 @@ public class AddNewVisitPanel extends JPanel
 	GroupLayout layout;
 	
 	//field for next visit month
-	final String[] monthList = {"MM", "1", "2", "3", "4", "5", "6",
-								"7", "8", "9", "10", "11", "12"};
+	final String[] monthList = {"MM", "01", "02", "03", "04", "05", "06",
+								"07", "08", "09", "10", "11", "12"};
 	
 	//field for next visit day
 	final String[] dayList = {"DD", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
@@ -648,6 +648,7 @@ public class AddNewVisitPanel extends JPanel
 			{
 				visitSequence = Integer.parseInt(rset.getString(1)) + 1;
 			}
+			
 		} 
 		catch (SQLException e) 
 		{
@@ -656,6 +657,7 @@ public class AddNewVisitPanel extends JPanel
 		catch(NumberFormatException e)
 		{
 			// DO nothing because this means there are no visits for this THC number.
+			visitSequence = 1;
 		}
 		
 		return visitSequence;
