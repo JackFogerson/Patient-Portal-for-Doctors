@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -87,6 +88,33 @@ public class DemographicsDataPanel extends JPanel
 			try {
 				addWork();
 			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		editOccupationButton.addActionListener(e -> {
+			try {
+				editOccupation();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		editEducationButton.addActionListener(e -> {
+			try {
+				editEducation();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		editWorkButton.addActionListener(e -> {
+			try {
+				editWork();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
@@ -386,6 +414,123 @@ public class DemographicsDataPanel extends JPanel
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
 		
+		buildTables();
+	}
+	
+	private void editOccupation() throws SQLException
+	{
+		JPanel panel = new JPanel();
+		JLabel nameLabel = new JLabel("Occupation: ");
+		JLabel abbLabel = new JLabel("New Name: ");
+		JComboBox<String> nameChoices;
+		JTextField abb = new JTextField(10);
+		String[] nameList = new String[occupationTable.getModel().getRowCount()];
+		
+		for(int x = 0; x < occupationTable.getModel().getRowCount(); x++)
+		{
+			nameList[x] = ((String)occupationTable.getModel().getValueAt(x, 0));
+		}
+		
+		nameChoices = new JComboBox<String>(nameList);
+
+		panel.setLayout(new GridLayout(2,2));
+		panel.add(nameLabel);
+		panel.add(nameChoices);
+		panel.add(abbLabel);
+		panel.add(abb);
+		
+		int result = JOptionPane.showConfirmDialog(null, panel, "Please Enter Occupation and New Name", JOptionPane.OK_CANCEL_OPTION);
+		
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			String query = "UPDATE occupations SET name = '" + abb.getText() + "' WHERE name = '" + nameChoices.getSelectedItem() + "';";
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.execute();
+		}
+		else
+		{
+			return;
+		}
+
+		buildTables();
+	}
+	
+	private void editEducation() throws SQLException
+	{
+		JPanel panel = new JPanel();
+		JLabel nameLabel = new JLabel("Education: ");
+		JLabel abbLabel = new JLabel("New Name: ");
+		JComboBox<String> nameChoices;
+		JTextField abb = new JTextField(10);
+		String[] nameList = new String[educationTable.getModel().getRowCount()];
+		
+		for(int x = 0; x < educationTable.getModel().getRowCount(); x++)
+		{
+			nameList[x] = ((String)educationTable.getModel().getValueAt(x, 0));
+		}
+		
+		nameChoices = new JComboBox<String>(nameList);
+
+		panel.setLayout(new GridLayout(2,2));
+		panel.add(nameLabel);
+		panel.add(nameChoices);
+		panel.add(abbLabel);
+		panel.add(abb);
+		
+		int result = JOptionPane.showConfirmDialog(null, panel, "Please Enter Education and New Name", JOptionPane.OK_CANCEL_OPTION);
+		
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			String query = "UPDATE educational_degrees SET name = '" + abb.getText() + "' WHERE name = '" + nameChoices.getSelectedItem() + "';";
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.execute();
+		}
+		else
+		{
+			return;
+		}
+
+		buildTables();
+	}
+	
+	private void editWork() throws SQLException
+	{
+		JPanel panel = new JPanel();
+		JLabel nameLabel = new JLabel("Work Status: ");
+		JLabel abbLabel = new JLabel("New Name: ");
+		JComboBox<String> nameChoices;
+		JTextField abb = new JTextField(10);
+		String[] nameList = new String[workTable.getModel().getRowCount()];
+		
+		for(int x = 0; x < workTable.getModel().getRowCount(); x++)
+		{
+			nameList[x] = ((String)workTable.getModel().getValueAt(x, 0)).split("-")[1];
+		}
+		
+		nameChoices = new JComboBox<String>(nameList);
+
+		panel.setLayout(new GridLayout(2,2));
+		panel.add(nameLabel);
+		panel.add(nameChoices);
+		panel.add(abbLabel);
+		panel.add(abb);
+		
+		int result = JOptionPane.showConfirmDialog(null, panel, "Please Enter Work Status and New Name", JOptionPane.OK_CANCEL_OPTION);
+		
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			String query = "UPDATE work_statuses SET name = '" + abb.getText() + "' WHERE name = '" + nameChoices.getSelectedItem() + "';";
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.execute();
+		}
+		else
+		{
+			return;
+		}
+
 		buildTables();
 	}
 }
