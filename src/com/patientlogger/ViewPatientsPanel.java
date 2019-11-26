@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * @title 	ViewPatientsPanel Class
@@ -237,18 +240,51 @@ public class ViewPatientsPanel extends JPanel
 			return;
 		}
 		
-		// Finds patients from the database from pullSomePatients (this method handles the search)
-		patients = pullSomePatients();
-		String[][] patientData = new String[patients.size()][7];
+		String query;
 		
-		// Assign the patient's data to the table's data.
-		for(int x = 0; x < patients.size(); x++)
+		// Figure out what information to pull, and go off of that (from the search box)
+		switch((String)searchCriteria.getSelectedItem())
 		{
-			patientData[x] = patients.get(x).getPatientInfo();
+			// Default will be for THC and select search
+			default:
+				//looks in database for patient with inputed thc number
+				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', CONCAT(patients.firstname, ' ', patients.lastname) AS 'NAME', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', cities.name AS 'CITY', states.name AS 'STATE', patients.date AS 'DATE' " + 
+						   "FROM patients, zipcodes, cities, states " + 
+						   "WHERE patients.thcnumber = '1' AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND patients.thcnumber = '" + searchBox.getText() + "';";	
+				break;
+				
+			case "Name":
+				//looks in database for patient with inputed name
+				String[] name = searchBox.getText().split(" ");
+				query = "SELECT * FROM PATIENTS WHERE FirstName = '" + name[0] + "' AND LastName = '" + name[1] + "';";
+				
+				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', CONCAT(patients.firstname, ' ', patients.lastname) AS 'NAME', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', cities.name AS 'CITY', states.name AS 'STATE', patients.date AS 'DATE' " + 
+						   "FROM patients, zipcodes, cities, states " + 
+						   "WHERE patients.thcnumber = '1' AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND patients.firstname = '" + name[0] + "' AND patients.lastname = '" + name[1] + "';";
+				break;
+			
+			case "City":
+				//looks in database for patient with inputed city
+				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', CONCAT(patients.firstname, ' ', patients.lastname) AS 'NAME', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', cities.name AS 'CITY', states.name AS 'STATE', patients.date AS 'DATE' " + 
+						   "FROM patients, zipcodes, cities, states " + 
+						   "WHERE patients.thcnumber = '1' AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND cities.name = '" + searchBox.getText() + "';";	
+				break;
 		}
 		
-		// Sets the table
-		patientTable.setModel(new PatientTableModel(patientData));
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(query);
+
+		String[] columnNames = {"THC#", "Name", "Age", "Gender", "City", "State", "Date Added"};
+		DefaultTableModel dtm = new DefaultTableModel(columnNames, 0);
+		
+		while(rset.next())
+		{
+			String[] data = {rset.getString("THC"), rset.getString("NAME"), getAge(rset.getString("BIRTHDAY")), rset.getString("GENDER"), rset.getString("CITY"), rset.getString("STATE"), rset.getString("DATE")};
+			dtm.addRow(data);
+		}
+
+		patientTable.setModel(dtm);
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		patientTable.getColumnModel().getColumn(2).setPreferredWidth(30);
@@ -269,21 +305,7 @@ public class ViewPatientsPanel extends JPanel
 		preparedStmt.execute();
 		
 		// Pulls the new patient information.
-		patients = pullAllPatients();
-		String[][] patientData = new String[patients.size()][7];
-		
-		// Get the new patient data after deleting.
-		for(int x = 0; x < patients.size(); x++)
-		{
-			patientData[x] = patients.get(x).getPatientInfo();
-		}
-		
-		// Reset the table after deletion.
-		patientTable.setModel(new PatientTableModel(patientData));
-		patientTable.setAutoCreateRowSorter(true);
-		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-		patientTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+		populate();
 	}
 	
 	/**
@@ -324,96 +346,55 @@ public class ViewPatientsPanel extends JPanel
 	 */
 	private void populate() throws SQLException
 	{
-		// Pull patients from the database.
-		patients = pullAllPatients();
-		String[][] patientData = new String[patients.size()][7];
+		String query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', CONCAT(patients.firstname, ' ', patients.lastname) AS 'NAME', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', cities.name AS 'CITY', states.name AS 'STATE', patients.date AS 'DATE' " + 
+					   "FROM patients, zipcodes, cities, states " + 
+					   "WHERE patients.thcnumber = '1' AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id;";		
 		
-		// Assign all of the patient data to patientData[]
-		for(int x = 0; x < patients.size(); x++)
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(query);
+
+		String[] columnNames = {"THC#", "Name", "Age", "Gender", "City", "State", "Date Added"};
+		DefaultTableModel dtm = new DefaultTableModel(columnNames, 0);
+		
+		while(rset.next())
 		{
-			patientData[x] = patients.get(x).getPatientInfo();
+			String[] data = {rset.getString("THC"), rset.getString("NAME"), getAge(rset.getString("BIRTHDAY")), rset.getString("GENDER"), rset.getString("CITY"), rset.getString("STATE"), rset.getString("DATE")};
+			dtm.addRow(data);
 		}
-		
-		// Build table.
-		patientTable.setModel(new PatientTableModel(patientData));
+
+		patientTable.setModel(dtm);
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 		patientTable.getColumnModel().getColumn(2).setPreferredWidth(30);
 		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 	}
 	
-	/**
-	 * @title	pullAllPatients
-	 * @return	Arraylist of patients from database
-	 * @throws 	SQLException - If the database can't get the information
-	 * @desc	Find all the patients in the database.
-	 */
-	private ArrayList<Patient> pullAllPatients() throws SQLException
+	public String getAge(String bday)
 	{
-		// Tell the database what you want.
-	    Statement stmt = conn.createStatement ();
-	    ResultSet rset = stmt.executeQuery ("SELECT * FROM PATIENTS;");
-	    ArrayList<Patient> patients = new ArrayList<Patient>();
-
-	    // Iterate through the result and print out the table names
-	    while (rset.next())
-	    {
-	    	patients.add(new Patient(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), 
-					rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
-					rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12), 
-				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
-				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
-				 	rset.getString(21), rset.getString(22)));
-	    }
-		return patients;
-	}
-	
-	/**
-	 * @title	pullSomePatients
-	 * @return	Patients requested
-	 * @throws 	SQLException - If the database can not return information.
-	 * @desc	Pulls patients as needed for search query.
-	 */
-	private ArrayList<Patient> pullSomePatients() throws SQLException
-	{
-		// Create the needed variables.
-		Statement stmt = conn.createStatement();
-		ArrayList<Patient> patients = new ArrayList<Patient>();
-		ResultSet rset = null;
+		// Declare the different variables.
+		int month, day, year, age;
 		
-		// Figure out what information to pull, and go off of that (from the search box)
-		switch((String)searchCriteria.getSelectedItem())
+		// Pull the birthday of the patient.
+		month = Integer.parseInt(bday.substring(5,7));
+		day = Integer.parseInt(bday.substring(8,10));
+		year = Integer.parseInt(bday.substring(0,4));
+		
+		// Find today's date.
+		LocalDate today = LocalDate.now();
+		
+		// Find the age in years.
+		age = today.getYear() - year;
+		
+		// Modify the age if the patient had their birthday already this year.
+		if(today.getMonthValue() >= month)
 		{
-			// Default will be for THC and select search
-			default:
-				//looks in database for patient with inputed thc number
-				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE THCNumber ='" + searchBox.getText() + "';");
-				break;
-				
-			case "Name":
-				//looks in database for patient with inputed name
-				String[] name = searchBox.getText().split(" ");
-				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE FirstName = '" + name[0] + "' AND LastName = '" + name[1] + "';");
-				break;
-			
-			case "City":
-				//looks in database for patient with inputed SSN
-				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE City = '" + searchBox.getText() + "';");
-				break;
+			if(today.getMonthValue() == month && today.getDayOfMonth() >= day)
+			{
+				age++;
+			}
 		}
 		
-		// Pulls the information.
-		while (rset.next())
-	    {
-			patients.add(new Patient(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), 
-					rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
-					rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12), 
-				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
-				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
-				 	rset.getString(21), rset.getString(22)));
-	    }
-		
-		// Return the patients.
-		return patients;
+		// Return the age in a string.
+		return "" + age;
 	}
 }
