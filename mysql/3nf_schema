@@ -50,7 +50,7 @@ CREATE TABLE `Patients` (
 
   `THCNumber` int(11) NOT NULL,
 
-  `Date` date NOT NULL,
+  `CreationDate` date NOT NULL,
 
   `FirstName` varchar(45) NOT NULL,
 
@@ -120,7 +120,7 @@ CREATE TABLE `Zip_City` (
 
   `City` varchar(45) NOT NULL,
 
-  UNIQUE KEY `Zip_UNIQUE` (`ZipCode`)
+  UNIQUE KEY `Zip_UNIQUE` (`Zip`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -132,7 +132,7 @@ CREATE TABLE `City_State` (
 
   `State` varchar(45) DEFAULT NULL,
 
-  UNIQUE KEY `City` (`City`)
+  UNIQUE KEY `City_UNIQUE` (`City`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -144,7 +144,7 @@ CREATE TABLE `State_Country` (
 
   `Country` varchar(45) NOT NULL,
 
-  UNIQUE KEY `State` (`State`)
+  UNIQUE KEY `State_UNIQUE` (`State`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -184,7 +184,7 @@ CREATE TABLE `Visits` (
 
   `VisitID` int(11) NOT NULL,
 
-  `Date` date NOT NULL,
+  `VisitDate` date NOT NULL,
 
   `THCNumber` int(11) NOT NULL,
 
