@@ -38,7 +38,7 @@ CREATE TABLE `Cities` (
 
 LOCK TABLES `Cities` WRITE;
 /*!40000 ALTER TABLE `Cities` DISABLE KEYS */;
-INSERT INTO `Cities` VALUES (1,'Albany',32),(2,'Annapolis',20),(3,'Atlanta',10),(4,'Augusta',19),(5,'Austin',43),(6,'Baton Rouge',18),(7,'Bismarck',34),(8,'Boise',12),(9,'Boston',21),(10,'Carson City',28),(11,'Chareston',33),(12,'Cheyenne',50),(13,'Chicago',13),(14,'Columbia',40),(15,'Columbus',35),(16,'Concord',29),(17,'Denver',6),(18,'Des Moines',15),(19,'Dover',8),(20,'Frankfort',17),(21,'Harrisburg',38),(22,'Hartford',7),(23,'Helena',26),(24,'Honolulu',11),(25,'Indianapolis',14),(26,'Jackson',24),(27,'Jefferson City',25),(28,'Juneau',2),(29,'Lansing',22),(30,'Lincoln',27),(31,'Little Rock',4),(32,'Los Angeles',5),(33,'Madison',49),(34,'Montgomery',1),(35,'Montpelier',45),(36,'Nashville',42),(37,'New York',32),(38,'Oklahoma City',36),(39,'Olympia',47),(40,'Phoenix',3),(41,'Pierre',41),(42,'Providence',39),(43,'Raleigh',33),(44,'Richmond',46),(45,'Sacramento',5),(46,'Saint Paul',23),(47,'Salem',37),(48,'Salt Lake City',44),(49,'San Diego',5),(50,'San Jose',5),(51,'Santa Fe',31),(52,'Springfield',13),(53,'Tallahassee',9),(54,'Tampa',9),(55,'Topeka',16),(56,'Trenton',30),(57,'Tulsa',36),(58,'Washington D.C.',20);
+INSERT INTO `Cities` VALUES (1,'Albany',NULL),(2,'Annapolis',20),(3,'Atlanta',10),(4,'Augusta',19),(5,'Austin',43),(6,'Baton Rouge',18),(7,'Bismarck',34),(8,'Boise',12),(9,'Boston',21),(10,'Carson City',28),(11,'Chareston',33),(12,'Cheyenne',50),(13,'Chicago',13),(14,'Columbia',40),(15,'Columbus',35),(16,'Concord',29),(17,'Denver',6),(18,'Des Moines',15),(19,'Dover',8),(20,'Frankfort',17),(21,'Harrisburg',38),(22,'Hartford',7),(23,'Helena',26),(24,'Honolulu',11),(25,'Indianapolis',14),(26,'Jackson',24),(27,'Jefferson City',25),(28,'Juneau',2),(29,'Lansing',22),(30,'Lincoln',27),(31,'Little Rock',4),(32,'Los Angeles',5),(33,'Madison',49),(34,'Montgomery',1),(35,'Montpelier',45),(36,'Nashville',42),(37,'New York',32),(38,'Oklahoma City',36),(39,'Olympia',47),(40,'Phoenix',3),(41,'Pierre',41),(42,'Providence',39),(43,'Raleigh',33),(44,'Richmond',46),(45,'Sacramento',5),(46,'Saint Paul',23),(47,'Salem',37),(48,'Salt Lake City',44),(49,'San Diego',5),(50,'San Jose',5),(51,'Santa Fe',31),(52,'Springfield',13),(53,'Tallahassee',9),(54,'Tampa',9),(55,'Topeka',16),(56,'Trenton',30),(57,'Tulsa',36),(58,'Washington D.C.',20),(59,'Orlando',NULL);
 /*!40000 ALTER TABLE `Cities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +87,7 @@ CREATE TABLE `Educational_Degrees` (
 
 LOCK TABLES `Educational_Degrees` WRITE;
 /*!40000 ALTER TABLE `Educational_Degrees` DISABLE KEYS */;
-INSERT INTO `Educational_Degrees` VALUES (1,'Less Than High School or GED'),(2,'High School or GED'),(3,'Some College'),(4,'Associate\'s Degree'),(5,'Bachelor\'s Degree'),(6,'Some Graduate School'),(7,'Graduate or Professional Degree');
+INSERT INTO `Educational_Degrees` VALUES (0,'N/A'),(1,'Less Than High School or GED'),(2,'High School or GED'),(3,'Some College'),(4,'Associate\'s Degree'),(5,'Bachelor\'s Degree'),(6,'Some Graduate School'),(7,'Graduate or Professional Degree'),(8,'San Jose State University');
 /*!40000 ALTER TABLE `Educational_Degrees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +111,7 @@ CREATE TABLE `Occupations` (
 
 LOCK TABLES `Occupations` WRITE;
 /*!40000 ALTER TABLE `Occupations` DISABLE KEYS */;
-INSERT INTO `Occupations` VALUES (1,'Student');
+INSERT INTO `Occupations` VALUES (0,'N/A'),(1,'Student'),(2,'Programmer');
 /*!40000 ALTER TABLE `Occupations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +165,7 @@ CREATE TABLE `Patients` (
 
 LOCK TABLES `Patients` WRITE;
 /*!40000 ALTER TABLE `Patients` DISABLE KEYS */;
-INSERT INTO `Patients` VALUES (1,'2019-11-20','Nick','Michael','Fulton','1998-09-14','Male','8587761407','nickfulton98@gmail.com','123 Test Ave',95112,'1.png','123456789','Geico',1,3,5,'N/A','N/A','N/A','N/A','Testing.');
+INSERT INTO `Patients` VALUES (1,'2019-11-20','Nick','Michael','Fulton','1998-09-14','Male','8587761407','nickfulton98@gmail.com','123 Test Ave',95112,'1.png','123456789','Geico',1,3,5,'N/A','N/A','N/A','N/A','Testing.'),(2,'2019-11-26','Stacy','T','Tester','2003-02-02','Female','123421-2413','stacy@gmail.com','123 Testing Ave',95112,'src/images/2.png','8473829384','Insurance',0,0,0,'','','','','');
 /*!40000 ALTER TABLE `Patients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +179,7 @@ DROP TABLE IF EXISTS `States`;
 CREATE TABLE `States` (
   `ID` int(11) NOT NULL,
   `Name` varchar(45) NOT NULL,
-  `Abbrehiation` varchar(2) NOT NULL,
+  `Abbreviation` varchar(10) NOT NULL,
   `Country` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `CountryID_idx` (`Country`),
@@ -255,7 +255,7 @@ CREATE TABLE `Work_Statuses` (
 
 LOCK TABLES `Work_Statuses` WRITE;
 /*!40000 ALTER TABLE `Work_Statuses` DISABLE KEYS */;
-INSERT INTO `Work_Statuses` VALUES (1,'Unemployed','U'),(2,'Part-Time','PT'),(3,'Full-Time','FT'),(4,'Self-Employed','SE'),(5,'Independent Contractor','IC'),(6,'Other','O');
+INSERT INTO `Work_Statuses` VALUES (0,'N/A','NA'),(1,'Unemployed','U'),(2,'Part-Time','PT'),(3,'Full-Time','FT'),(4,'Self-Employed','SE'),(5,'Independent Contractor','IC'),(6,'Other','O'),(7,'Hard Life','HL');
 /*!40000 ALTER TABLE `Work_Statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,7 +281,7 @@ CREATE TABLE `Zipcodes` (
 
 LOCK TABLES `Zipcodes` WRITE;
 /*!40000 ALTER TABLE `Zipcodes` DISABLE KEYS */;
-INSERT INTO `Zipcodes` VALUES (12084,1),(21401,2),(30301,3),(30805,4),(73301,5),(70802,6),(58501,7),(83701,8),(2101,9),(89403,10),(29401,11),(82001,12),(60007,13),(29044,14),(43004,15),(94518,16),(80014,17),(50047,18),(19901,19),(60423,20),(17025,21),(6101,22),(59601,23),(96795,24),(46077,25),(39056,26),(65043,27),(99801,28),(48864,29),(95648,30),(72002,31),(90001,32),(53558,33),(36043,34),(5601,35),(37080,36),(10001,37),(73008,38),(98501,39),(85001,40),(57501,41),(2860,42),(27513,43),(94707,44),(94203,45),(55101,46),(97301,47),(84044,48),(92127,49),(95112,50),(87501,51),(65619,52),(32301,53),(33601,54),(66546,55),(8601,56),(74008,57),(20001,58);
+INSERT INTO `Zipcodes` VALUES (12084,1),(12202,1),(21401,2),(30301,3),(30805,4),(73301,5),(70802,6),(58501,7),(83701,8),(2101,9),(89403,10),(29401,11),(82001,12),(60007,13),(29044,14),(43004,15),(94518,16),(80014,17),(50047,18),(19901,19),(60423,20),(17025,21),(6101,22),(59601,23),(96795,24),(46077,25),(39056,26),(65043,27),(99801,28),(48864,29),(95648,30),(72002,31),(90001,32),(53558,33),(36043,34),(5601,35),(37080,36),(10001,37),(73008,38),(98501,39),(85001,40),(57501,41),(2860,42),(27513,43),(94707,44),(94203,45),(55101,46),(97301,47),(84044,48),(92127,49),(95112,50),(87501,51),(65619,52),(32301,53),(33601,54),(66546,55),(8601,56),(74008,57),(20001,58);
 /*!40000 ALTER TABLE `Zipcodes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -294,4 +294,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-26  8:30:05
+-- Dump completed on 2019-11-26 14:01:24
