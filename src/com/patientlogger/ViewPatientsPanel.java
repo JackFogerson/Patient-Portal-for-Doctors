@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  * @title 	ViewPatientsPanel Class
@@ -250,24 +249,23 @@ public class ViewPatientsPanel extends JPanel
 				//looks in database for patient with inputed thc number
 				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', CONCAT(patients.firstname, ' ', patients.lastname) AS 'NAME', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', cities.name AS 'CITY', states.name AS 'STATE', patients.date AS 'DATE' " + 
 						   "FROM patients, zipcodes, cities, states " + 
-						   "WHERE patients.thcnumber = '1' AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND patients.thcnumber = '" + searchBox.getText() + "';";	
+						   "WHERE zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND patients.thcnumber = '" + searchBox.getText() + "';";	
 				break;
 				
 			case "Name":
 				//looks in database for patient with inputed name
 				String[] name = searchBox.getText().split(" ");
-				query = "SELECT * FROM PATIENTS WHERE FirstName = '" + name[0] + "' AND LastName = '" + name[1] + "';";
-				
+
 				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', CONCAT(patients.firstname, ' ', patients.lastname) AS 'NAME', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', cities.name AS 'CITY', states.name AS 'STATE', patients.date AS 'DATE' " + 
 						   "FROM patients, zipcodes, cities, states " + 
-						   "WHERE patients.thcnumber = '1' AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND patients.firstname = '" + name[0] + "' AND patients.lastname = '" + name[1] + "';";
+						   "WHERE AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND patients.firstname = '" + name[0] + "' AND patients.lastname = '" + name[1] + "';";
 				break;
 			
 			case "City":
 				//looks in database for patient with inputed city
 				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', CONCAT(patients.firstname, ' ', patients.lastname) AS 'NAME', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', cities.name AS 'CITY', states.name AS 'STATE', patients.date AS 'DATE' " + 
 						   "FROM patients, zipcodes, cities, states " + 
-						   "WHERE patients.thcnumber = '1' AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND cities.name = '" + searchBox.getText() + "';";	
+						   "WHERE zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id AND cities.name = '" + searchBox.getText() + "';";	
 				break;
 		}
 		
@@ -348,7 +346,7 @@ public class ViewPatientsPanel extends JPanel
 	{
 		String query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', CONCAT(patients.firstname, ' ', patients.lastname) AS 'NAME', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', cities.name AS 'CITY', states.name AS 'STATE', patients.date AS 'DATE' " + 
 					   "FROM patients, zipcodes, cities, states " + 
-					   "WHERE patients.thcnumber = '1' AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id;";		
+					   "WHERE zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id;";		
 		
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(query);

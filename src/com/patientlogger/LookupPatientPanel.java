@@ -76,6 +76,8 @@ public class LookupPatientPanel extends JPanel
 	//Initialize all buttons
 	JButton editPatientButton, addNewVisitButton, currentVisitButton;
 	
+	boolean hasPatient;
+	
 	/**
 	 * @title	LookupPatientPanel
 	 * @desc	constructor, builds panel
@@ -83,6 +85,7 @@ public class LookupPatientPanel extends JPanel
 	 */
 	public LookupPatientPanel(Connection c)
 	{
+		hasPatient = false;
 		conn = c;
 		setLayout(new GridBagLayout());
 		buildPanel();
@@ -617,82 +620,80 @@ public class LookupPatientPanel extends JPanel
 		//Connects with database
 		//Search begins empty
 		Statement stmt = conn.createStatement();
-		ResultSet rset = null;
-		myPatient = null;
+		
+		String query = "";
+		
+		// Set the picture to the patient's stored picture and scale it.
+		ImageIcon ogUnknownPicture = null;
+		ImageIcon unknownPicture = null;
 		
 		switch((String)searchCriteria.getSelectedItem())
 		{
 			// Default will be for THC and select search
 			default:
 				//looks in database for patient with inputed thc number
-				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE THCNumber ='" + searchBox.getText() + "';");
+				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', patients.firstname AS 'FIRSTNAME', patients.lastname AS 'LASTNAME', patients.photo AS 'PHOTO', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', patients.phone AS 'PHONE', patients.email AS 'EMAIL', patients.streetaddress AS 'ADDRESS', cities.name AS 'CITY', states.name AS 'STATE', patients.zip AS 'ZIP', countries.name AS 'COUNTRY', patients.ssid AS 'SSID', patients.insurance AS 'INSURANCE', occupations.name AS 'OCCUPATION', work_statuses.name AS 'WORKSTATUS', educational_degrees.name AS 'EDUCATION', patients.tonset AS 'TONSET', patients.tetiology AS 'TETIO', patients.honset AS 'HONSET', patients.hetiology AS 'HETIO', patients.comments AS 'COMMENTS' " + 
+					   	   "FROM patients, zipcodes, cities, states, occupations, countries, educational_degrees, work_statuses " + 
+					   	   "WHERE patients.THCNumber = '" + searchBox.getText() + "' AND patients.occupation = occupations.id AND patients.workstatus = work_statuses.id AND patients.educationaldegree = educational_degrees.id AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id;";		
 				break;
 				
 			case "Name":
 				//looks in database for patient with inputed name
 				String[] name = searchBox.getText().split(" ");
-				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE FirstName = '" + name[0] + "' AND LastName = '" + name[1] + "';");
+				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', patients.firstname AS 'FIRSTNAME', patients.lastname AS 'LASTNAME', patients.photo AS 'PHOTO', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', patients.phone AS 'PHONE', patients.email AS 'EMAIL', patients.streetaddress AS 'ADDRESS', cities.name AS 'CITY', states.name AS 'STATE', patients.zip AS 'ZIP', countries.name AS 'COUNTRY', patients.ssid AS 'SSID', patients.insurance AS 'INSURANCE', occupations.name AS 'OCCUPATION', work_statuses.name AS 'WORKSTATUS', educational_degrees.name AS 'EDUCATION', patients.tonset AS 'TONSET', patients.tetiology AS 'TETIO', patients.honset AS 'HONSET', patients.hetiology AS 'HETIO', patients.comments AS 'COMMENTS' " + 
+					   	   "FROM patients, zipcodes, cities, states, occupations, countries, educational_degrees, work_statuses " + 
+					   	   "WHERE patients.firstname = '" + name[0] + "' AND patients.lastName = '" + name[1] + "' AND patients.occupation = occupations.id AND patients.workstatus = work_statuses.id AND patients.educationaldegree = educational_degrees.id AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id;";
 				break;
 			
 			case "SSN":
 				//looks in database for patient with inputed SSN
-				rset = stmt.executeQuery("SELECT * FROM PATIENTS WHERE SSID = '" + searchBox.getText() + "';");
+				query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', patients.firstname AS 'FIRSTNAME', patients.lastname AS 'LASTNAME', patients.photo AS 'PHOTO', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', patients.phone AS 'PHONE', patients.email AS 'EMAIL', patients.streetaddress AS 'ADDRESS', cities.name AS 'CITY', states.name AS 'STATE', patients.zip AS 'ZIP', countries.name AS 'COUNTRY', patients.ssid AS 'SSID', patients.insurance AS 'INSURANCE', occupations.name AS 'OCCUPATION', work_statuses.name AS 'WORKSTATUS', educational_degrees.name AS 'EDUCATION', patients.tonset AS 'TONSET', patients.tetiology AS 'TETIO', patients.honset AS 'HONSET', patients.hetiology AS 'HETIO', patients.comments AS 'COMMENTS' " + 
+					   	   "FROM patients, zipcodes, cities, states, occupations, countries, educational_degrees, work_statuses " + 
+					   	   "WHERE patients.ssid = '" + searchBox.getText() + "' AND patients.occupation = occupations.id AND patients.workstatus = work_statuses.id AND patients.educationaldegree = educational_degrees.id AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id;";
 				break;
 		}
+		
+		ResultSet rset = stmt.executeQuery(query); 
+		
 		while(rset.next())
 		{
-			myPatient = new Patient(rset.getString(1), rset.getString(2), rset.getString(3), rset.getString(4), 
-					rset.getString(5), rset.getString(6), rset.getString(7), rset.getString(8), 
-					rset.getString(9), rset.getString(10), rset.getString(11), rset.getString(12), 
-				 	rset.getString(13), rset.getString(14), rset.getString(15), rset.getString(16), 
-				 	rset.getString(17), rset.getString(18), rset.getString(19), rset.getString(20), 
-				 	rset.getString(21), rset.getString(22));
+			THCNumberLabel.setText("THC#: " + rset.getString("THC"));
+			firstNameLabel.setText(rset.getString("FIRSTNAME"));
+			lastNameLabel.setText(rset.getString("LASTNAME"));
+			monthField.setText(rset.getString("BIRTHDAY").substring(5,7));
+			dayField.setText(rset.getString("BIRTHDAY").substring(8,10));
+			yearField.setText(rset.getString("BIRTHDAY").substring(0,4));
+			genderField.setText(rset.getString("GENDER"));
+			areaCodeField.setText(rset.getString("PHONE").substring(0,3));
+			phone1Field.setText(rset.getString("PHONE").substring(3,6));
+			phone2Field.setText(rset.getString("PHONE").substring(6,10));	
+			emailField.setText(rset.getString("EMAIL"));
+			addressField.setText(rset.getString("ADDRESS"));
+			cityField.setText(rset.getString("CITY"));
+			stateField.setText(rset.getString("STATE"));
+			zipField.setText(rset.getString("ZIP"));
+			countryField.setText(rset.getString("COUNTRY"));
+			
+			ogUnknownPicture = new ImageIcon("src/images/" + rset.getString("PHOTO"));
+			unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+			photoLabel.setIcon(unknownPicture);
+			photoLabel.repaint();
+			
+			ssn1Field.setText(rset.getString("SSID").substring(0,3));
+			ssn2Field.setText(rset.getString("SSID").substring(3,5));
+			ssn3Field.setText(rset.getString("SSID").substring(5,9));
+			insuranceField.setText(rset.getString("INSURANCE"));
+			occupationField.setText(rset.getString("OCCUPATION"));
+			workStatusField.setText(rset.getString("WORKSTATUS"));
+			educationField.setText(rset.getString("EDUCATION"));
+			tOnsetField.setText(rset.getString("TONSET"));
+			tEtioField.setText(rset.getString("TETIO"));
+			hOnsetField.setText(rset.getString("HONSET"));
+			hEtioField.setText(rset.getString("HETIO"));
+			commentField.setText(rset.getString("COMMENTS"));
+			
+			hasPatient = true;
 		}
-		//If patient found, get that patient data
-		if(myPatient != null)
-			assignPatient();
-	}
-	
-	/**
-	 *	@title	assignPatient
-	 *	@desc	gets searched patient and imports their data
-	 */
-	private void assignPatient()
-	{
-		// Set the picture to the patient's stored picture and scale it.
-		ImageIcon ogUnknownPicture = new ImageIcon(myPatient.getPhoto());
-		ImageIcon unknownPicture = new ImageIcon(ogUnknownPicture.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
-		
-		// Set the data to all of the text fields.
-		THCNumberLabel.setText("THC#: " + myPatient.getTHCNumber());
-		firstNameLabel.setText(myPatient.getFirstName());
-		lastNameLabel.setText(myPatient.getLastName());
-		monthField.setText(myPatient.getDOBMonth());
-		dayField.setText(myPatient.getDOBDay());
-		yearField.setText(myPatient.getDOBYear());
-		genderField.setText(myPatient.getGender());
-		areaCodeField.setText(myPatient.getAreaCode());
-		phone1Field.setText(myPatient.getPhone1());
-		phone2Field.setText(myPatient.getPhone2());	
-		emailField.setText(myPatient.getEmail());
-		addressField.setText(myPatient.getStreetAddress());
-		cityField.setText(myPatient.getCity());
-		stateField.setText(myPatient.getState());
-		zipField.setText(myPatient.getZip());
-		countryField.setText(myPatient.getCountry());
-		photoLabel.setIcon(unknownPicture);
-		ssn1Field.setText(myPatient.getSSN1());
-		ssn2Field.setText(myPatient.getSSN2());
-		ssn3Field.setText(myPatient.getSSN3());
-		insuranceField.setText(myPatient.getInsurance());
-		occupationField.setText(myPatient.getOccupation());
-		workStatusField.setText(myPatient.getWorkStatus());
-		educationField.setText(myPatient.getEducationalDegree());
-		tOnsetField.setText(myPatient.getTOnset());
-		tEtioField.setText(myPatient.getTEtio());
-		hOnsetField.setText(myPatient.getHOnset());
-		hEtioField.setText(myPatient.getHEtio());
-		commentField.setText(myPatient.getComments());
 	}
 	
 	/**
@@ -702,7 +703,7 @@ public class LookupPatientPanel extends JPanel
 	private void edit()
 	{
 		//edit only if searched patient
-		if(myPatient == null)
+		if(hasPatient == false)
 			return;
 		
 		// Build a edit patient screen.
