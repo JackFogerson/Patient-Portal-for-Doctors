@@ -35,7 +35,8 @@ public class LocationDataPanel extends JPanel
 	JScrollPane zipcodeScroll, cityScroll, stateScroll, countryScroll;
 	JTable zipcodeTable, cityTable, stateTable, countryTable;
 	
-	JButton addZipButton, editZip, addCityButton, editCity, addStateButton, editState, addCountryButton, editCountry;
+	JButton addZipButton, editZipButton, addCityButton, editCityButton, addStateButton, 
+			editStateButton, addCountryButton, editCountryButton;
 	
 	/**
 	 *	@title	LocationDataPanel
@@ -64,13 +65,13 @@ public class LocationDataPanel extends JPanel
 		countryScroll = new JScrollPane(countryTable);
 		
 		addZipButton = new JButton("Add Zipcode");
-		editZip = new JButton("Edit Zipcode");
+		editZipButton = new JButton("Edit Zipcode");
 		addCityButton = new JButton("Add City");
-		editCity = new JButton("Edit City");
+		editCityButton = new JButton("Edit City");
 		addStateButton = new JButton("Add State");
-		editState = new JButton("Edit State");
+		editStateButton = new JButton("Edit State");
 		addCountryButton = new JButton("Add Country");
-		editCountry = new JButton("Edit Country");
+		editCountryButton = new JButton("Edit Country");
 
 		addZipButton.addActionListener(e -> {
 			try {
@@ -102,6 +103,42 @@ public class LocationDataPanel extends JPanel
 		addCountryButton.addActionListener(e -> {
 			try {
 				addCountry();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		editZipButton.addActionListener(e -> {
+			try {
+				editZip();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		editCityButton.addActionListener(e -> {
+			try {
+				editCity();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		editStateButton.addActionListener(e -> {
+			try {
+				editState();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		editCountryButton.addActionListener(e -> {
+			try {
+				editCountry();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -160,7 +197,7 @@ public class LocationDataPanel extends JPanel
 		c.gridheight = 1;
 		c.ipadx = 0;
 		c.ipady = 0;
-		add(editZip, c);
+		add(editZipButton, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -178,7 +215,7 @@ public class LocationDataPanel extends JPanel
 		c.gridheight = 1;
 		c.ipadx = 0;
 		c.ipady = 0;
-		add(editCity, c);
+		add(editCityButton, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
@@ -196,7 +233,7 @@ public class LocationDataPanel extends JPanel
 		c.gridheight = 1;
 		c.ipadx = 0;
 		c.ipady = 0;
-		add(editState, c);
+		add(editStateButton, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
@@ -214,7 +251,7 @@ public class LocationDataPanel extends JPanel
 		c.gridheight = 1;
 		c.ipadx = 0;
 		c.ipady = 0;
-		add(editCountry, c);
+		add(editCountryButton, c);
 
 		try 
 		{
@@ -337,7 +374,7 @@ public class LocationDataPanel extends JPanel
 		
 		boolean isThere = false;
 		
-		String query = "SELECT * FROM Zipcodes WHERE Zipcode = '" + zipField.getText() + "';";
+		String query = "SELECT * FROM Zipcodes WHERE Zipcode = '" + zipcode + "';";
 		
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(query);
@@ -366,13 +403,13 @@ public class LocationDataPanel extends JPanel
 		// This means we need to just put in the city.
 		if(isThere)
 		{
-			query = "UPDATE Zipcodes SET City = (SELECT id FROM Cities WHERE Name = '" + cit.getSelectedItem() + "') where Zipcode = '" + zip.getText() + "';";
+			query = "UPDATE Zipcodes SET City = (SELECT id FROM Cities WHERE Name = '" + city + "') where Zipcode = '" + zipcode + "';";
 		
 		}
 		// This means we need to put in the zipcode and the city.
 		else
 		{
-			query = "INSERT INTO Zipcodes(Zipcode, City) VALUES('" + zip.getText() + "', (SELECT id FROM cities WHERE name = '" + cit.getSelectedItem() + "'));";
+			query = "INSERT INTO Zipcodes(Zipcode, City) VALUES('" + zipcode + "', (SELECT id FROM cities WHERE name = '" + city + "'));";
 		}
 		
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -381,9 +418,50 @@ public class LocationDataPanel extends JPanel
 		buildTables();
 	}
 	
-	private void editZip()
+	private void editZip() throws SQLException
 	{
+		JPanel panel = new JPanel();
+		JLabel primaryLabel = new JLabel("Zipcode: ");
+		JLabel secondaryLabel = new JLabel("City: ");
+		JComboBox<String> primaryChoices, secondaryChoices;
+		String[] primaryList, secondaryList;
 		
+		primaryList = new String[zipcodeTable.getModel().getRowCount()];
+		secondaryList = new String[cityTable.getModel().getRowCount()];
+		
+		for(int x = 0; x < zipcodeTable.getModel().getRowCount(); x++)
+		{
+			primaryList[x] = (String)zipcodeTable.getModel().getValueAt(x, 0);
+		}
+		for(int x = 0; x < cityTable.getModel().getRowCount(); x++)
+		{
+			secondaryList[x] = (String)cityTable.getModel().getValueAt(x, 0);
+		}
+		
+		primaryChoices = new JComboBox<String>(primaryList);
+		secondaryChoices = new JComboBox<String>(secondaryList);
+		
+		panel.setLayout(new GridLayout(2,2));
+		panel.add(primaryLabel);
+		panel.add(primaryChoices);
+		panel.add(secondaryLabel);
+		panel.add(secondaryChoices);
+		
+		int result = JOptionPane.showConfirmDialog(null, panel, "Please Enter Zip and New City", JOptionPane.OK_CANCEL_OPTION);
+		
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			String query = "UPDATE zipcodes SET city = (SELECT id FROM cities WHERE Name = '" + secondaryChoices.getSelectedItem() + "') where zipcode = '" + primaryChoices.getSelectedItem() + "';";
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.execute();
+		}
+		else
+		{
+			return;
+		}
+
+		buildTables();
 	}
 	
 	private void addCity() throws SQLException
@@ -398,7 +476,7 @@ public class LocationDataPanel extends JPanel
 		
 		for(int x = 0; x < stateTable.getModel().getRowCount(); x++)
 		{
-			states[x] = (String)stateTable.getModel().getValueAt(x, 0);
+			states[x] = ((String)stateTable.getModel().getValueAt(x, 0)).substring(3);
 		}
 
 		JComboBox<String> st = new JComboBox<String>(states);
@@ -468,9 +546,50 @@ public class LocationDataPanel extends JPanel
 		buildTables();
 	}
 	
-	private void editCity()
+	private void editCity() throws SQLException
 	{
+		JPanel panel = new JPanel();
+		JLabel primaryLabel = new JLabel("City: ");
+		JLabel secondaryLabel = new JLabel("State: ");
+		JComboBox<String> primaryChoices, secondaryChoices;
+		String[] primaryList, secondaryList;
 		
+		primaryList = new String[cityTable.getModel().getRowCount()];
+		secondaryList = new String[stateTable.getModel().getRowCount()];
+		
+		for(int x = 0; x < cityTable.getModel().getRowCount(); x++)
+		{
+			primaryList[x] = (String)cityTable.getModel().getValueAt(x, 0);
+		}
+		for(int x = 0; x < stateTable.getModel().getRowCount(); x++)
+		{
+			secondaryList[x] = ((String)stateTable.getModel().getValueAt(x, 0)).substring(3);
+		}
+		
+		primaryChoices = new JComboBox<String>(primaryList);
+		secondaryChoices = new JComboBox<String>(secondaryList);
+		
+		panel.setLayout(new GridLayout(2,2));
+		panel.add(primaryLabel);
+		panel.add(primaryChoices);
+		panel.add(secondaryLabel);
+		panel.add(secondaryChoices);
+		
+		int result = JOptionPane.showConfirmDialog(null, panel, "Please Enter City and New State", JOptionPane.OK_CANCEL_OPTION);
+		
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			String query = "UPDATE cities SET state = (SELECT id FROM states WHERE Name = '" + secondaryChoices.getSelectedItem() + "') where name = '" + primaryChoices.getSelectedItem() + "';";
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.execute();
+		}
+		else
+		{
+			return;
+		}
+
+		buildTables();
 	}
 	
 	private void addState() throws SQLException
@@ -516,7 +635,6 @@ public class LocationDataPanel extends JPanel
 				return;
 			}
 		}
-		
 
 		query = "INSERT INTO states(id, name, abbreviation, country) VALUES('" + (stateTable.getModel().getRowCount() + 1) + "', '" + name + "', '" + abb + "', 1);";
 
@@ -527,9 +645,44 @@ public class LocationDataPanel extends JPanel
 		buildTables();
 	}
 	
-	private void editState()
+	private void editState() throws SQLException
 	{
+		JPanel panel = new JPanel();
+		JLabel nameLabel = new JLabel("State: ");
+		JLabel abbLabel = new JLabel("Abbreviation: ");
+		JComboBox<String> nameChoices;
+		JTextField abb = new JTextField(10);
+		String[] nameList = new String[stateTable.getModel().getRowCount()];
 		
+		
+		for(int x = 0; x < stateTable.getModel().getRowCount(); x++)
+		{
+			nameList[x] = ((String)stateTable.getModel().getValueAt(x, 0)).substring(3);
+		}
+		
+		nameChoices = new JComboBox<String>(nameList);
+
+		panel.setLayout(new GridLayout(2,2));
+		panel.add(nameLabel);
+		panel.add(nameChoices);
+		panel.add(abbLabel);
+		panel.add(abb);
+		
+		int result = JOptionPane.showConfirmDialog(null, panel, "Please Enter State and New Abbreviation", JOptionPane.OK_CANCEL_OPTION);
+		
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			String query = "UPDATE states SET abbreviation = '" + abb.getText() + "' WHERE name = '" + nameChoices.getSelectedItem() + "';";
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.execute();
+		}
+		else
+		{
+			return;
+		}
+
+		buildTables();
 	}
 	
 	private void addCountry() throws SQLException
@@ -586,8 +739,42 @@ public class LocationDataPanel extends JPanel
 		buildTables();
 	}
 	
-	private void editCountry()
+	private void editCountry() throws SQLException
 	{
+		JPanel panel = new JPanel();
+		JLabel nameLabel = new JLabel("Country: ");
+		JLabel abbLabel = new JLabel("Abbreviation: ");
+		JComboBox<String> nameChoices;
+		JTextField abb = new JTextField(10);
+		String[] nameList = new String[countryTable.getModel().getRowCount()];
 		
+		for(int x = 0; x < countryTable.getModel().getRowCount(); x++)
+		{
+			nameList[x] = ((String)countryTable.getModel().getValueAt(x, 0)).split("-")[1];
+		}
+		
+		nameChoices = new JComboBox<String>(nameList);
+
+		panel.setLayout(new GridLayout(2,2));
+		panel.add(nameLabel);
+		panel.add(nameChoices);
+		panel.add(abbLabel);
+		panel.add(abb);
+		
+		int result = JOptionPane.showConfirmDialog(null, panel, "Please Enter Country and New Abbreviation", JOptionPane.OK_CANCEL_OPTION);
+		
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			String query = "UPDATE countries SET abbreviation = '" + abb.getText() + "' WHERE name = '" + nameChoices.getSelectedItem() + "';";
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.execute();
+		}
+		else
+		{
+			return;
+		}
+
+		buildTables();
 	}
 }
