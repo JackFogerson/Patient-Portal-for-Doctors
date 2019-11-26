@@ -120,7 +120,7 @@ CREATE TABLE `Zip_City` (
 
   `City` varchar(45) NOT NULL,
 
-  UNIQUE KEY `VisitID_UNIQUE` (`VisitID`)
+  UNIQUE KEY `Zip_UNIQUE` (`ZipCode`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -132,7 +132,7 @@ CREATE TABLE `City_State` (
 
   `State` varchar(45) DEFAULT NULL,
 
-  UNIQUE KEY `VisitID_UNIQUE` (`VisitID`)
+  UNIQUE KEY `City` (`City`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -144,7 +144,7 @@ CREATE TABLE `State_Country` (
 
   `Country` varchar(45) NOT NULL,
 
-  UNIQUE KEY `VisitID_UNIQUE` (`VisitID`)
+  UNIQUE KEY `State` (`State`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
