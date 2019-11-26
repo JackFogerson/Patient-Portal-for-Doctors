@@ -55,31 +55,13 @@ public class AddNewPatientsPanel extends JPanel
 	final String[] genderList = {"Select One", "Male", "Female", "Other"};
 	
 	//field to collect current city they live in
-	final String[] cityList = {"Select One", "Albany", "Annapolis", "Atlanta", "Augusta", "Austin",
-							   "Baton Rouge", "Bismarck", "Boise", "Boston", "Carson City", 
-							   "Charleston", "Cheyenne", "Chicago","Columbia", "Columbus", "Concord", "Denver",
-							   "Des Moines", "Dover", "Frankfort", "Harrisburg", "Hartford", "Helena",
-							   "Honolulu", "Indianapolis", "Jackson", "Jefferson City", "Juneau", 
-							   "Lansing", "Lincoln", "Little Rock", "Los Angeles", "Madison", "Montgomery",
-							   "Montpelier", "Nashville", "New York","Oklahoma City", "Olympia", "Phoenix", 
-							   "Pierre", "Providence", "Raleigh", "Richmond", "Sacramento", "Saint Paul", 
-							   "Salem", "Salt Lake City", "San Diego","San Jose", "Santa Fe", "Springfield", 
-							   "Tallahassee", "Tampa", "Topeka", "Trenton", "Tulsa", "Washington, D.C."};
+	String[] cityList;
 	
 	//field to collect current state they live in
-	final String[] stateList = {"Select One", "Alabama", "Arkansas", "Arizona", "Alaska", "California", 
-								"Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii",
-								"Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-								"Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
-								"Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska",
-								"Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
-								"North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon",
-								"Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
-								"Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
-								"Washington, D.C.",	"West Virginia", "Wisconsin", "Wyoming" };
+	String[] stateList;
 	
 	//field to collect current country
-	final String[] countryList = {"Select One", "United States of America"};
+	String[] countryList;
 	
 	//field for dob month
 	final String[] monthList = {"--", "1", "2", "3", "4", "5", "6",
@@ -91,13 +73,12 @@ public class AddNewPatientsPanel extends JPanel
 							  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 	
 	//field for education
-	final String[] eduList = {"Select One", "Less than High School or GED", "High School or GED",
-							  "Some College", "Associate's Degree", "Bachelor's Degree",
-							  "Some Graduate School", "Graduate or Professional Degree"};
+	String[] eduList;
 	
 	//field for work status
-	final String[] statusList = {"Select One", "Unemployed", "Part-Time", "Full-Time",
-								 "Self-Employed", "Independent Contractor", "Other"};
+	String[] statusList;
+	
+	String[] occupationList;
 	
 	JFrame demographicsFrame;
 	
@@ -139,7 +120,115 @@ public class AddNewPatientsPanel extends JPanel
 	public AddNewPatientsPanel(Connection c)
 	{
 		this.conn = c;
+		try 
+		{
+			getDemographicsLists();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 		buildPanel();
+	}
+	
+	private void getDemographicsLists() throws SQLException
+	{
+
+		int cities = 0, states = 0, countries = 0, educations = 0, statuses = 0, occupations = 0;
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery("SELECT MAX(cities.ID), MAX(states.ID), MAX(countries.ID), MAX(educational_degrees.ID), MAX(work_statuses.ID), MAX(occupations.ID) FROM cities, states, countries, educational_degrees, work_statuses, occupations;");
+		
+		while(rset.next())
+		{
+			cities = Integer.parseInt(rset.getString(1));
+			states = Integer.parseInt(rset.getString(2));
+			countries = Integer.parseInt(rset.getString(3));
+			educations = Integer.parseInt(rset.getString(4));
+			statuses = Integer.parseInt(rset.getString(5));
+			occupations = Integer.parseInt(rset.getString(6));
+		}
+
+		System.out.println(cities);
+		System.out.println(states);
+		System.out.println(countries);
+		System.out.println(educations);
+		System.out.println(statuses);
+		System.out.println(occupations);
+		
+		
+		cityList = new String[cities + 1];
+		cityList[0] = "Select One";
+		stateList = new String[states + 1];
+		stateList[0] = "Select One";
+		countryList = new String[countries + 1];
+		countryList[0] = "Select One";
+		eduList = new String[educations + 1];
+		eduList[0] = "Select One";
+		statusList = new String[statuses + 1];
+		statusList[0] = "Select One";
+		occupationList = new String[occupations + 1];
+		occupationList[0] = "Select One";
+		
+		stmt = conn.createStatement();
+		rset = stmt.executeQuery("Select Name From Cities;");
+		
+		int x = 1;
+		while(rset.next())
+		{
+			cityList[x] = rset.getString(1);
+			x++;
+		}
+		
+		stmt = conn.createStatement();
+		rset = stmt.executeQuery("Select Name From States;");
+		
+		x = 1;
+		while(rset.next())
+		{
+			stateList[x] = rset.getString(1);
+			x++;
+		}
+		
+		stmt = conn.createStatement();
+		rset = stmt.executeQuery("Select Name From Countries;");
+		
+		x = 1;
+		while(rset.next())
+		{
+			countryList[x] = rset.getString(1);
+			x++;
+		}
+		
+		stmt = conn.createStatement();
+		rset = stmt.executeQuery("Select Name From educational_degrees;");
+		
+		x = 1;
+		while(rset.next())
+		{
+			eduList[x] = rset.getString(1);
+			x++;
+		}
+		
+		stmt = conn.createStatement();
+		rset = stmt.executeQuery("Select Name From work_statuses;");
+		
+		x = 1;
+		while(rset.next())
+		{
+			statusList[x] = rset.getString(1);
+			x++;
+		}
+		
+		stmt = conn.createStatement();
+		rset = stmt.executeQuery("Select Name From occupations;");
+		
+		x = 1;
+		while(rset.next())
+		{
+			occupationList[x] = rset.getString(1);
+			x++;
+		}
 	}
 	
 	/**

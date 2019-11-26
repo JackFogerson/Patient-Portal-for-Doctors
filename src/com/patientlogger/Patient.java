@@ -77,8 +77,8 @@ public class Patient
 	 * @desc	Sets all of the data to what is provided.
 	 */
 	public Patient(String THCNumber, String date, String firstName, String middleName, String lastName, String dob,
-				   String gender, String phone, String email, String streetAddress, String city, String state,
-				   String zip, String country, String photo, String ssid, String insurance, String occupation,
+				   String gender, String phone, String email, String streetAddress,
+				   String zip, String photo, String ssid, String insurance, String occupation,
 				   String workStatus, String educationalDegree, String TOnset, String TEtio, String HOnset,
 				   String HEtio, String comments)
 	{
@@ -92,10 +92,7 @@ public class Patient
 		this.myPhone = phone;
 		this.myEmail = email;
 		this.myStreetAddress = streetAddress;
-		this.myCity = city;
-		this.myState = state;
 		this.myZip = zip;
-		this.myCountry = country;
 		this.myPhoto = photo;
 		this.mySsid = ssid;
 		this.myInsurance = insurance;
