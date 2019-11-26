@@ -87,7 +87,7 @@ public class AddNewPatientsPanel extends JPanel
 	//text fields to get raw input from entry	
 	JTextField THCNumberField, currentDateField, firstNameField, middleNameField, lastNameField,
 	 		   yearField, emailField, addressField, zipField, insuranceField,
-	 		   occupationField, tOnsetField, tEtioField, hOnsetField,
+	 		   tOnsetField, tEtioField, hOnsetField,
 	 		   hEtioField, ssn1Field, ssn2Field, ssn3Field, areaCodeField, phone1Field,
 	 		   phone2Field;
 	
@@ -95,7 +95,7 @@ public class AddNewPatientsPanel extends JPanel
 	JTextArea commentField;
 	
 	//Used for drop down menus
-	JComboBox<String> monthField, dayField, genderField, cityField, stateField, countryField, educationField, workStatusField;
+	JComboBox<String> monthField, dayField, genderField, cityField, stateField, countryField, educationField, workStatusField, occupationField;
 	
 	//Add photo button
 	JButton photoField;
@@ -148,14 +148,6 @@ public class AddNewPatientsPanel extends JPanel
 			statuses = Integer.parseInt(rset.getString(5));
 			occupations = Integer.parseInt(rset.getString(6));
 		}
-
-		System.out.println(cities);
-		System.out.println(states);
-		System.out.println(countries);
-		System.out.println(educations);
-		System.out.println(statuses);
-		System.out.println(occupations);
-		
 		
 		cityList = new String[cities + 1];
 		cityList[0] = "Select One";
@@ -262,7 +254,7 @@ public class AddNewPatientsPanel extends JPanel
 		dobField.add(yearField);
 		genderField = new JComboBox<String>(genderList);
 		phoneField = new JPanel(new GridLayout(1, 3));
-		areaCodeField = new JTextField("(XXX)");
+		areaCodeField = new JTextField("XXX");
 		phone1Field = new JTextField("XXX");
 		phone2Field = new JTextField("XXXX");
 		phoneField.add(areaCodeField);
@@ -738,7 +730,7 @@ public class AddNewPatientsPanel extends JPanel
 				Files.copy(inputPicture.toPath(), new File("src/images/" + THCNumberField.getText() + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
 				
 				// Scale the image
-				ImageIcon ogInPic = new ImageIcon("src/images/inputPicture.png");
+				ImageIcon ogInPic = new ImageIcon("src/images/" + THCNumberField.getText() + ".png");
 				ImageIcon inPic = new ImageIcon(ogInPic.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 				
 				// Set the image.
@@ -749,6 +741,7 @@ public class AddNewPatientsPanel extends JPanel
 			{
 				e.printStackTrace();
 			}
+			photoField.repaint();
 		}
 	}
 	
@@ -902,7 +895,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
 								   		  + "'" + ssn1Field.getText() + ssn2Field.getText() + ssn3Field.getText() + "', "
 								   		  + "'" + insuranceField.getText() + "', "
-								   		  + "'" + occupationField.getText() + "', "
+								   		  + "'" + occupationField.getSelectedItem() + "', "
 								   		  + "'" + workStatusField.getSelectedItem() + "', "
 								   		  + "'" + educationField.getSelectedItem() + "', "
 								   		  + "'" + tOnsetField.getText() + "', "
@@ -1022,7 +1015,7 @@ public class AddNewPatientsPanel extends JPanel
 		GridBagConstraints c = new GridBagConstraints();
 		
 		// Initialize all variables
-		occupationField = new JTextField(10);
+		occupationField = new JComboBox<String>(occupationList);
 		workStatusField	= new JComboBox<String>(statusList);
 		educationField = new JComboBox<String>(eduList);
 		tOnsetField = new JTextField(10);

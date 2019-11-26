@@ -69,7 +69,7 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		ssn2Field.setText(myPatient.getSSN2());
 		ssn3Field.setText(myPatient.getSSN3());	
 		insuranceField.setText(myPatient.getInsurance());
-		occupationField.setText(myPatient.getOccupation());	
+		occupationField.setSelectedItem(myPatient.getOccupation());	
 		workStatusField.setSelectedItem(myPatient.getWorkStatus());
 		educationField.setSelectedItem(myPatient.getEducationalDegree());
 		tOnsetField.setText(myPatient.getTOnset());
@@ -148,7 +148,7 @@ public class EditPatientScreen extends AddNewPatientsPanel
 				   		  + "'" + "src/images/" + THCNumberField.getText() + ".png', "
 				   		  + "'" + ssn1Field.getText() + ssn2Field.getText() + ssn3Field.getText() + "', "
 				   		  + "'" + insuranceField.getText() + "', "
-				   		  + "'" + occupationField.getText() + "', "
+				   		  + "'" + occupationField.getSelectedItem() + "', "
 				   		  + "'" + workStatusField.getSelectedItem() + "', "
 				   		  + "'" + educationField.getSelectedItem() + "', "
 				   		  + "'" + tOnsetField.getText() + "', "
