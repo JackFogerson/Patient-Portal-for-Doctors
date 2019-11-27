@@ -974,7 +974,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + firstNameField.getText() + "', "
 								   		  + "'" + middleNameField.getText() + "', "
 								   		  + "'" + lastNameField.getText() + "', "
-										  + "'" + yearField.getText() + "/" + monthField.getSelectedItem() + "/" + dayField.getSelectedItem() + "', "
+										  + "'" + yearField.getText() + "-" + monthField.getSelectedItem() + "-" + dayField.getSelectedItem() + "', "
 								   		  + "'" + genderField.getSelectedItem() + "', "
 								   		  + "'" + areaCodeField.getText() + phone1Field.getText() + "-" + phone2Field.getText() + "', "
 								   		  + "'" + emailField.getText() + "', "

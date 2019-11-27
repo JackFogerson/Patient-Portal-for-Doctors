@@ -264,8 +264,8 @@ public class EditPatientScreen extends AddNewPatientsPanel
 			query = "INSERT INTO Zipcodes(Zipcode, City) DATA('" + zipField.getText() + "', '" + stateField.getSelectedItem() + "');";
 		}
 		
-		stmt = conn.createStatement();
-		rset = stmt.executeQuery(query);
+		PreparedStatement preparedStmt = conn.prepareStatement(query);
+		preparedStmt.execute();
 		
 	}
 }
