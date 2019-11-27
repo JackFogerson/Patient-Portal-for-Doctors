@@ -438,6 +438,8 @@ public class AddNewPatientsPanel extends JPanel
 		// The demographics pane is already open, it just needs to be made visible.
 		addDemoButton.addActionListener(e -> demographicsFrame.setVisible(true));
 		
+		newVisitButton.addActionListener(e -> newVisit());
+		
 		// Saves the given picture locally, and set it to the thcnumber.png
 		try 
 		{
@@ -923,12 +925,12 @@ public class AddNewPatientsPanel extends JPanel
 	 * @title	submitInformation
 	 * @throws 	SQLException - If there is an error when submitting to the database.
 	 */
-	private void submitInformation() throws SQLException
+	private boolean submitInformation() throws SQLException
 	{
 		// If there is an error, don't submit the information.
 		if(errorCheck())
 		{
-			return;
+			return false;
 		}
 		
 		// Finds current date again to make it easier for data submission.
@@ -997,7 +999,7 @@ public class AddNewPatientsPanel extends JPanel
 		// Rebuild the panel once it is submitted so it is blank for the next data entry.
 		rebuildPanel();
 		
-		return;
+		return true;
 	}
 	
 	/**
@@ -1299,5 +1301,30 @@ public class AddNewPatientsPanel extends JPanel
 	protected JButton getCancelButton()
 	{
 		return cancelButton;
+	}
+	
+	private void newVisit()
+	{
+		String thc = THCNumberField.getText();
+		try 
+		{
+			if(!submitInformation())
+			{
+				return;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		JFrame frame = new JFrame("eTRT - Edit Visit");
+		frame.add(new AddNewVisitPanel(conn, thc));
+		frame.setSize(new Dimension(600, 450));
+		frame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		//Center the new frame
+		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
+		frame.setVisible(true);
 	}
 }

@@ -87,6 +87,17 @@ public class ViewPatientsPanel extends JPanel
 		patientTable = new JTable();
 		searchBox = new JTextField(10);
 		
+		addNewVisitButton.addActionListener(e -> newVisit());
+		
+		showCurrentVisitButton.addActionListener(e -> {
+			try {
+				currentVisit();
+			} catch (SQLException e3) {
+				// TODO Auto-generated catch block
+				e3.printStackTrace();
+			}
+		});
+		
 		// Listener adds the ability to refresh the table.
 		refreshButton.addActionListener(e -> {
 			try 
@@ -376,5 +387,41 @@ public class ViewPatientsPanel extends JPanel
 		
 		// Return the age in a string.
 		return "" + age;
+	}
+	
+	private void newVisit()
+	{
+		String thc = (String)patientTable.getValueAt(patientTable.getSelectedRow(), 0);
+		
+		JFrame frame = new JFrame("eTRT - Edit Visit");
+		frame.add(new AddNewVisitPanel(conn, thc));
+		frame.setSize(new Dimension(600, 450));
+		frame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		//Center the new frame
+		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
+		frame.setVisible(true);
+	}
+	
+	private void currentVisit() throws SQLException
+	{
+		String thc = (String)patientTable.getValueAt(patientTable.getSelectedRow(), 0);
+		String id = null;
+		String query = "SELECT MAX(VisitSequence) FROM visits WHERE thcnumber = '" + thc + "';";
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(query);
+		
+		while(rset.next())
+			id = rset.getString(1);
+		
+		JFrame frame = new JFrame("eTRT - Edit Patient");
+		frame.add(new EditVisitScreen(conn, id));
+		frame.setSize(new Dimension(600, 450));
+		frame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		//Center the new frame
+		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
+		frame.setVisible(true);
 	}
 }

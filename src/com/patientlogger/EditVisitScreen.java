@@ -40,6 +40,7 @@ public class EditVisitScreen extends AddNewVisitPanel
 			e.printStackTrace();
 		}
 	}
+
 	
 	/**
 	 * @throws SQLException 

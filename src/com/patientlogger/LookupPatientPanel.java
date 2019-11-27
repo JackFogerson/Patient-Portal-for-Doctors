@@ -116,6 +116,17 @@ public class LookupPatientPanel extends JPanel
 		addNewVisitButton = new JButton("New Visit");
 		currentVisitButton = new JButton("Current Visit");
 		
+		addNewVisitButton.addActionListener(e -> newVisit());
+		
+		currentVisitButton.addActionListener(e -> {
+			try {
+				currentVisit();
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		});
+		
 		//Sets pane with patient lookup info
 		patientPanel.setLayout(new GridBagLayout());
 		buildPatientPanel();
@@ -713,4 +724,41 @@ public class LookupPatientPanel extends JPanel
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
+	
+	private void newVisit()
+	{
+		String thc = THCNumberLabel.getText().substring(6);
+		
+		JFrame frame = new JFrame("eTRT - Edit Visit");
+		frame.add(new AddNewVisitPanel(conn, thc));
+		frame.setSize(new Dimension(600, 450));
+		frame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		//Center the new frame
+		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
+		frame.setVisible(true);
+	}
+	
+	private void currentVisit() throws SQLException
+	{
+		String thc = THCNumberLabel.getText().substring(6);
+		String id = null;
+		String query = "SELECT MAX(VisitSequence) FROM visits WHERE thcnumber = '" + thc + "';";
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rset = stmt.executeQuery(query);
+		
+		while(rset.next())
+			id = rset.getString(1);
+		
+		JFrame frame = new JFrame("eTRT - Edit Patient");
+		frame.add(new EditVisitScreen(conn, id));
+		frame.setSize(new Dimension(600, 450));
+		frame.setResizable(false);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		//Center the new frame
+		frame.setLocation(d.width/2-frame.getSize().width/2, d.height/2-frame.getSize().height/2);
+		frame.setVisible(true);
+	}
 }
+

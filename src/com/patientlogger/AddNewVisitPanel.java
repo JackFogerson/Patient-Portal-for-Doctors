@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 /**
  * @title	AddNewVisitPanel
@@ -81,6 +82,7 @@ public class AddNewVisitPanel extends JPanel
 			diagnoseButton, addInstrumentButton, addREMDetailsButton, addCounselingButton,
 			recommendTreatmentButton, saveButton, cancelButton;
 	
+	boolean external;
 	/**
 	 *	@title	AddNewVisitPanel
 	 *  @desc	constructor, builds panel
@@ -88,10 +90,21 @@ public class AddNewVisitPanel extends JPanel
 	 */
 	public AddNewVisitPanel(Connection c)
 	{
+		external = false;
 		conn = c;
 		buildPanel();
 	}
 	
+	
+	public AddNewVisitPanel(Connection c, String thc)
+	{
+		external = true;
+		conn = c;
+		buildPanel();
+		thcField.setText(thc);
+    	nameField.setText(getName());
+    	visitSequenceField.setText(Integer.toString(getVisitSequence()));
+	}
 	/**
 	 *	@title	buildPanel
 	 *	@desc	Local method used to build this panel, everything from assigning listeners to putting the
@@ -576,6 +589,9 @@ public class AddNewVisitPanel extends JPanel
 		// Rebuild the panel once it is submitted so it is blank for the next data entry.
 		rebuildPanel();
 		
+		if(external)
+			SwingUtilities.windowForComponent(this).dispose();
+		
 		return;
 	}
 	
@@ -636,7 +652,7 @@ public class AddNewVisitPanel extends JPanel
 	 * @title	getVisitSequence Method
 	 * @return	The sequence of this particular visit
 	 */
-	private int getVisitSequence()
+	protected int getVisitSequence()
 	{
 		int visitSequence = 0;
 		try 
