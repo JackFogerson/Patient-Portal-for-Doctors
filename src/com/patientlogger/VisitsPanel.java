@@ -29,6 +29,9 @@ public class VisitsPanel extends JPanel
 		buildPanel();
 	}
 	
+
+	AddNewVisitPanel addNewVisitPanel;
+	ViewVisitsPanel viewVisitsPanel;
 	/**
 	 * @title	buildPanel
 	 * @desc	Builds visits panel.
@@ -48,5 +51,11 @@ public class VisitsPanel extends JPanel
 		
 		//Add the pane to the vists panel.
 		add(mainPane);
+	}
+	
+	public void refresh()
+	{
+		remove(mainPane);
+		buildPanel();
 	}
 }

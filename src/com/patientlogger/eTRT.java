@@ -44,6 +44,10 @@ public class eTRT
 		buildFrames();
 	}
 	
+	HomePanel homePanel;
+	PatientsPanel patientsPanel;
+	VisitsPanel visitsPanel;
+	OtherPanel otherPanel;
 	/**
 	 * @title	buildFrames
 	 * @desc	Builds everything inside of the application.
@@ -68,16 +72,18 @@ public class eTRT
 		JTabbedPane mainPane = new JTabbedPane();
 		
 		// Create all of the panels to be put into the JTabbedPane.
-		HomePanel homePanel = new HomePanel();
-		PatientsPanel patientsPanel = new PatientsPanel(conn);
-		VisitsPanel visitsPanel = new VisitsPanel(conn);
-		OtherPanel otherPanel = new OtherPanel(conn);
+		homePanel = new HomePanel();
+		patientsPanel = new PatientsPanel(conn);
+		visitsPanel = new VisitsPanel(conn);
+		otherPanel = new OtherPanel(conn);
 		
 		// Add tabs to the JTabbedPane.
 		mainPane.addTab("Home", null, homePanel, "Spash Screen");
 		mainPane.addTab("Patients", null, patientsPanel, "Information for Patients");
 		mainPane.addTab("Visits", null, visitsPanel, "Information for Visits");
 		mainPane.addTab("Other", null, otherPanel, "Other Information");
+		
+		mainPane.addChangeListener(e -> refreshTabs());
 		
 		// Add the JTabbedPane to the main frame.
 		mainFrame.add(mainPane);
@@ -91,4 +97,11 @@ public class eTRT
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setVisible(true);
 	} 
+	
+	private void refreshTabs()
+	{
+		patientsPanel.refresh();
+		visitsPanel.refresh();
+		otherPanel.refresh();
+	}
 }

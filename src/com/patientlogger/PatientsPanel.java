@@ -51,4 +51,10 @@ public class PatientsPanel extends JPanel
 		// Add the main pane to the patients panel.
 		add(mainPane);
 	}
+	
+	public void refresh()
+	{
+		remove(mainPane);
+		buildPanel();
+	}
 }
