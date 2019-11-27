@@ -244,9 +244,11 @@ public class ViewVisitsPanel extends JPanel
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(query);
 		
+		// Start setting up the table.
 		String[] columnNames = {"ID", "Date", "Patient", "Visit", "Prob", "C", "CC", "Instr", "REM", "FU", "Comments"};
 		DefaultTableModel dtm = new DefaultTableModel(columnNames, 0);
 		
+		// Pull all of the table's information row by row.
 		while(rset.next())
 		{
 			String[] data = {rset.getString("ID"), rset.getString("DATE"), rset.getString("NAME"), rset.getString("VISIT"), rset.getString("PROB"), rset.getString("C"), rset.getString("CC"), rset.getString("INST"), rset.getString("REM"), rset.getString("FU"), rset.getString("COMMENTS")};

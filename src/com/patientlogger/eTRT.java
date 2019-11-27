@@ -98,6 +98,10 @@ public class eTRT
 		mainFrame.setVisible(true);
 	} 
 	
+	/**
+	 * @title	refreshTabs
+	 * @desc	Rebuilds the tabs when called.
+	 */
 	private void refreshTabs()
 	{
 		patientsPanel.refresh();

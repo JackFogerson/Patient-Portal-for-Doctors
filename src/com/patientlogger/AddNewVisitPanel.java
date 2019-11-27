@@ -83,6 +83,7 @@ public class AddNewVisitPanel extends JPanel
 			recommendTreatmentButton, saveButton, cancelButton;
 	
 	boolean external;
+	
 	/**
 	 *	@title	AddNewVisitPanel
 	 *  @desc	constructor, builds panel
@@ -96,6 +97,11 @@ public class AddNewVisitPanel extends JPanel
 	}
 	
 	
+	/**
+	 * @title	AddNewVisitPanel
+	 * @param 	c - The connection to the database
+	 * @param 	thc - The thc number of the patient.
+	 */
 	public AddNewVisitPanel(Connection c, String thc)
 	{
 		external = true;

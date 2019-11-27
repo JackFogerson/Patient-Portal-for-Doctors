@@ -131,14 +131,23 @@ public class AddNewPatientsPanel extends JPanel
 		buildPanel();
 	}
 	
+	/**
+	 * @title	getDemographicsLists
+	 * @throws 	SQLException
+	 * @desc	This method fills all of the scrolldowns from the demographics with
+	 * 			database supplied data.
+	 */
 	private void getDemographicsLists() throws SQLException
 	{
 
+		// Start the number of each entry at 0;
 		int cities = 0, states = 0, countries = 0, educations = 0, statuses = 0, occupations = 0;
 		
+		// Pull the ammount of each type to use later.
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery("SELECT MAX(cities.ID), MAX(states.ID), MAX(countries.ID), MAX(educational_degrees.ID), MAX(work_statuses.ID), MAX(occupations.ID) FROM cities, states, countries, educational_degrees, work_statuses, occupations;");
 		
+		// Pull all of the results from the database probe.
 		while(rset.next())
 		{
 			cities = Integer.parseInt(rset.getString(1));
@@ -149,6 +158,7 @@ public class AddNewPatientsPanel extends JPanel
 			occupations = Integer.parseInt(rset.getString(6));
 		}
 		
+		// Start off each list with Select One
 		cityList = new String[cities + 1];
 		cityList[0] = "Select One";
 		stateList = new String[states + 1];
@@ -162,8 +172,9 @@ public class AddNewPatientsPanel extends JPanel
 		occupationList = new String[occupations + 1];
 		occupationList[0] = "Select One";
 		
+		// The following statements and while loops are to fill the dropdowns.
 		stmt = conn.createStatement();
-		rset = stmt.executeQuery("Select Name From Cities;");
+		rset = stmt.executeQuery("Select Name From Cities ORDER BY Name;");
 		
 		int x = 1;
 		while(rset.next())
@@ -173,7 +184,7 @@ public class AddNewPatientsPanel extends JPanel
 		}
 		
 		stmt = conn.createStatement();
-		rset = stmt.executeQuery("Select Name From States;");
+		rset = stmt.executeQuery("Select Name From States ORDER BY Name;");
 		
 		x = 1;
 		while(rset.next())
@@ -183,7 +194,7 @@ public class AddNewPatientsPanel extends JPanel
 		}
 		
 		stmt = conn.createStatement();
-		rset = stmt.executeQuery("Select Name From Countries;");
+		rset = stmt.executeQuery("Select Name From Countries ORDER BY Name;");
 		
 		x = 1;
 		while(rset.next())
@@ -874,8 +885,16 @@ public class AddNewPatientsPanel extends JPanel
 		return isError;
 	}
 	
+	/**
+	 * @title	insertZip
+	 * @throws	SQLException
+	 * @desc	Checks to see if a zipcode needs to be inserted into the database. If
+	 * 			one is there and it needs a city, input the city. If it isn't there at
+	 * 			all push the zipcode and the city.
+	 */
 	private void insertZip() throws SQLException
 	{
+		// Check to see if the zipcode exisits boolean.
 		boolean isThere = false;
 		
 		String query = "SELECT * FROM Zipcodes WHERE Zipcode = '" + zipField.getText() + "';";
@@ -924,6 +943,8 @@ public class AddNewPatientsPanel extends JPanel
 	/**
 	 * @title	submitInformation
 	 * @throws 	SQLException - If there is an error when submitting to the database.
+	 * @desc	Submits all of the gathered information to the database if there are
+	 * 			no errors.
 	 */
 	private boolean submitInformation() throws SQLException
 	{
@@ -937,11 +958,15 @@ public class AddNewPatientsPanel extends JPanel
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate localDate = LocalDate.now();
 		
+		// Push the zip if needed so it is there before all of the other data
+		// gets pushed.
 		insertZip();
 		
 		String occupation = null;
 		String workstatus = null;
 		String education = null;
+		
+		// Pull all of the demographics if needed.
 		if(!occupationField.getSelectedItem().equals("Select One"))
 		{
 			occupation = (String)occupationField.getSelectedItem();
@@ -976,7 +1001,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + lastNameField.getText() + "', "
 										  + "'" + yearField.getText() + "-" + monthField.getSelectedItem() + "-" + dayField.getSelectedItem() + "', "
 								   		  + "'" + genderField.getSelectedItem() + "', "
-								   		  + "'" + areaCodeField.getText() + phone1Field.getText() + "-" + phone2Field.getText() + "', "
+								   		  + "'" + areaCodeField.getText() + phone1Field.getText() + phone2Field.getText() + "', "
 								   		  + "'" + emailField.getText() + "', "
 								   		  + "'" + addressField.getText() + "', "
 								   		  + "'" + zipField.getText() + "', "
@@ -992,6 +1017,7 @@ public class AddNewPatientsPanel extends JPanel
 								   		  + "'" + hEtioField.getText() + "', "
 								   		  + "'" + commentField.getText() + "')";
 		
+		System.out.println(query);
 		// Perform query.
 		PreparedStatement preparedStmt = conn.prepareStatement(query);
 		preparedStmt.execute();
@@ -1005,6 +1031,7 @@ public class AddNewPatientsPanel extends JPanel
 	/**
 	 * @title	getRowCount Method
 	 * @return	The highest thc number in the table.
+	 * @desc	Returns the max thc number from patients in the database.
 	 */
 	private int getRowCount()
 	{
@@ -1303,9 +1330,15 @@ public class AddNewPatientsPanel extends JPanel
 		return cancelButton;
 	}
 	
+	/**
+	 * @title	newVisit
+	 * @desc	Opens a new visit tab for the supplied patient.
+	 */
 	private void newVisit()
 	{
 		String thc = THCNumberField.getText();
+		
+		// First submit the information of the new patient.
 		try 
 		{
 			if(!submitInformation())
@@ -1318,6 +1351,7 @@ public class AddNewPatientsPanel extends JPanel
 			e.printStackTrace();
 		}
 		
+		// Open the frame for editing the patient's visit.
 		JFrame frame = new JFrame("eTRT - Edit Visit");
 		frame.add(new AddNewVisitPanel(conn, thc));
 		frame.setSize(new Dimension(600, 450));

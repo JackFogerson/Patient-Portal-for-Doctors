@@ -53,6 +53,7 @@ public class VisitsPanel extends JPanel
 		add(mainPane);
 	}
 	
+	// Rebuilds the frame.
 	public void refresh()
 	{
 		remove(mainPane);

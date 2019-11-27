@@ -61,13 +61,14 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		ImageIcon ogUnknownPicture = null;
 		ImageIcon unknownPicture = null;
 
-				//looks in database for patient with inputed thc number
+		// Looks in database for patient with inputed thc number
 		query = "SELECT zipcodes.zipcode AS 'N/A', zipcodes.city AS 'N/A', cities.id AS 'N/A', cities.state AS 'N/A', states.id AS 'N/A', patients.thcnumber AS 'THC', patients.firstname AS 'FIRSTNAME', patients.middlename AS 'MIDDLENAME', patients.lastname AS 'LASTNAME', patients.photo AS 'PHOTO', patients.dob AS 'BIRTHDAY',patients.gender AS 'GENDER', patients.phone AS 'PHONE', patients.email AS 'EMAIL', patients.streetaddress AS 'ADDRESS', cities.name AS 'CITY', states.name AS 'STATE', patients.zip AS 'ZIP', countries.name AS 'COUNTRY', patients.ssid AS 'SSID', patients.insurance AS 'INSURANCE', occupations.name AS 'OCCUPATION', work_statuses.name AS 'WORKSTATUS', educational_degrees.name AS 'EDUCATION', patients.tonset AS 'TONSET', patients.tetiology AS 'TETIO', patients.honset AS 'HONSET', patients.hetiology AS 'HETIO', patients.comments AS 'COMMENTS' " + 
 		   	    "FROM patients, zipcodes, cities, states, occupations, countries, educational_degrees, work_statuses " + 
 				"WHERE patients.THCNumber = '" + myTHC + "' AND patients.occupation = occupations.id AND patients.workstatus = work_statuses.id AND patients.educationaldegree = educational_degrees.id AND zipcodes.zipcode = patients.zip AND zipcodes.city = cities.id AND cities.state = states.id;";		
 		
 		ResultSet rset = stmt.executeQuery(query); 
 		
+		// Pull All of the information.
 		while(rset.next())
 		{
 			THCNumberField.setText(rset.getString("THC"));
@@ -197,7 +198,7 @@ public class EditPatientScreen extends AddNewPatientsPanel
 								   		  + "'" + lastNameField.getText() + "', "
 										  + "'" + yearField.getText() + "/" + monthField.getSelectedItem() + "/" + dayField.getSelectedItem() + "', "
 								   		  + "'" + genderField.getSelectedItem() + "', "
-								   		  + "'" + areaCodeField.getText() + phone1Field.getText() + "-" + phone2Field.getText() + "', "
+								   		  + "'" + areaCodeField.getText() + phone1Field.getText() + phone2Field.getText() + "', "
 								   		  + "'" + emailField.getText() + "', "
 								   		  + "'" + addressField.getText() + "', "
 								   		  + "'" + zipField.getText() + "', "
@@ -223,8 +224,14 @@ public class EditPatientScreen extends AddNewPatientsPanel
 		return;
 	}
 	
+	/**
+	 * @title	insertZip
+	 * @throws 	SQLException
+	 * @desc	Inputs zipcodes into the database.
+	 */
 	private void insertZip() throws SQLException
 	{
+		// Variable to be used if zipcode is already existing or not.
 		boolean isThere = false;
 		
 		String query = "SELECT * FROM Zipcodes WHERE Zipcode = '" + zipField.getText() + "';";

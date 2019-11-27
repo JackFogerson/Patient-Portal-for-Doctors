@@ -87,8 +87,10 @@ public class ViewPatientsPanel extends JPanel
 		patientTable = new JTable();
 		searchBox = new JTextField(10);
 		
+		// Listener adds the ability to add a new visit for the patient.
 		addNewVisitButton.addActionListener(e -> newVisit());
 		
+		// Listener adds the ability to show the most recent visit.
 		showCurrentVisitButton.addActionListener(e -> {
 			try {
 				currentVisit();
@@ -280,15 +282,18 @@ public class ViewPatientsPanel extends JPanel
 		Statement stmt = conn.createStatement();
 		ResultSet rset = stmt.executeQuery(query);
 
+		// Start building the table.
 		String[] columnNames = {"THC#", "Name", "Age", "Gender", "City", "State", "Date Added"};
 		DefaultTableModel dtm = new DefaultTableModel(columnNames, 0);
 		
+		// Pull all of the needed information.
 		while(rset.next())
 		{
 			String[] data = {rset.getString("THC"), rset.getString("NAME"), getAge(rset.getString("BIRTHDAY")), rset.getString("GENDER"), rset.getString("CITY"), rset.getString("STATE"), rset.getString("DATE")};
 			dtm.addRow(data);
 		}
 
+		// Configure the table.
 		patientTable.setModel(dtm);
 		patientTable.setAutoCreateRowSorter(true);
 		patientTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -360,6 +365,11 @@ public class ViewPatientsPanel extends JPanel
 		patientTable.getColumnModel().getColumn(3).setPreferredWidth(50);
 	}
 	
+	/**
+	 * @title	getAge
+	 * @param 	bday - The date of their birthday in yyyy-mm-dd format.
+	 * @return
+	 */
 	public String getAge(String bday)
 	{
 		// Declare the different variables.
@@ -389,6 +399,10 @@ public class ViewPatientsPanel extends JPanel
 		return "" + age;
 	}
 	
+	/**
+	 * @title	newVisit
+	 * @desc	Launches the new visit tab with the entered THC number.
+	 */
 	private void newVisit()
 	{
 		String thc = (String)patientTable.getValueAt(patientTable.getSelectedRow(), 0);
@@ -403,6 +417,11 @@ public class ViewPatientsPanel extends JPanel
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * @title	currentVisit
+	 * @throws 	SQLException
+	 * @desc	Opens the screen for the current visit tab with the given THC.
+	 */
 	private void currentVisit() throws SQLException
 	{
 		String thc = (String)patientTable.getValueAt(patientTable.getSelectedRow(), 0);

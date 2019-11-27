@@ -52,6 +52,10 @@ public class PatientsPanel extends JPanel
 		add(mainPane);
 	}
 	
+	/**
+	 * @title	refresh
+	 * @desc	Rebuilds the panel.
+	 */
 	public void refresh()
 	{
 		remove(mainPane);

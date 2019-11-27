@@ -663,6 +663,7 @@ public class LookupPatientPanel extends JPanel
 		
 		ResultSet rset = stmt.executeQuery(query); 
 		
+		// Pull all of the data.
 		while(rset.next())
 		{
 			THCNumberLabel.setText("THC#: " + rset.getString("THC"));
@@ -725,6 +726,10 @@ public class LookupPatientPanel extends JPanel
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * @title	newVisit
+	 * @desc	Opens the new visit tab with the given THC number.
+	 */
 	private void newVisit()
 	{
 		String thc = THCNumberLabel.getText().substring(6);
@@ -739,6 +744,11 @@ public class LookupPatientPanel extends JPanel
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * @title	currentVisit
+	 * @throws	SQLException
+	 * @desc	Pulls the currentVisit tab open with the given THC.
+	 */
 	private void currentVisit() throws SQLException
 	{
 		String thc = THCNumberLabel.getText().substring(6);

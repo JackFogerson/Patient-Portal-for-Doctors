@@ -50,6 +50,10 @@ public class OtherPanel extends JPanel
 		add(mainPane);
 	}
 	
+	/**
+	 * @title	refresh
+	 * @desc	Rebuilds the tab.
+	 */
 	public void refresh()
 	{
 		remove(mainPane);
