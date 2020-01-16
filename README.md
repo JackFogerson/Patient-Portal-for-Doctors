@@ -1,4 +1,2 @@
-# CS157-Project
-Nick Fulton - author 1
-Jack Fogerson - author 2
-Jeevvansh Lota - author 3
+# Patient Portal
+App that allows doctors to access and create patient records.
